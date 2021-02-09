@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>Checkout & Tracking Order</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jquery.simple-dtpicker.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/form-validation.css" rel="stylesheet">
+    <link href="css/step-progress-bar.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+  </head>
+
+  <body class="bg-light">
+
+    <div class="container">
+      <!-- OrderID Search Box -->
+      <div class="py-5 text-center" id="search-order" style="display:none">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">ID</span>
+          </div>
+          <input type="text" class="form-control" placeholder="กรอกเลขที่คำสั่งซื้อ" id="input-order-id">
+          <a class="btn btn-primary" role="button" onclick="searchOrderId()">ค้นหา</a>
+        </div>
+      </div>
+      <!-- Progress of Checkout Process Step -->
+      <div class="py-5 text-center" id="order-header">
+        <h2 id="order-id"></h2>
+        <p class="lead">กรุณาบันทึกภาพหน้าจอ หรือบันทึกเลขที่คำสั่งซื้อนี้ไว้ เพื่อใช้อ้างอิงและตรวจสอบ</p>
+      </div>
+      <div class="row">
+        <div class="card-body">
+          <ul class="progressbar d-flex justify-content-center" id="process-step">
+            <!-- Progressbar of process step will be here -->
+          </ul>
+        </div>
+      </div>
+
+      <hr id="shipping-address">
+
+      <div class="row" id="order-content">
+
+        <div class="col-md-4 order-md-2 mb-4">
+          <!-- Cart -->
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-secondary"><i class="fa fa-shopping-cart"></i> ตะกร้าสินค้า</span>
+            <span class="badge badge-secondary badge-pill" id="count-cart"></span>
+          </h4>
+          <ul class="list-group mb-3" id="list-cart">
+            <!-- Cart items will be here -->
+          </ul>
+
+          <!-- Payment -->
+          <div id="payment-panel" style="display:none">
+            <hr id="payment-method">
+            <h4 class="mb-3"><span class="text-secondary"><i class="fa fa-money"></i> วิธีการชำระเงิน</span></h4>
+            <img class="mb-3" src="" alt="Promtpay QR Code" style="width:100%" id="bank-account-qr">
+            <h5 class="mb-3">1.โอนเงินพร้อมเพย์ QR Code</h5>
+            <p>สแกนคิวอาร์โค้ดเพื่อโอนเงิน หรือ
+              โอนเงินเข้าบัญชี ชื่อ <span class="badge badge-primary" id="bank-account-owner"></span>
+              เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>
+            </p>
+            <hr>
+            <h5 class="mb-3">2.แจ้งยืนยันการชำระเงิน</h5>
+            <p>เมื่อชำระเงินแล้ว กรุณาแจ้ง<mark>วัน-เวลาที่ทำการโอน</mark>อันปรากฏอยู่บนสลิปโอน</p>
+            <form class="card p-2" id="form-payment">
+              <div class="input-group">
+                <input type="text" class="form-control" name="datepicker" id="datepicker">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-success">แจ้งการโอน</button>
+                </div>
+              </div>
+            </form>
+            <div id="payment-notification">
+              <p class="text-muted" style="margin-top:5px;">
+                <div id="notify-rejected" style="display:none">
+                  <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle fa-lg"></i> ไม่พบรายการโอนเงิน ตามวัน-เวลาที่ท่านแจ้งเอาไว้</div>
+                  <mark>กรุณาตรวจสอบการโอนของท่าน</mark> และแจ้งวัน-เวลาที่ถูกต้องอีกครั้ง
+                  หากต้องการติดต่อเจ้าหน้าที่ โทร.012-345-6789
+                </div>
+                <div id="notify-wait" style="display:none">
+                  <div class="alert alert-success" role="alert"><i class="fa fa-check-circle fa-lg"></i> แจ้งการโอนแล้ว กรุณารอตรวจสอบและยืนยันภายใน 24 ชม.</div>
+                </div>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Shipping Address -->
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">ข้อมูลจัดส่งทางไปรษณีย์</h4>
+          <form class="needs-validation" novalidate id="form-address">
+            <fieldset id="entire-form" disabled>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">ชื่อผู้รับ</label>
+                  <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                  <div class="invalid-feedback">
+                    โปรดระบุชื่อผู้รับ
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName">นามสกุลผู้รับ</label>
+                  <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                  <div class="invalid-feedback">
+                    โปรดระบุนามสกุลผู้รับ
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="username">เบอร์โทรผู้รับ</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">โทร.</span>
+                  </div>
+                  <input type="text" class="form-control" id="username" placeholder="กรอกเฉพาะตัวเลข 10 หลัก" required>
+                  <div class="invalid-feedback" style="width: 100%;">
+                    โปรดระบุเบอร์โทรศัพท์ติดต่อผู้รับ
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email">อีเมล</label>
+                <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                <div class="invalid-feedback">
+                  โปรดกรอกอีเมลเพื่อรับใบเสร็จอิเลคทรอนิคส์ เอาไว้ใช้อ้างอิงและตรวจสอบ
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="address">ที่อยู่จัดส่ง</label>
+                <input type="text" class="form-control" id="address" placeholder="ที่อยู่ไปรษณีย์ (ไม่รวมจังหวัด)" required>
+                <div class="invalid-feedback">
+                  โปรดระบุที่อยู่
+                </div>
+              </div>
+              <!-- Address2
+              <div class="mb-3">
+                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+              </div>
+              -->
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="country">ประเทศ</label>
+                  <select class="custom-select d-block w-100" id="country" required>
+                    <option value="">เลือก...</option>
+                    <option>ไทย</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    โปรดระบุประเทศ
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="state">จังหวัด</label>
+                  <select class="custom-select d-block w-100" id="state" required>
+                    <option value="">เลือก...</option>
+                    <optgroup label="--- กทม.และปริมณฑล ---">
+                      <option>กรุงเทพมหานคร </option>
+                      <option>นนทบุรี </option>
+                      <option>ปทุมธานี </option>
+                      <option>สมุทรปราการ </option>
+                      <option>สมุทรสาคร </option>
+                    </optgroup>
+                    <optgroup label="--- ภาคเหนือ ---">
+                      <option>เชียงราย </option>
+                      <option>เชียงใหม่ </option>
+                      <option>น่าน </option>
+                      <option>พะเยา </option>
+                      <option>แพร่ </option>
+                      <option>แม่ฮ่องสอน </option>
+                      <option>ลำปาง </option>
+                      <option>ลำพูน </option>
+                      <option>อุตรดิตถ์</option>
+                    </optgroup>
+                    <optgroup label="--- ภาคอิสาน ---">
+                      <option>กาฬสินธุ์ </option>
+                      <option>ขอนแก่น </option>
+                      <option>ชัยภูมิ </option>
+                      <option>นครพนม </option>
+                      <option>นครราชสีมา </option>
+                      <option>บึงกาฬ </option>
+                      <option>บุรีรัมย์ </option>
+                      <option>มหาสารคาม </option>
+                      <option>มุกดาหาร </option>
+                      <option>ยโสธร </option>
+                      <option>ร้อยเอ็ด </option>
+                      <option>เลย </option>
+                      <option>สกลนคร </option>
+                      <option>สุรินทร์ </option>
+                      <option>ศรีสะเกษ </option>
+                      <option>หนองคาย </option>
+                      <option>หนองบัวลำภู </option>
+                      <option>อุดรธานี </option>
+                      <option>อุบลราชธานี </option>
+                      <option>อำนาจเจริญ  </option>
+                    </optgroup>
+                    <optgroup label="--- ภาคกลาง ---">
+                      <option>กำแพงเพชร </option>
+                      <option>ชัยนาท </option>
+                      <option>นครนายก </option>
+                      <option>นครปฐม </option>
+                      <option>นครสวรรค์ </option>
+                      <option>พระนครศรีอยุธยา </option>
+                      <option>พิจิตร </option>
+                      <option>พิษณุโลก </option>
+                      <option>เพชรบูรณ์ </option>
+                      <option>ลพบุรี </option>
+                      <option>สมุทรสงคราม </option>
+                      <option>สิงห์บุรี </option>
+                      <option>สุโขทัย </option>
+                      <option>สุพรรณบุรี </option>
+                      <option>สระบุรี </option>
+                      <option>อ่างทอง </option>
+                      <option>อุทัยธานี </option>
+                    </optgroup>
+                    <optgroup label="--- ภาคตะวันออก ---">
+                      <option>จันทบุรี </option>
+                      <option>ฉะเชิงเทรา </option>
+                      <option>ชลบุรี </option>
+                      <option>ตราด </option>
+                      <option>ปราจีนบุรี </option>
+                      <option>ระยอง </option>
+                      <option>สระแก้ว</option>
+                    </optgroup>
+                    <optgroup label="--- ภาคตะวันตก ---">
+                      <option>กาญจนบุรี </option>
+                      <option>ตาก </option>
+                      <option>ประจวบคีรีขันธ์ </option>
+                      <option>เพชรบุรี </option>
+                      <option>ราชบุรี </option>
+                    </optgroup>
+                    <optgroup label="--- ภาคใต้ ---">
+                      <option>กระบี่ </option>
+                      <option>ชุมพร </option>
+                      <option>ตรัง </option>
+                      <option>นครศรีธรรมราช </option>
+                      <option>นราธิวาส </option>
+                      <option>ปัตตานี </option>
+                      <option>พังงา </option>
+                      <option>พัทลุง </option>
+                      <option>ภูเก็ต </option>
+                      <option>ระนอง </option>
+                      <option>สตูล </option>
+                      <option>สงขลา </option>
+                      <option>สุราษฎร์ธานี </option>
+                      <option>ยะลา</option>
+                    </optgroup>
+                  </select>
+                  <div class="invalid-feedback">
+                    โปรดระบุจังหวัด
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="zip">รหัสไปรษณีย์</label>
+                  <input type="text" class="form-control" id="zip" placeholder="" required>
+                  <div class="invalid-feedback">
+                    โปรดระบุรหัสไปรษณีย์
+                  </div>
+                </div>
+              </div>
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit-address">บันทึกข้อมูลผู้รับ</button>
+          </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2021 สำนักพิมพ์ "คำนำ"</p>
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="index.html">หน้าแรก</a></li>
+          <li class="list-inline-item"><a id="shop-link">หน้าร้าน</a></li>
+          <!-- <li class="list-inline-item"><a href="#">Terms</a></li> -->
+          <!-- <li class="list-inline-item"><a href="#">Support</a></li> -->
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/holder.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/jquery.simple-dtpicker.js"></script>
+
+    <!-- KumNum Store JavaScript -->
+    <script type="text/javascript" src="js/manutils.js"></script>
+
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+    <!-- Checkout JavaScript -->
+    <script type="text/javascript">
+      var sheetURL = 'https://sheet.best/api/sheets/5acb1568-5ff2-4717-81dc-23a4093f6cbc';
+      var globalVars = null;
+      var dataOrder = null;
+      var dataSales = null;
+
+      $(function(){
+        $('*[name=datepicker]').appendDtpicker({
+          "closeOnSelected":true,
+        });
+      });
+
+      function showCartItem(data) {
+        var sum = 0;
+        var html = "";
+        for (var i in data) {
+          sum += Number(data[i].Amount);
+
+          html += '<li class="list-group-item d-flex justify-content-between lh-condensed">';
+            html += '<div>';
+              html += '<h6 class="my-0">' + data[i].Title.slice(0,18) + '... (' + data[i].Amount + ' เล่ม)</h6>';
+              html += '<small class="text-muted">' + data[i].Author + '</small>';
+            html += '</div>';
+            html += '<span class="text-muted">' + data[i].SubTotal + '</span>';
+          html += '</li>';
+        }
+        // SubTotal
+        html += '<li class="list-group-item d-flex justify-content-between lh-condensed">';
+          html += '<div>';
+            html += '<h6 class="my-0">รวม</h6>';
+          html += '</div>';
+          html += '<span class="text-muted">' + manUtils.formatNumber(dataOrder.SubTotal, 2) + '</span>';
+        html += '</li>';
+        // ShippingCost
+        html += '<li class="list-group-item d-flex justify-content-between bg-light">';
+          html += '<div class="text-success">';
+            html += '<h6 class="my-0">ค่าจัดส่ง</h6>';
+          html += '</div>';
+          html += '<span class="text-success">' + manUtils.formatNumber(dataOrder.ShippingCost, 2) + '</span>';
+        html += '</li>';
+        // Total
+        html += '<li class="list-group-item list-group-item-secondary d-flex justify-content-between">';
+        html += '<h3><strong>ยอดโอน</strong></h3>';
+        html += '<h3><strong>' + manUtils.formatNumber(dataOrder.GrandTotal, 2) + ' </strong></h3>';
+        html += '</li>';
+
+        //console.log(html);
+        var cart = document.getElementById('list-cart');
+        cart.innerHTML = html;
+
+        // Number of items in cart
+        var count = document.getElementById('count-cart');
+        count.innerHTML = sum;
+      }
+      function showOrderInfo() {
+        // OrderId
+        var hOrderId = document.getElementById('order-id');
+        hOrderId.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
+
+        var shopLink = document.getElementById('shop-link');
+        shopLink.href = "shop.html?id=" + dataOrder.ContactId;
+
+        // Checkout Process Step
+        var progress = document.getElementById('process-step');
+        var html = "";
+
+        // STEP 1 -- Place order
+        html += '<li class="active">';
+          html += '<div class="text-success" style="margin-top:10px;">สร้างคำสั่งซื้อ</div>';
+          html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.CreatedDate + " " + dataOrder.CreatedTime.slice(0,5) + ' น.</small></div>';
+        html += '</li>';
+        // STEP 2 -- Shipping Address
+        if (dataOrder.OrderStatus == 'ป้อนข้อมูลจัดส่ง') {
+          html += '<li>';
+          html += '<div class="text-primary" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
+          //html += '<div style="margin-top:10px;"><a href="#shipping-address" class="btn btn-outline-primary active" role="button">ป้อนข้อมูลจัดส่ง</a></div>';
+        } else {
+          html += '<li class="active">'
+          html += '<div class="text-success" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
+          if (dataOrder.OrderStatus == 'รอการชำระเงิน'
+              || dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
+
+            html += '<div class="text-muted"><small>';
+              html += 'สามารถเปลี่ยนแปลงข้อมูลได้ จนถึงก่อนการชำระเงินเสร็จสมบูรณ์';
+              //html += '<a href="tracking.html?id=' + dataOrder.OrderId + '&act=edit" class="btn btn-outline-secondary btn-sm" role="button">แก้ไข</a>';
+            html += '</small></div>';
+          } else {
+            html += '<div class="text-muted"><small>เรียบร้อยแล้ว</small></div>';
+          }
+        }
+        html += '</li>';
+        // STEP 3 -- Make Payment
+        if (dataOrder.OrderStatus == 'ป้อนข้อมูลจัดส่ง') {
+          html += '<li>';
+          html += '<div style="margin-top:10px; color:#cccccc">รอการชำระเงิน</div>';
+        } else if (dataOrder.OrderStatus == 'รอการชำระเงิน'
+            || dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
+
+          if (dataOrder.OrderStatus == 'รอการชำระเงิน') {
+            html += '<li>';
+            html += '<div class="text-success" style="margin-top:10px;">รอการชำระเงิน</div>';
+            html += '<div class="text-muted"><small>ชำระเงินแล้วกรุณาแจ้งวัน-เวลาโอน</small></div>';
+            html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button">วิธีชำระเงิน</a></div>';
+          } else if (dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
+            html += '<li>';
+            html += '<div class="text-success" style="margin-top:10px;">ชำระเงินแล้วรอตรวจสอบ</div>';
+            html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.PaymentDate + " " + dataOrder.PaymentTime.slice(0,5) + ' น.</small></div>';
+            if (dataOrder.VerifyRejected == 1) {
+              html += '<div class="text-danger"><small>ไม่พบรายการตามวันเวลาที่แจ้ง</small></div>';
+              html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button">วิธีชำระเงิน</a></div>';
+            }
+            else html += '<div class="text-muted"><small>กรุณารอการยืนยันยอดชำระใน 24 ชม.</small></div>';
+          }
+        } else {
+          html += '<li class="active">';
+          html += '<div class="text-success" style="margin-top:10px;">ชำระเงินเสร็จสมบูรณ์</div>';
+          html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.PaymentDate + " " + dataOrder.PaymentTime.slice(0,5) + ' น.</small></div>';
+          html += '<div style="margin-top:5px;"><a href="https://i.imgur.com/5hGMMJz.jpg" class="btn btn-outline-secondary btn-sm" role="button" target="_blank">พิมพ์ใบเสร็จ</a></div>';
+        }
+        html += '</li>';
+        // STEP 4 -- Packaging & Delivery
+        if (dataOrder.OrderStatus == 'ชำระเงินเสร็จสมบูรณ์') {
+          html += '<li class="active">';
+          if (dataOrder.TrackingCode == null
+              || dataOrder.TrackingCode == "") {
+            html += '<div class="text-primary" style="margin-top:10px;">บรรจุและจัดส่งพัสดุ</div>';
+            html += '<div class="text-muted"><small>พัสดุจะออกเดินทางภายใน 3 วัน</small></div>';
+          } else {
+            html += '<div class="text-success" style="margin-top:10px;">จัดส่งพัสดุแล้ว</div>';
+            html += '<div class="text-muted"><small>';
+              html += 'เลขติดตามพัสดุ ' + dataOrder.TrackingCode;
+              html += '<div style="margin-top:5px;"><a href="' + dataOrder.TrackingLink +'" class="btn btn-outline-secondary btn-sm" role="button" target="_blank">ติดตามพัสดุ</a></div>';
+            html += '</small></div>';
+          }
+        } else {
+          html += '<li>';
+          html += '<div style="margin-top:10px; color:#cccccc">บรรจุและจัดส่งพัสดุ</div>';
+        }
+        html += '</li>';
+
+        progress.innerHTML = html;
+      }
+
+      function showPaymentNotification() {
+        document.getElementById('bank-account-qr').src = manUtils.getGlobalVars('bankAccountQR');
+        document.getElementById('bank-account-owner').innerHTML = manUtils.getGlobalVars('bankAccountOwner');
+        document.getElementById('bank-account-number').innerHTML = manUtils.getGlobalVars('bankAccountNumber');
+        document.getElementById('bank-account-name').innerHTML = manUtils.getGlobalVars('bankAccountName');
+
+        var formSubmit = document.getElementById('form-payment');
+        formSubmit.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId)
+
+        var form = document.getElementById('payment-panel');
+
+        if (dataOrder.OrderStatus == 'ป้อนข้อมูลจัดส่ง'
+            || dataOrder.OrderStatus == 'ชำระเงินเสร็จสมบูรณ์') {
+
+          form.style.display = 'none';
+
+        } else {
+
+          form.style.display = 'block';
+
+          var picker = document.getElementById('datepicker');
+
+          if (dataOrder.PaymentDate && dataOrder.PaymentTime)
+            picker.value = dataOrder.PaymentDate + ' ' + dataOrder.PaymentTime.slice(0,5);
+
+          var wait = document.getElementById('notify-wait');
+          var rejected = document.getElementById('notify-rejected');
+
+          if (dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
+            wait.style.display = (Number(dataOrder.VerifyRejected) == 0) ? 'block' : 'none';
+            rejected.style.display = (Number(dataOrder.VerifyRejected) == 1) ? 'block' : 'none';
+          }
+        }
+      }
+
+      function searchOrderId() {
+        window.location.href = "checkout.html?id=" + document.getElementById('input-order-id').value;
+      }
+
+      function showShippingAddress() {
+        var form = document.getElementById('form-address');
+        form.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId)
+
+        var inFirstName = document.getElementById('firstName');
+        var inLastName = document.getElementById('lastName');
+        var inUsername = document.getElementById('username');
+        var inEmail = document.getElementById('email');
+        var inAddress = document.getElementById('address');
+        var inCountry = document.getElementById('country');
+        var inState = document.getElementById('state');
+        var inZip = document.getElementById('zip');
+        //var btnSubmit = document.getElementById('submit-address');
+
+        inFirstName.value = dataOrder.FirstName;
+        inLastName.value = dataOrder.LastName;
+        inUsername.value = dataOrder.Phone;
+        inEmail.value = dataOrder.Email;
+        inAddress.value = dataOrder.Address;
+        manUtils.selectElement('country', dataOrder.Country);
+        manUtils.selectElement('state', dataOrder.Province);
+        inZip.value = dataOrder.Zip;
+
+        var fieldset = document.getElementById('entire-form');
+
+        if (dataOrder.OrderStatus == 'ชำระเงินเสร็จสมบูรณ์') {
+          fieldset.disabled = true;
+        } else {
+          fieldset.disabled = false;
+        }
+      }
+
+      $('#form-address').on('submit',function(e) {
+
+        var form = document.getElementById('form-address');
+
+        var inFirstName = document.getElementById('firstName');
+        var inLastName = document.getElementById('lastName');
+        var inUsername = document.getElementById('username');
+        var inEmail = document.getElementById('email');
+        var inAddress = document.getElementById('address');
+        var inCountry = document.getElementById('country');
+        var inState = document.getElementById('state');
+        var inZip = document.getElementById('zip');
+
+        if (manUtils.hasClass(form, 'was-validated')
+            || (inFirstName.value && inLastName.value && inUsername.value && inAddress.value && inCountry.value && inState.value && inZip.value)) {
+
+          e.preventDefault();
+
+          dataOrder.FirstName = inFirstName.value;
+          dataOrder.LastName = inLastName.value;
+          dataOrder.Phone = inUsername.value;
+          dataOrder.Email = inEmail.value;
+          dataOrder.Address = inAddress.value;
+          dataOrder.Country = inCountry.value;
+          dataOrder.Province = inState.value;
+          dataOrder.Zip = inZip.value;
+          dataOrder.OrderStatus = (dataOrder.OrderStatus == 'ป้อนข้อมูลจัดส่ง') ? 'รอการชำระเงิน' : dataOrder.OrderStatus;
+
+          fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
+            {
+              method: "PATCH",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(dataOrder),
+            }
+          )
+          .then((response) => { return response.json(); })
+          .then((data) => {
+            //console.log("Success PATCH");
+            //window.location.href = 'checkout.html?id=' + dataOrder.OrderId;
+            showOrderInfo();
+            showPaymentNotification();
+            scroll(0,0);
+          })
+          .catch((error) => { console.log(error); });
+        }
+        else { console.log("Invalid form.");}
+      })
+
+      $('#form-payment').on('submit',function(e) {
+        var picker = document.getElementById('datepicker');
+
+        if (picker.value) {
+          e.preventDefault();
+
+          dataOrder.PaymentDate = picker.value.slice(0,10);
+          dataOrder.PaymentTime = picker.value.slice(11,16);
+          dataOrder.PaymentVerified = "0";
+          dataOrder.VerifyRejected = "0";
+          dataOrder.OrderStatus = "ชำระเงินแล้วรอตรวจสอบ";
+
+          fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
+            {
+              method: "PATCH",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(dataOrder),
+            }
+          )
+          .then((response) => { return response.json(); })
+          .then((data) => {
+            showOrderInfo();
+            showPaymentNotification();
+          })
+          .catch((error) => { console.log(error); });
+        }
+      })
+
+      window.addEventListener('load', (event) => {
+        // GET GlobalVars
+        // -- GET 'Order' data
+        // ---- Get 'Sales' data
+        fetch(sheetURL + '/tabs/GlobalVars')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          globalVars = myJson;
+
+          var orderId = manUtils.getParam('id');
+
+          if (orderId == null || orderId == "" || orderId == "undefined") {
+            document.getElementById('search-order').style.display = 'block';
+            document.getElementById('order-header').style.display = 'none';
+            document.getElementById('order-content').style.display = 'none';
+          }
+
+          // Get 'Order' data
+          fetch(sheetURL + '/tabs/Orders/OrderId/*' + orderId + '*')
+          .then((response) => { return response.json(); })
+          .then((myJson) => {
+            dataOrder = myJson[0];
+
+            // Get 'Sales' data
+            fetch(sheetURL + '/tabs/Sales/OrderId/*' + orderId + '*')
+            .then((response) => { return response.json(); })
+            .then((myJson) => {
+              dataSales = myJson;
+
+              showOrderInfo();
+              showShippingAddress();
+              showCartItem(dataSales);
+              showPaymentNotification();
+            })
+            .catch((error) => { console.log(error); });
+          })
+          .catch((error) => { console.log(error); });
+        })
+        .catch((error) => { console.log(error); });
+      });
+    </script>
+  </body>
+</html>

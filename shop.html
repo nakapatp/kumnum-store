@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Aha Shop | Home</title>
+
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Css -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/magnific-popup.css" />
+  <link rel="stylesheet" href="css/font-icons.css" />
+  <link rel="stylesheet" href="css/sliders.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animate.min.css" />
+  <link rel="stylesheet" href="css/overlay.css" />
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+</head>
+
+<body class="relative">
+
+  <!-- Preloader -->
+  <div class="loader-mask">
+    <div class="loader">
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <main class="content-wrapper oh">
+
+    <!-- Navigation -->
+    <header class="nav-type-1">
+
+      <nav class="navbar navbar-static-top">
+        <div class="navigation" id="sticky-nav">
+          <div class="container relative">
+
+            <div class="row">
+
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <!-- Mobile cart -->
+                <div class="nav-cart mobile-cart hidden-lg hidden-md">
+                  <div class="nav-cart-outer">
+                    <div class="nav-cart-inner">
+                      <a href="#count-cart-title" class="nav-cart-icon" id="count-cart-mobile"></a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="header-wrap">
+                <div class="header-wrap-holder">
+                  <!-- Search -->
+                  <div class="nav-search hidden-sm hidden-xs">
+
+                  </div>
+
+                  <!-- Logo -->
+                  <div class="logo-container">
+                    <div class="logo-wrap text-center">
+                      <a href="index.html">
+                        <img class="logo" src="img/logo_dark.png" alt="logo">
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Cart -->
+                  <div class="nav-cart-wrap hidden-sm hidden-xs">
+                    <div class="nav-cart right">
+                      <div class="nav-cart-outer">
+                        <div class="nav-cart-inner">
+                          <a href="#count-cart-title" class="nav-cart-icon" id="count-cart-badge"></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="menu-cart-amount right">
+                      <span> ตะกร้าสินค้า / <a href="#count-cart-title"><span id="total-cart-badge"></span></a></span>
+                    </div>
+                  </div>
+                </div>
+              </div> <!-- end header wrap -->
+
+              <div class="nav-wrap">
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+
+                  <ul class="nav navbar-nav">
+                    <li><a href="index.html">หน้าแรก</a></li>
+                    <li class="dropdown"><a href="shop.html">ซื้อหนังสือ</a></li>
+                    <li class="dropdown"><a href="info.html?id=sell">ขายหนังสือ</a></li>
+                    <li class="dropdown"><a href="info.html?id=produce">ผลิตหนังสือ</a></li>
+                    <li class="dropdown"><a href="info.html?id=contact">ติดต่อเรา</a></li>
+                    <li class="dropdown"><a href="checkout.html">ติดตามคำสั่งซื้อ</a></li>
+                  </ul> <!-- end menu -->
+                </div> <!-- end collapse -->
+              </div> <!-- end col -->
+
+            </div> <!-- end row -->
+          </div> <!-- end container -->
+        </div> <!-- end navigation -->
+      </nav> <!-- end navbar -->
+    </header> <!-- end navigation -->
+
+    <!-- Page Title -->
+    <section class="page-title text-center">
+      <div class="container relative clearfix">
+        <div class="title-holder">
+          <div class="title-text" id="section-shop-header">
+            <h1 class="heading uppercase" id="shop-header"></h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Author & Book Section -->
+    <section class="section-wrap woocommerce-account pt-0 pb-60">
+      <div class="container">
+        <div class="woocommerce">
+          <nav class="woocommerce-MyAccount-navigation">
+            <img src="" alt="" width="150" id="author-img">
+            <p><h5 class="text-primary" id="author-name"></h5></p>
+            <p>
+              <h5>ค้นหาหนังสือ</h5>
+              <form method="get" id="form-filter">
+                <input type="search" placeholder="ระบุชื่อหนังสือ/ชื่อผู้เขียน">
+                <button type="submit" class="btn btn-lg"><big>ค้นหา</big></button>
+              </form>
+            </p>
+            <p><br><hr></p>
+            <p>
+              <h5 id="filter-header"></h5>
+              <ul id="filter-list"></ul>
+            </p>
+          </nav>
+          <div class="woocommerce-MyAccount-content">
+            <div id="panel-book">
+              <!-- Dynamic Content -->
+            </div>
+          </div>
+      </div>
+
+    </section>
+
+    <!-- Single Book -->
+    <div id="single-section">
+      <div class="row text-center">
+        <p><h1 class="heading uppercase">เกี่ยวกับหนังสือ</h1></p>
+      </div>
+      <section class="section-wrap single-product" >
+        <div class="container relative">
+            <div class="row">
+              <div class="col-sm-4">
+                <img src="" alt="" id="single-img" style="max-height:430px;">
+              </div>
+
+              <div class="col-sm-4">
+                <p><h5 id="single-1-title"></h5></p>
+                <p id="single-1-text"></p>
+              </div>
+
+              <div class="col-sm-4">
+                <p><h5 id="single-2-title"></h5></p>
+                <p id="single-2-text"></p>
+              </div>
+            </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Page Title -->
+    <section class="page-title text-center">
+      <div class="container relative clearfix">
+        <div class="title-holder">
+          <div class="title-text">
+            <h1 class="heading uppercase">ตะกร้าสินค้า <span class="badge" id="count-cart-title"></span></h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cart -->
+    <section class="section-wrap shopping-cart pt-0">
+      <div class="container relative">
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="table-wrap mb-30">
+              <table class="shop_table cart table">
+                <thead>
+                  <tr>
+                    <th class="product-name" colspan="2">รายการ</th>
+                    <th class="product-price">ราคาปก (บ.)</th>
+                    <th class="product-quantity">จำนวน (เล่ม)</th>
+                    <th class="product-subtotal">รวม (บ.)</th>
+                  </tr>
+                </thead>
+                <tbody id="shopping-cart">
+                  <!-- Dynamic Content -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row mb-50">
+
+              <div class="col-md-5 col-sm-12">
+                <div class="coupon">
+                  <a href="#shopping-cart" class="btn btn-md btn-dark disabled" id="clearCart" onclick="onClickClearCart(this)"><span><big>เริ่มคำสั่งซื้อใหม่</big></span></a>
+                </div>
+              </div>
+
+              <div class="col-md-7">
+                <div class="actions right">
+                  <div class="wc-proceed-to-checkout">
+                    <a href="#shopping-cart" class="btn btn-md btn-color disabled" id="checkout" onclick="onClickCheckout()"><span><big>ชำระเงิน</big></span></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- end col -->
+        </div> <!-- end row -->
+
+        <div class="row">
+          <div class="col-md-6 shipping-calculator-form">
+            <h2 class="heading relative heading-small uppercase mb-30">ค่าจัดส่งและโปรโมชั่น</h2>
+            <p class="form-row form-row-wide" id="guide-shipping"></p>
+          </div> <!-- end col shipping calculator -->
+
+          <div class="col-md-4 col-md-offset-2">
+            <div class="cart_totals">
+              <h2 class="heading relative heading-small uppercase mb-30">สรุปยอด</h2>
+
+              <table class="table shop_table">
+                <tbody>
+                  <tr class="cart-subtotal">
+                    <th>รวม</th>
+                    <td>
+                      <span class="amount" id="total-cart"></span>
+                    </td>
+                  </tr>
+                  <tr class="shipping">
+                    <th>ค่าจัดส่ง</th>
+                    <td>
+                      <span id="shipping-cost"></span>
+                    </td>
+                  </tr>
+                  <tr class="order-total">
+                    <th><strong>ยอดชำระเงิน</strong></th>
+                    <td>
+                      <strong><span class="amount" id="grand-total"></span></strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div> <!-- end col cart totals -->
+
+        </div> <!-- end row -->
+
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="container">
+      <hr>
+    </div>
+
+    <!-- Footer Type-1 -->
+    <footer class="footer footer-type-1 bg-white">
+      <div class="bottom-footer bg-white">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-4 copyright sm-text-center">
+              <span>
+                &copy; 2021 สำนักพิมพ์ "คำนำ"
+              </span>
+            </div>
+
+            <div class="col-sm-4 text-center">
+              <div id="back-to-top">
+                <a href="#top">
+                  <i class="fa fa-angle-up"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Social -->
+            <div class="col-sm-4 col-xs-12 footer-payment-systems text-right sm-text-center mt-sml-10">
+              <a href="" id="social-facebook"><i class="fa fa-facebook"></i></a>
+            </div>
+
+          </div>
+        </div>
+      </div> <!-- end bottom footer -->
+    </footer> <!-- end footer -->
+
+  </main> <!-- end main container -->
+
+  <!-- jQuery Scripts -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/holder.min.js"></script>
+  <script type="text/javascript" src="js/plugins.js"></script>
+  <script type="text/javascript" src="js/scripts.js"></script>
+
+  <!-- KumNum Store JavaScript -->
+  <script type="text/javascript" src="js/manutils.js"></script>
+  <!-- SimpleCart JavaScript -->
+  <script type="text/javascript" src="js/shoppingCart.js"></script>
+  <!-- Font Awesome Kit Code -->
+  <script src="https://kit.fontawesome.com/354ed2e7c0.js" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    const sheetURL = 'https://sheet.best/api/sheets/5acb1568-5ff2-4717-81dc-23a4093f6cbc';
+    var globalVars = null;
+    var author = null;
+    var arrProducts = null;
+
+    function generateOrderId(contactId) {
+      var orderId = Math.floor(100000 + Math.random() * 900000);
+      return contactId + manUtils.generateRandomLetter() + orderId;
+    }
+    function getCountOfItem(name) {
+      var cartArray = shoppingCart.listCart();
+      for (var i in cartArray) {
+        if (cartArray[i].name == name)
+          return cartArray[i].count;
+      }
+      return 0;
+    }
+    function getShippingCost(asNumber) {
+      var html = "";
+      var cost = 0;
+
+      if (shoppingCart.countCart() > 0) {
+        cost = Number(manUtils.getGlobalVars('costFlat')) + (shoppingCart.countCart() * Number(manUtils.getGlobalVars('costStep')));
+        if (asNumber)
+          return cost;
+
+        html = manUtils.formatNumber(cost, 2);
+      }
+      if (shoppingCart.countCart() >= Number(manUtils.getGlobalVars('costFreeBar'))) {
+        if (asNumber)
+          return "0";
+
+        html = '<del class="text-muted">' + manUtils.formatNumber(cost, 2) + '</del>';
+      }
+
+      return html;
+    }
+    function hasData(productId) {
+      for (var i in arrProducts) {
+        if (arrProducts[i].ProductId == productId) {
+          //console.log(productId + ' does exist.');
+          return true;
+        }
+      }
+      //console.log('Has no ' + productId);
+      return false;
+    }
+    function init() {
+      // Default Shop Header
+      var hShop = document.getElementById('shop-header');
+      hShop.innerHTML = 'ชั้นหนังสือ <span class="badge">' + arrProducts.length + '</span>';
+
+      // Shipping Guide
+      var guideShipping = document.getElementById('guide-shipping');
+      guideShipping.innerHTML = manUtils.getGlobalVars('guideShippingCost');
+
+      // Footer Link
+      document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
+
+      // Book on Shelf
+      var panelBook = document.getElementById('panel-book');
+      var n = 0;
+      for (var i in arrProducts) {
+        if (arrProducts[i].Enable == 'Yes') {
+          var data = {
+            ProductId: arrProducts[i].ProductId,
+            Title: arrProducts[i].Title,
+            Author: arrProducts[i].Author,
+            Brief: arrProducts[i].Brief,
+            ImageFull: arrProducts[i].ImageFull,
+            ImageFront: arrProducts[i].ImageFull,
+            ImageBack: arrProducts[i].ImageFull,
+            URLSingleProduct: 'shop.html?id=' + arrProducts[i].ContactId + '&book=' + arrProducts[i].ProductId,
+            Price: arrProducts[i].Price,
+          }
+          if (n % 3 == 0) {
+            var div = document.createElement('div');
+            div.className = "row";
+            div.id = "row-book-" + Math.floor(n/3);
+            panelBook.appendChild(div);
+            spawnBook(div, data);
+          } else {
+            var div = document.getElementById('row-book-' + Math.floor(n/3));
+            spawnBook(div, data);
+          }
+          n++;
+        }
+      }
+
+      showAuthorInfo(author);
+
+      if (manUtils.getParam('book')) {
+        var found = false;
+        for (var i in arrProducts) {
+          if (arrProducts[i].Enable == 'Yes'
+              && arrProducts[i].ProductId == manUtils.getParam('book')) {
+            showSingleBook(arrProducts[i]);
+            found = true;
+            break;
+          }
+        }
+        if (!found) showSingleBook(arrProducts[0]);
+
+      } else if (arrProducts) {
+        showSingleBook(arrProducts[0]); // Show 1st Book as default
+      }
+
+      updateCart();
+
+      //console.log(arrProducts);
+    }
+    function onClickAddToCart(obj) {
+      var name = obj.getAttribute('data-name');
+      var price = Number(obj.getAttribute('data-price'));
+      shoppingCart.addItemToCart(name, price, 1);
+      spawnCartItem(name);
+      updateCart();
+    }
+    function onClickRemoveFromCart(obj) {
+      var name = obj.getAttribute('data-name');
+      removeCartByOne(name);
+      updateCart();
+    }
+    function onClickClearCart(obj) {
+      showEmptyCart();
+      shoppingCart.clearCart();
+      updateCart();
+    }
+    function onClickDeleteItem(obj) {
+      var name = obj.getAttribute('data-name');
+      removeCartItem(name);
+      shoppingCart.removeItemFromCartAll(name);
+      updateCart();
+    }
+    function onClickSingleBook(obj) {
+      var productId = obj.getAttribute('data-name')
+      for (var i in arrProducts) {
+        if (arrProducts[i].Enable == 'Yes'
+            && arrProducts[i].ProductId == productId) {
+          showSingleBook(arrProducts[i]);
+        }
+      }
+    }
+    function onClickCheckout(obj) {
+      var div= document.createElement("div");
+      div.className += "overlay";
+      document.body.appendChild(div);
+
+      // Create new order
+      var shopId = (author == null) ? manUtils.getGlobalVars('defaultShopId') : author.ContactId.slice(0, 3);
+      var orderId = generateOrderId(shopId);
+      var d = new Date();
+      var currentDate = d.toISOString().slice(0, 10);
+      var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,19);
+      const data = {
+        Enable: "1",
+        ContactId: author.ContactId,
+        OrderId: orderId,
+        OrderStatus: 'ป้อนข้อมูลจัดส่ง',
+        Count: String(shoppingCart.countCart()),
+        SubTotal: String(shoppingCart.totalCart()),
+        ShippingCost: String(getShippingCost(true)),
+        GrandTotal: String(Number(shoppingCart.totalCart()) + Number(getShippingCost(true))),
+        PaymentVerified: "0",
+        VerifyRejected: "0",
+        CreatedDate: currentDate,
+        CreatedTime: currentTime,
+      };
+      // POST new Order
+      fetch(sheetURL + '/tabs/Orders', {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      //.then((response) => {
+      //    return response.json();
+      //})
+      .then((response) => response.json())
+
+      .then((data) => {
+        // The response comes here
+        //console.log("New order is created.");
+        //console.log(data);
+
+        // Create new sale record
+        var arrSales = new Array();
+        var cartArray = shoppingCart.listCart();
+        for (var i in cartArray) {
+          for (var j in arrProducts) {
+            var p = arrProducts[j];
+            if (p.ProductId == cartArray[i].name) {
+              var sub = cartArray[i].count * cartArray[i].price;
+              var percent = sub * (p.CopyrightRatio / 100);
+              const sales = {
+                OrderId: orderId,
+                ProductId: p.ProductId,
+                Title: p.Title,
+                ContactId: p.ContactId,
+                Author: p.Author,
+                Amount: String(cartArray[i].count),
+                Price: String(cartArray[i].price),
+                SubTotal: String(sub),
+                PaymentStatus: "รอการชำระเงิน",
+                CopyrightRatio: p.CopyrightRatio,
+                CopyrightShare: String(percent),
+              };
+              arrSales.push(sales);
+              break;
+            }
+          }
+        }
+
+        // POST new Sales records.
+        fetch(sheetURL + '/tabs/Sales', {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(arrSales),
+        })
+        //.then((response) => {
+        //    return response.json();
+        //})
+        .then((response) => response.json())
+
+        .then((data) => {
+          // Errors are reported there
+          //console.log("New sales are recorded.")
+          //console.log(data);
+          shoppingCart.clearCart();
+
+          window.location.href = "checkout.html?id=" + data[0].OrderId;
+        })
+        .catch((error) => {
+          // Errors are reported there
+          console.log(error);
+        });
+      })
+      .catch((error) => {
+        // Errors are reported there
+        console.log(error);
+      });
+    }
+    function onChangeCartItem(obj, e) {
+        var name = obj.getAttribute('data-name');
+        var count = Number(obj.value);
+
+        if (count <= 0) {
+          removeCartItem(name);
+          shoppingCart.removeItemFromCartAll(name);
+        } else if (count > 0) {
+          if (count > 999) count = 999;
+          shoppingCart.setCountForItem(name, count);
+        }
+        updateCart();
+    }
+
+    function loadAuthorInfo(contactId) {
+      var fetchUrl = sheetURL;
+      if (contactId != null
+          && contactId != ""
+          && contactId != 0) {
+        fetchUrl += ('/tabs/Contacts/ContactId/*' + contactId + '*');
+
+        fetch(fetchUrl)
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          author = myJson[0];
+          if (myJson[0] == undefined) {
+            author = null;
+            loadProducts(0);
+          } else {
+            loadProducts(author.ContactId);
+          }
+        })
+        .catch((error) => { console.log(error); });
+      } else {
+        loadProducts(0);
+      }
+    }
+    function loadCartProducts() {
+      if (shoppingCart.countCart() > 0) {
+        var cartArray = shoppingCart.listCart();
+        for (var i in cartArray) {
+          if (cartArray[i].count > 0) {
+            if (!hasData(cartArray[i].name)) {
+              var fetchUrl = sheetURL + '/tabs/Products/ProductId/*' + cartArray[i].name + '*';
+              fetch(fetchUrl)
+              .then((response) => { return response.json(); })
+              .then((myJson) => {
+                arrProducts.push(myJson[0]);
+                //console.log(myJson[0]);
+                spawnCartItem(myJson[0].ProductId);
+              })
+              .catch((error) => { console.log(error); });
+            }
+            else {
+              spawnCartItem(cartArray[i].name);
+            }
+          }
+        }
+      }
+    }
+    function loadProducts(contactId) {
+      var fetchUrl = sheetURL + '/tabs/Products';
+
+      if (contactId != null
+          && contactId != ""
+          && contactId != 0) {
+        fetchUrl += ('/ContactId/*' + contactId + '*');
+      }
+      else {
+        fetchUrl += ('/Available/*Yes*');
+      }
+
+      fetch(fetchUrl)
+      .then((response) => { return response.json(); })
+      .then((myJson) => {
+        arrProducts = myJson;
+
+        loadCartProducts();
+        init();
+      })
+      .catch((error) => { console.log(error); });
+    }
+    function removeCartByOne(name) {
+      var count = Number(document.getElementById('amount-of-' + name).value);
+      if (count <= 1) {
+        removeCartItem(name);
+        shoppingCart.removeItemFromCartAll(name);
+      } else if (count > 1) {
+        shoppingCart.removeItemFromCart(name);
+      }
+    }
+    function removeCartItem(name) {
+      var row = document.getElementById('row-' + name);
+      if (row) {
+        manUtils.removeAllChildNodes(row);
+        row.remove();
+      }
+    }
+    function showEmptyCart() {
+      var cartArray = shoppingCart.listCart();
+      for (var i in cartArray) {
+        var row = document.getElementById('row-' + cartArray[i].name);
+        if (row) {
+          manUtils.removeAllChildNodes(row);
+          row.remove();
+        }
+      }
+    }
+    function showAuthorInfo(data) {
+      // If 'NO' author data show Filter options instead
+      if (data == null) {
+
+        var filterHead = document.getElementById('filter-header');
+        filterHead.innerHTML = 'ตัวเลือกช่วยค้นหา';
+
+        var filterList = document.getElementById('filter-list');
+        var html = "";
+        html += '<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--dashboard">';
+          html += '<a href="#">Tag 1</a>';
+        html += '</li>';
+        html += '<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--orders">';
+          html += '<a href="#">Tag 2</a>';
+        html += '</li>';
+        html += '<li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">';
+          html += '<a href="#">Tag 3</a>';
+        html += '</li>';
+        filterList.innerHTML = html;
+
+      // Show Author's Profile
+      } else {
+        var hShop = document.getElementById('shop-header');
+        hShop.innerHTML = 'หนังสือของ <span class="highlight">' + author.Title + author.FirstName + ' ' + author.LastName + '</span>';
+
+        var img = document.getElementById('author-img');
+        img.src = author.ImageProfile;
+
+        var title1 = document.getElementById('author-name');
+        var html = author.Title + author.FirstName + ' ' + author.LastName;
+        html += '<div><small>';
+        html += author.Biography;
+        html += '<br/><span><i class="fa fa-envelope"></i>&nbsp;&nbsp;' + author.Email + '</span>';
+        if (author.LineId)
+          html += '<br/><span><i class="fab fa-line"></i>&nbsp;&nbsp;' + author.LineId + '</span>';
+        html += '</small><br><br></div>';
+        title1.innerHTML = html;
+      }
+    }
+
+    function showSingleBook(data) {
+      var img = document.getElementById('single-img');
+      img.src = data.ImageFull;
+
+      var title1 = document.getElementById('single-1-title');
+      title1.innerHTML = data.Title;
+
+      var text1 = document.getElementById('single-1-text');
+      var html = data.Brief;
+      html += ('<br><br>' + data.Spec);
+      html += '<br><h2>' + manUtils.formatNumber(data.Price, 0) + ' บ.</h2>';
+      html += '<div id="single-current" data-name="' + data.ProductId + '">ในตะกร้ามี ' + getCountOfItem(data.ProductId) + ' เล่ม' + '</div>';
+      html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
+      html += '<div><a href="#section-shop-header">' + 'ดูเล่มอื่น ๆ</a></div>';
+      text1.innerHTML = html;
+
+      var title2 = document.getElementById('single-2-title');
+      title2.innerHTML = 'รายละเอียด';
+      var text2 = document.getElementById('single-2-text');
+      text2.innerHTML = data.Description;
+    }
+
+    function spawnBook(parent, data) {
+      var div = document.createElement('div');
+      div.className = 'col-md-4';
+      var html = '';
+
+      //html += '<div class="col-md-4 col-xs-6">';
+        html += '<div class="product-item">';
+          html += '<div class="product-img">';
+            html += '<a href="#single-section" onclick="onClickSingleBook(this)" data-name="' + data.ProductId + '">';
+              html += '<img src="' + data.ImageFront + '" alt="">';
+              html += '<img src="' + data.ImageBack + '" alt="" class="back-img">';
+            html += '</a>';
+            html += '<a href="#shopping-cart" class="product-quickview" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)">หยิบใส่ตะกร้า</a>';
+          html += '</div>';
+          html += '<div class="product-details">';
+            html += '<h3><a class="product-title" href="#single-section" onclick="onClickSingleBook(this)" data-name="' + data.ProductId + '">' + data.Brief + '</a></h3>';
+            html += '<h2 class="price">' + data.Price + ' บ.</h2>';
+          html += '</div>';
+        html += '</div>';
+      html += '</div>';
+
+      div.innerHTML = html;
+      parent.appendChild(div);
+    }
+    function spawnCartItem(specificId) {
+      console.log(specificId);
+
+      var thumbnail = "";
+      var name = "";
+      var price = 0;
+      var count = 0;
+      var title = "";
+      var author = "";
+      var saleNote = "";
+      var found = false;
+
+      var cartArray = shoppingCart.listCart();
+      for (var i in cartArray) {
+        found = false;
+        if (cartArray[i].count > 0) {
+          name = cartArray[i].name;
+          price = cartArray[i].price;
+          count = cartArray[i].count;
+
+          if (specificId == 0 || cartArray[i].name == specificId) {
+            for (var j in arrProducts) {
+              if ((specificId == 0 && arrProducts[j].ProductId == name)
+                  || arrProducts[j].ProductId == specificId) {
+                thumbnail = arrProducts[j].ImageFull;
+                title = arrProducts[j].Title;
+                author = arrProducts[j].Author;
+                saleNote = arrProducts[j].SaleNote;
+
+                found = true;
+                break;
+              }
+            }
+          }
+
+          // Add one row of item if not exist
+          if (found
+              && document.getElementById('row-' + name) == null) {
+            var tBody = document.getElementById('shopping-cart');
+            var trItem = document.createElement('tr');
+            trItem.className = "cart_item";
+            trItem.id = 'row-' + name;
+
+            var html = '';
+            html += '<td class="product-thumbnail">';
+              html += '<a href="#single-section" onclick="onClickSingleBook(this)" data-name="' + name + '">';
+                html += '<img src="' + thumbnail + '" alt="" style="max-width:72px;">';
+              html += '</a>';
+            html += '</td>';
+            html += '<td class="product-name">';
+              html += '<a href="#single-section" onclick="onClickSingleBook(this)" data-name="' + name + '">' + title + '</a>';
+              html += '<ul>';
+                html += '<li>' + author + '</li>';
+                html += '<li>รหัส: ' + name + '</li>';
+                html += '<li class="text-danger">' + saleNote + '</li>';
+              html += '</ul>';
+            html += '</td>';
+            html += '<td class="product-price">';
+              html += '<span class="amount">' + manUtils.formatNumber(price, 0) + '</span>';
+            html += '</td>';
+            html += '<td class="product-quantity">';
+              html += '<div class="quantity buttons_added">';
+                html += '<input type="button" value="-" class="minus" data-name="' + name +'" onclick="onClickRemoveFromCart(this)"/>';
+                html += '<input type="number" step="1" min="0" value="' + count + '" title="Qty" class="input-text qty text" id="amount-of-' + name + '" data-name="' + name + '" onchange="onChangeCartItem(this, event)"/>';
+                html += '<input type="button" value="+" class="plus" data-name="' + name + '" data-price="' + price + '" onclick="onClickAddToCart(this)">';
+                html += '</div>';
+            html += '</td>';
+            html += '<td class="product-subtotal">';
+              html += '<span class="amount" id="subtotal-of-' + name + '">' + manUtils.formatNumber(count * price, 0) + '</span>';
+            html += '</td>';
+            html += '<td class="product-remove">';
+              html += '<a href="#shopping-cart" class="remove">';
+                html += '<i class="icon icon_close" data-name="' + name + '" onclick="onClickDeleteItem(this)"></i>';
+              html += '</a>';
+            html += '</td>';
+
+            trItem.innerHTML = html;
+            tBody.appendChild(trItem);
+          }
+        }
+      }
+    }
+    function updateCart() {
+      // Update cart-item
+      var cartArray = shoppingCart.listCart();
+      for (var i in cartArray) {
+        if (document.getElementById('row-' + cartArray[i].name)) {
+          var amountOf = document.getElementById('amount-of-' + cartArray[i].name);
+          amountOf.value = cartArray[i].count;
+          var subtotalOf = document.getElementById('subtotal-of-' + cartArray[i].name);
+          subtotalOf.innerHTML = cartArray[i].count * cartArray[i].price;
+
+          var singleCurrent = document.getElementById('single-current');
+          if (singleCurrent) {
+            if (singleCurrent.getAttribute('data-name') == cartArray[i].name)
+              singleCurrent.innerHTML = 'ในตะกร้ามี ' + getCountOfItem(cartArray[i].name) + ' เล่ม';
+          }
+        }
+      }
+      if (shoppingCart.countCart() == 0) {
+        var singleCurrent = document.getElementById('single-current');
+        singleCurrent.innerHTML = 'ในตะกร้ามี 0 เล่ม';
+      }
+
+      // Update count-cart
+      var countCartBadge = document.getElementById('count-cart-badge');
+      countCartBadge.innerHTML = shoppingCart.countCart();
+      var countCartMobile = document.getElementById('count-cart-mobile');
+      countCartMobile.innerHTML = shoppingCart.countCart();
+      var countCartTitle = document.getElementById('count-cart-title');
+      countCartTitle.innerHTML = shoppingCart.countCart();
+
+      // Update shipping-cost
+      var shippingCost = document.getElementById('shipping-cost');
+      shippingCost.innerHTML = getShippingCost(false);
+
+      // Update total-cart
+      var totalCartBadge = document.getElementById('total-cart-badge');
+      totalCartBadge.innerHTML = manUtils.formatNumber(shoppingCart.totalCart(), 0) + ' บ.';
+      var totalCart = document.getElementById('total-cart');
+      totalCart.innerHTML = manUtils.formatNumber(shoppingCart.totalCart(), 2);
+
+      // Update grand-total
+      var grand = (shoppingCart.countCart() >= manUtils.getGlobalVars('costFreeBar'))
+                ? shoppingCart.totalCart()
+                : Number(shoppingCart.totalCart()) + getShippingCost(true);
+      var grandTotal = document.getElementById('grand-total');
+      grandTotal.innerHTML = manUtils.formatNumber(grand, 2);
+
+      // Enable/Disable 'Checkout' button
+      var btnClearCart = document.getElementById('clearCart');
+      btnClearCart.className = 'btn btn-md btn-dark';
+      var btnCheckout = document.getElementById('checkout');
+      if (shoppingCart.countCart() > 0) {
+        btnCheckout.className = 'btn btn-md btn-color';
+      } else {
+        btnCheckout.className = 'btn btn-md btn-light disabled';
+      }
+    }
+    window.addEventListener('load', (event) => {
+      // GET GlobalVars
+      // -- GET AuthorInfo
+      fetch(sheetURL + '/tabs/GlobalVars')
+      .then((response) => { return response.json(); })
+      .then((myJson) => {
+        globalVars = myJson;
+
+        loadAuthorInfo(manUtils.getParam('id'));
+      })
+      .catch((error) => { console.log(error); });
+    });
+  </script>
+
+</body>
+</html>
