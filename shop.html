@@ -408,6 +408,7 @@
             ImageFront: arrProducts[i].ImageFull,
             ImageBack: arrProducts[i].ImageFull,
             URLSingleProduct: 'shop.html?id=' + arrProducts[i].ContactId + '&book=' + arrProducts[i].ProductId,
+            URLShop: 'shop.html?id=' + arrProducts[i].ContactId,
             Price: arrProducts[i].Price,
           }
           if (n % 3 == 0) {
@@ -768,7 +769,14 @@
           html += '</div>';
           html += '<div class="product-details">';
             html += '<h3><a class="product-title" href="#single-section" onclick="onClickSingleBook(this)" data-name="' + data.ProductId + '">' + data.Brief + '</a></h3>';
-            html += '<h2 class="price">' + data.Price + ' บ.</h2>';
+            if (author == null) {
+              html += '<span class="price">';
+                html += '<ins><span class="ammount"><a href="' + data.URLShop + '">' + data.Author + '</a></span></ins>';
+                html += '<h2 class="ammount">' + data.Price + ' บ.</h2>';
+              html += '</span>';
+            } else {
+              html += '<h2 class="price">' + data.Price + ' บ.</h2>';
+            }
           html += '</div>';
         html += '</div>';
       html += '</div>';
