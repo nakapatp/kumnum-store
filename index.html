@@ -272,7 +272,7 @@
       }
     }
     function loadBestSeller() {
-      fetch(sheetURL + '/tabs/Products/BestSeller/*Yes*')
+      fetch(sheetURL + '/tabs/Products/BestSeller/*TRUE*')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         arrBestSeller = myJson;
@@ -282,7 +282,7 @@
       .catch((error) => { console.log(error); });
     }
     function loadHighlight() {
-      fetch(sheetURL + '/tabs/Products/Highlight/*Yes*')
+      fetch(sheetURL + '/tabs/Products/Highlight/*TRUE*')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         arrHighlight = myJson;
@@ -309,7 +309,7 @@
             html += '<h3><a class="product-title" href="' + data.URLSingleProduct + '">' + data.Title + '</a></h3>';
             html += '<span class="price">';
               html += '<ins><span class="ammount"><a href="' + data.URLShop + '">' + data.Author + '</a></span></ins>';
-              html += '<h5 class="ammount">ราคา ' + data.Price + ' บ.</h5>';
+              html += '<h6 class="ammount">ราคา ' + data.Price + ' บาท</h6>';
             html += '</span>';
           html += '</div>';
         html += '</div>';
