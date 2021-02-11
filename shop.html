@@ -395,33 +395,44 @@
       document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
 
       // Book on Shelf
+      var book = manUtils.getParam('book');
       var panelBook = document.getElementById('panel-book');
       var n = 0;
       for (var i in arrProducts) {
         if (arrProducts[i].Enable == 'Yes') {
-          var data = {
-            ProductId: arrProducts[i].ProductId,
-            Title: arrProducts[i].Title,
-            Author: arrProducts[i].Author,
-            Brief: arrProducts[i].Brief,
-            ImageFull: arrProducts[i].ImageFull,
-            ImageFront: arrProducts[i].ImageFull,
-            ImageBack: arrProducts[i].ImageFull,
-            URLSingleProduct: 'shop.html?id=' + arrProducts[i].ContactId + '&book=' + arrProducts[i].ProductId,
-            URLShop: 'shop.html?id=' + arrProducts[i].ContactId,
-            Price: arrProducts[i].Price,
-          }
-          if (n % 3 == 0) {
-            var div = document.createElement('div');
-            div.className = "row";
-            div.id = "row-book-" + Math.floor(n/3);
-            panelBook.appendChild(div);
-            spawnBook(div, data);
+          if (arrProducts[i].PrivateSale == 'Yes'
+              && ((book == null || book == "" || book == 0) || arrProducts[i].ProductId != book)) {
+
+
           } else {
-            var div = document.getElementById('row-book-' + Math.floor(n/3));
-            spawnBook(div, data);
+            //&& (((book == null || book == "" || book == 0 || (arrProducts[i].PrivateSale == 'No'))
+            //    || ((arrProducts[i].ProductId == book) && (arrProducts[i].PrivateSale == 'Yes'))))) {
+            var data = {
+              ProductId: arrProducts[i].ProductId,
+              Title: arrProducts[i].Title,
+              Author: arrProducts[i].Author,
+              Brief: arrProducts[i].Brief,
+              ImageFull: arrProducts[i].ImageFull,
+              ImageFront: arrProducts[i].ImageFull,
+              ImageBack: arrProducts[i].ImageFull,
+              URLSingleProduct: 'shop.html?id=' + arrProducts[i].ContactId + '&book=' + arrProducts[i].ProductId,
+              URLShop: 'shop.html?id=' + arrProducts[i].ContactId,
+              Price: arrProducts[i].Price,
+              Available: arrProducts[i].Available,
+              PrivateSale: arrProducts[i].PrivateSale,
+            }
+            if (n % 3 == 0) {
+              var div = document.createElement('div');
+              div.className = "row";
+              div.id = "row-book-" + Math.floor(n/3);
+              panelBook.appendChild(div);
+              spawnBook(div, data);
+            } else {
+              var div = document.getElementById('row-book-' + Math.floor(n/3));
+              spawnBook(div, data);
+            }
+            n++;
           }
-          n++;
         }
       }
 
@@ -531,7 +542,7 @@
             var p = arrProducts[j];
             if (p.ProductId == cartArray[i].name) {
               var sub = cartArray[i].count * cartArray[i].price;
-              var percent = sub * (p.CopyrightRatio / 100);
+              var share = cartArray[i].count * p.SharePerUnit;
               const sales = {
                 OrderId: orderId,
                 ProductId: p.ProductId,
@@ -542,8 +553,8 @@
                 Price: String(cartArray[i].price),
                 SubTotal: String(sub),
                 PaymentStatus: "รอการชำระเงิน",
-                CopyrightRatio: p.CopyrightRatio,
-                CopyrightShare: String(percent),
+                SharePerUnit: p.SharePerUnit,
+                CopyrightShare: String(share),
               };
               arrSales.push(sales);
               break;
@@ -714,13 +725,13 @@
       // Show Author's Profile
       } else {
         var hShop = document.getElementById('shop-header');
-        hShop.innerHTML = 'หนังสือของ <span class="highlight">' + author.Title + author.FirstName + ' ' + author.LastName + '</span>';
+        hShop.innerHTML = 'หนังสือของ <span class="highlight">' + manUtils.formatName(author.Title, author.FirstName, author.LastName) + '</span>';
 
         var img = document.getElementById('author-img');
         img.src = author.ImageProfile;
 
         var title1 = document.getElementById('author-name');
-        var html = author.Title + author.FirstName + ' ' + author.LastName;
+        var html = manUtils.formatName(author.Title, author.FirstName, author.LastName);
         html += '<div><small>';
         html += author.Biography;
         html += '<br/><span><i class="fa fa-envelope"></i>&nbsp;&nbsp;' + author.Email + '</span>';
@@ -741,9 +752,14 @@
       var text1 = document.getElementById('single-1-text');
       var html = data.Brief;
       html += ('<br><br>' + data.Spec);
-      html += '<br><h2>' + manUtils.formatNumber(data.Price, 0) + ' บ.</h2>';
+      html += '<br><h2>' + manUtils.formatNumber(data.Price, 0) + ' บ.' + ((data.Available == 'No') ? ' <span class="badge badge-danger">งดจำหน่าย</span>' : "") + '</h2>';
       html += '<div id="single-current" data-name="' + data.ProductId + '">ในตะกร้ามี ' + getCountOfItem(data.ProductId) + ' เล่ม' + '</div>';
-      html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
+      if (data.Available == 'Yes') {
+        html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
+      } else {
+        html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block disabled" data-name="' + data.ProductId + '" data-price="' + data.Price + '"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
+      }
+
       html += '<div><a href="#section-shop-header">' + 'ดูเล่มอื่น ๆ</a></div>';
       text1.innerHTML = html;
 
@@ -765,7 +781,17 @@
               html += '<img src="' + data.ImageFront + '" alt="">';
               html += '<img src="' + data.ImageBack + '" alt="" class="back-img">';
             html += '</a>';
-            html += '<a href="#shopping-cart" class="product-quickview" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)">หยิบใส่ตะกร้า</a>';
+            if (data.Available == 'No') {
+              html += '<span class="sold-out valign"><big><big>งดจำหน่าย</big></big></span>';
+            }
+            if (data.PrivateSale == 'Yes') {
+              html += '<div class="product-label">';
+              html += '<span class="sale">ขายเฉพาะบุคคล</span>';
+              html += '</div>';
+            }
+            if (data.Available == 'Yes') {
+              html += '<a href="#shopping-cart" class="product-quickview" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)">หยิบใส่ตะกร้า</a>';
+            }
           html += '</div>';
           html += '<div class="product-details">';
             html += '<h3><a class="product-title" href="#single-section" onclick="onClickSingleBook(this)" data-name="' + data.ProductId + '">' + data.Brief + '</a></h3>';
