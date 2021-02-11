@@ -394,14 +394,14 @@
       var panelBook = document.getElementById('panel-book');
       var n = 0;
       for (var i in arrProducts) {
-        if (arrProducts[i].Enable == 'TRUE') {
-          if (arrProducts[i].PrivateSale == 'TRUE'
+        if (arrProducts[i].Enable == 'True') {
+          if (arrProducts[i].PrivateSale == 'True'
               && ((book == null || book == "" || book == 0) || arrProducts[i].ProductId != book)) {
 
 
           } else {
-            //&& (((book == null || book == "" || book == 0 || (arrProducts[i].PrivateSale == 'FALSE'))
-            //    || ((arrProducts[i].ProductId == book) && (arrProducts[i].PrivateSale == 'TRUE'))))) {
+            //&& (((book == null || book == "" || book == 0 || (arrProducts[i].PrivateSale == 'False'))
+            //    || ((arrProducts[i].ProductId == book) && (arrProducts[i].PrivateSale == 'True'))))) {
             var data = {
               ProductId: arrProducts[i].ProductId,
               Title: arrProducts[i].Title,
@@ -436,7 +436,7 @@
       if (manUtils.getParam('book')) {
         var found = false;
         for (var i in arrProducts) {
-          if (arrProducts[i].Enable == 'TRUE'
+          if (arrProducts[i].Enable == 'True'
               && arrProducts[i].ProductId == manUtils.getParam('book')) {
             showSingleBook(arrProducts[i], true);
             found = true;
@@ -479,7 +479,7 @@
     function onClickSingleBook(obj) {
       var productId = obj.getAttribute('data-name')
       for (var i in arrProducts) {
-        if (arrProducts[i].Enable == 'TRUE'
+        if (arrProducts[i].Enable == 'True'
             && arrProducts[i].ProductId == productId) {
           showSingleBook(arrProducts[i], true);
         }
@@ -658,7 +658,7 @@
         fetchUrl += ('/ContactId/*' + contactId + '*');
       }
       else {
-        fetchUrl += ('/Available/*TRUE*');
+        fetchUrl += ('/Available/*True*');
       }
 
       fetch(fetchUrl)
@@ -784,9 +784,9 @@
       var text1 = document.getElementById('single-1-text');
       var html = data.Brief;
       html += ('<br><br>' + data.Spec);
-      html += '<br><h2>' + manUtils.formatNumber(data.Price, 0) + ' บ.' + ((data.Available == 'FALSE') ? ' <span class="badge badge-danger">งดจำหน่าย</span>' : "") + '</h2>';
+      html += '<br><h2>' + manUtils.formatNumber(data.Price, 0) + ' บ.' + ((data.Available == 'False') ? ' <span class="badge badge-danger">งดจำหน่าย</span>' : "") + '</h2>';
       html += '<div id="single-current" data-name="' + data.ProductId + '">ในตะกร้ามี ' + getCountOfItem(data.ProductId) + ' เล่ม' + '</div>';
-      if (data.Available == 'TRUE') {
+      if (data.Available == 'True') {
         html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
       } else {
         html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block disabled" data-name="' + data.ProductId + '" data-price="' + data.Price + '"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
@@ -812,15 +812,15 @@
               html += '<img src="' + data.ImageFront + '" alt="">';
               html += '<img src="' + data.ImageBack + '" alt="" class="back-img">';
             html += '</a>';
-            if (data.Available == 'FALSE') {
+            if (data.Available == 'False') {
               html += '<span class="sold-out valign"><big><big>งดจำหน่าย</big></big></span>';
             }
-            if (data.PrivateSale == 'TRUE') {
+            if (data.PrivateSale == 'True') {
               html += '<div class="product-label">';
               html += '<span class="sale">ขายเฉพาะบุคคล</span>';
               html += '</div>';
             }
-            if (data.Available == 'TRUE') {
+            if (data.Available == 'True') {
               html += '<a href="#shopping-cart" class="product-quickview" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)"><big>หยิบใส่ตะกร้า</big></a>';
             }
           html += '</div>';

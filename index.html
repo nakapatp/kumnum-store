@@ -272,7 +272,7 @@
       }
     }
     function loadBestSeller() {
-      fetch(sheetURL + '/tabs/Products/BestSeller/*TRUE*')
+      fetch(sheetURL + '/tabs/Products/BestSeller/*True*')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         arrBestSeller = myJson;
@@ -282,7 +282,7 @@
       .catch((error) => { console.log(error); });
     }
     function loadHighlight() {
-      fetch(sheetURL + '/tabs/Products/Highlight/*TRUE*')
+      fetch(sheetURL + '/tabs/Products/Highlight/*True*')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         arrHighlight = myJson;
