@@ -61,6 +61,10 @@ var manUtils = (function() {
         parent.removeChild(parent.firstChild);
     }
   };
+  obj.selectElement = function (id, valueToSelect) {
+      let element = document.getElementById(id);
+      element.value = valueToSelect;
+  };
 
   return obj;
 })();

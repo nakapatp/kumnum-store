@@ -123,12 +123,28 @@
       </nav> <!-- end navbar -->
     </header> <!-- end navigation -->
 
+    <!-- Hero Slider -->
+    <section class="section-wrap nopadding">
+      <div class="container">
+        <div class="entry-slider">
+          <div class="flexslider" id="flexslider-hero">
+            <ul class="slides clearfix">
+              <li>
+                <img src="" alt="" id="hero-img">
+                <div class="img-holder img-4"></div>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- end slider -->
+      </div>
+    </section> <!-- end hero slider -->
+
     <!-- Page Title -->
-    <section class="page-title text-center">
+    <section class="page-title text-center" id="section-shop-header">
       <div class="container relative clearfix">
-        <div class="title-holder">
-          <div class="title-text" id="section-shop-header">
-            <h1 class="heading uppercase" id="shop-header"></h1>
+        <div class="title-holder" id="section-shop-title">
+          <div class="title-text">
+            <h2 class="heading uppercase" id="shop-header"></h2>
           </div>
         </div>
       </div>
@@ -140,7 +156,7 @@
         <div class="woocommerce">
           <nav class="woocommerce-MyAccount-navigation">
             <img src="" alt="" width="150" id="author-img">
-            <p><h5 class="text-primary" id="author-name"></h5></p>
+            <p><h5 style="color:#21c9cf;" id="author-name"></h5></p>
             <p>
               <h5>ค้นหาหนังสือ</h5>
               <form method="get" id="form-filter">
@@ -165,28 +181,7 @@
 
     <!-- Single Book -->
     <div id="single-section">
-      <div class="row text-center">
-        <p><h1 class="heading uppercase">เกี่ยวกับหนังสือ</h1></p>
-      </div>
-      <section class="section-wrap single-product" >
-        <div class="container relative">
-            <div class="row">
-              <div class="col-sm-4">
-                <img src="" alt="" id="single-img" style="max-height:430px;">
-              </div>
 
-              <div class="col-sm-4">
-                <p><h5 id="single-1-title"></h5></p>
-                <p id="single-1-text"></p>
-              </div>
-
-              <div class="col-sm-4">
-                <p><h5 id="single-2-title"></h5></p>
-                <p id="single-2-text"></p>
-              </div>
-            </div>
-        </div>
-      </section>
     </div>
 
     <!-- Page Title -->
@@ -194,7 +189,7 @@
       <div class="container relative clearfix">
         <div class="title-holder">
           <div class="title-text">
-            <h1 class="heading uppercase">ตะกร้าสินค้า <span class="badge" id="count-cart-title"></span></h1>
+            <h2 class="heading uppercase">ตะกร้าสินค้า <span class="badge" id="count-cart-title"></span></h2>
           </div>
         </div>
       </div>
@@ -208,7 +203,7 @@
           <div class="col-md-12">
             <div class="table-wrap mb-30">
               <table class="shop_table cart table">
-                <thead>
+                <thead class="bg-light">
                   <tr>
                     <th class="product-name" colspan="2">รายการ</th>
                     <th class="product-price">ราคาปก (บ.)</th>
@@ -226,14 +221,14 @@
 
               <div class="col-md-5 col-sm-12">
                 <div class="coupon">
-                  <a href="#shopping-cart" class="btn btn-md btn-dark disabled" id="clearCart" onclick="onClickClearCart(this)"><span><big>เริ่มคำสั่งซื้อใหม่</big></span></a>
+                  <a href="#shopping-cart" class="btn btn-md btn-dark disabled" id="clearCart" onclick="onClickClearCart(this)"><span><big><big>เริ่มคำสั่งซื้อใหม่</big></big></span></a>
                 </div>
               </div>
 
               <div class="col-md-7">
                 <div class="actions right">
                   <div class="wc-proceed-to-checkout">
-                    <a href="#shopping-cart" class="btn btn-md btn-color disabled" id="checkout" onclick="onClickCheckout()"><span><big>ชำระเงิน</big></span></a>
+                    <a href="#shopping-cart" class="btn btn-md btn-color disabled" id="checkout" onclick="onClickCheckout()"><span><big><big>ชำระเงิน</big></big></span></a>
                   </div>
                 </div>
               </div>
@@ -295,7 +290,7 @@
           <div class="row">
             <div class="col-sm-4 copyright sm-text-center">
               <span>
-                &copy; 2021 สำนักพิมพ์ "คำนำ"
+                &copy; 2021 "คำนำ"
               </span>
             </div>
 
@@ -384,8 +379,8 @@
     }
     function init() {
       // Default Shop Header
-      var hShop = document.getElementById('shop-header');
-      hShop.innerHTML = 'ชั้นหนังสือ <span class="badge">' + arrProducts.length + '</span>';
+      //var hShop = document.getElementById('shop-header');
+      //hShop.innerHTML = 'ชั้นหนังสือ <span class="badge">' + arrProducts.length + '</span>';
 
       // Shipping Guide
       var guideShipping = document.getElementById('guide-shipping');
@@ -443,15 +438,15 @@
         for (var i in arrProducts) {
           if (arrProducts[i].Enable == 'Yes'
               && arrProducts[i].ProductId == manUtils.getParam('book')) {
-            showSingleBook(arrProducts[i]);
+            showSingleBook(arrProducts[i], true);
             found = true;
             break;
           }
         }
-        if (!found) showSingleBook(arrProducts[0]);
+        if (!found) showSingleBook(arrProducts[0], false);
 
       } else if (arrProducts) {
-        showSingleBook(arrProducts[0]); // Show 1st Book as default
+        showSingleBook(arrProducts[0], false); // Show 1st Book as default
       }
 
       updateCart();
@@ -486,7 +481,7 @@
       for (var i in arrProducts) {
         if (arrProducts[i].Enable == 'Yes'
             && arrProducts[i].ProductId == productId) {
-          showSingleBook(arrProducts[i]);
+          showSingleBook(arrProducts[i], true);
         }
       }
     }
@@ -542,7 +537,7 @@
             var p = arrProducts[j];
             if (p.ProductId == cartArray[i].name) {
               var sub = cartArray[i].count * cartArray[i].price;
-              var share = cartArray[i].count * p.SharePerUnit;
+              var share = Math.floor(cartArray[i].count * p.SharePerUnit);
               const sales = {
                 OrderId: orderId,
                 ProductId: p.ProductId,
@@ -705,9 +700,12 @@
     function showAuthorInfo(data) {
       // If 'NO' author data show Filter options instead
       if (data == null) {
+        var hShopTitle = document.getElementById('section-shop-title');
+        manUtils.removeAllChildNodes(hShopTitle);
+        hShopTitle.remove();
 
         var filterHead = document.getElementById('filter-header');
-        filterHead.innerHTML = 'ตัวเลือกช่วยค้นหา';
+        filterHead.innerHTML = 'หมวดหนังสือ';
 
         var filterList = document.getElementById('filter-list');
         var html = "";
@@ -725,7 +723,7 @@
       // Show Author's Profile
       } else {
         var hShop = document.getElementById('shop-header');
-        hShop.innerHTML = 'หนังสือของ <span class="highlight">' + manUtils.formatName(author.Title, author.FirstName, author.LastName) + '</span>';
+        hShop.innerHTML = manUtils.formatName(author.Title, author.FirstName, author.LastName);
 
         var img = document.getElementById('author-img');
         img.src = author.ImageProfile;
@@ -742,12 +740,46 @@
       }
     }
 
-    function showSingleBook(data) {
+    function showSingleBook(data, visible) {
+      if (!visible)
+        return;
+
       var img = document.getElementById('single-img');
+
+      if (img == null) {
+        var div = document.getElementById('single-section');
+        var row = document.createElement('div');
+        row.className = 'row text-center';
+        row.innerHTML = '<p><h2 class="heading uppercase">รายละเอียดหนังสือ</h2></p>';
+        div.appendChild(row);
+
+        var sec = document.createElement('section');
+        sec.className = 'section-wrap single-product';
+        var html = "";
+        html += '<div class="container relative">';
+          html += '<div class="row">';
+            html += '<div class="col-sm-4">';
+              html += '<img src="" alt="" id="single-img" style="max-height:430px;">';
+            html += '</div>'
+            html += '<div class="col-sm-4">';
+              html += '<p><h5 id="single-1-title"></h5></p>';
+              html += '<p id="single-1-text"></p>';
+            html += '</div>'
+            html += '<div class="col-sm-4">';
+              html += '<p><h5 id="single-2-title"></h5></p>';
+              html += '<p id="single-2-text"></p>';
+            html += '</div>'
+          html += '</div>';
+        html += '</div>';
+        sec.innerHTML = html;
+        div.appendChild(sec);
+      }
+
+      img = document.getElementById('single-img');
       img.src = data.ImageFull;
 
       var title1 = document.getElementById('single-1-title');
-      title1.innerHTML = data.Title;
+      title1.innerHTML = '<strong>' + data.Title + '</strong>';
 
       var text1 = document.getElementById('single-1-text');
       var html = data.Brief;
@@ -759,12 +791,11 @@
       } else {
         html += '<p><a href="#single-section" class="btn btn-lg btn-stroke btn-block disabled" data-name="' + data.ProductId + '" data-price="' + data.Price + '"><big>' + 'หยิบใส่ตะกร้า</big></a></p>';
       }
-
       html += '<div><a href="#section-shop-header">' + 'ดูเล่มอื่น ๆ</a></div>';
       text1.innerHTML = html;
 
       var title2 = document.getElementById('single-2-title');
-      title2.innerHTML = 'รายละเอียด';
+      title2.innerHTML = '<strong>รายละเอียด</strong>';
       var text2 = document.getElementById('single-2-text');
       text2.innerHTML = data.Description;
     }
@@ -790,19 +821,19 @@
               html += '</div>';
             }
             if (data.Available == 'Yes') {
-              html += '<a href="#shopping-cart" class="product-quickview" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)">หยิบใส่ตะกร้า</a>';
+              html += '<a href="#shopping-cart" class="product-quickview" data-name="' + data.ProductId + '" data-price="' + data.Price + '" onclick="onClickAddToCart(this)"><big>หยิบใส่ตะกร้า</big></a>';
             }
           html += '</div>';
           html += '<div class="product-details">';
             html += '<h3><a class="product-title" href="#single-section" onclick="onClickSingleBook(this)" data-name="' + data.ProductId + '">' + data.Brief + '</a></h3>';
-            if (author == null) {
+            //if (author == null) {
               html += '<span class="price">';
                 html += '<ins><span class="ammount"><a href="' + data.URLShop + '">' + data.Author + '</a></span></ins>';
-                html += '<h2 class="ammount">' + data.Price + ' บ.</h2>';
+                html += '<h5 class="ammount">ราคา ' + data.Price + ' บ.</h5>';
               html += '</span>';
-            } else {
-              html += '<h2 class="price">' + data.Price + ' บ.</h2>';
-            }
+            //} else {
+            //  html += '<h5 class="price">ราคา ' + data.Price + ' บ.</h5>';
+            //}
           html += '</div>';
         html += '</div>';
       html += '</div>';
@@ -811,7 +842,7 @@
       parent.appendChild(div);
     }
     function spawnCartItem(specificId) {
-      console.log(specificId);
+      //console.log(specificId);
 
       var thumbnail = "";
       var name = "";
@@ -911,7 +942,7 @@
       }
       if (shoppingCart.countCart() == 0) {
         var singleCurrent = document.getElementById('single-current');
-        singleCurrent.innerHTML = 'ในตะกร้ามี 0 เล่ม';
+        if (singleCurrent) singleCurrent.innerHTML = 'ในตะกร้ามี 0 เล่ม';
       }
 
       // Update count-cart

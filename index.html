@@ -113,14 +113,16 @@
             <ul class="slides clearfix">
               <li>
                 <img src="" alt="" id="hero-img">
-                <div class="img-holder img-1"></div>
+                <div class="img-holder img-2"></div>
+                <!-- Hero Banner
                 <div class="hero-holder text-center right-align">
                   <div class="hero-lines">
-                    <h1 class="hero-heading white" id="hero-title">สำนักพิมพ์ "คำนำ"</h1>
-                    <h4 class="hero-subheading white uppercase" id="hero-subtitle">มิติใหม่ของสื่อตำรา และเอกสารประกอบการเรียนการสอน</h4>
+                    <h1 class="hero-heading white" id="hero-title">"คำนำ"</h1>
+                    <h4 class="hero-subheading white uppercase" id="hero-subtitle">มิติใหม่ของสื่อตำรา และเอกสารประกอบการเรียนการสอน</h4>--
                   </div>
-                  <a href="shop.html" class="btn btn-lg btn-white" id="hero-button"><span id="hero-button-caption">ซื้อหนังสือ</span></a>
-                </div>
+                  a href="shop.html" class="btn btn-lg btn-white" id="hero-button"><span id="hero-button-caption">ซื้อหนังสือ</span></a>
+
+                </div> - end hero banner -->
               </li>
             </ul>
           </div>
@@ -165,7 +167,7 @@
           <div class="row">
             <div class="col-sm-4 copyright sm-text-center">
               <span>
-                &copy; 2021 สำนักพิมพ์ "คำนำ"
+                &copy; 2021 "คำนำ"
               </span>
             </div>
 
@@ -206,11 +208,11 @@
 
     function init() {
       // Hero Slider
-      document.getElementById('hero-img').src = manUtils.getGlobalVars('indexHeroImage');
-      document.getElementById('hero-title').innerHTML = manUtils.getGlobalVars('indexHeroTitle');
-      document.getElementById('hero-subtitle').innerHTML = manUtils.getGlobalVars('indexHeroSubTitle');
-      document.getElementById('hero-button-caption').innerHTML = manUtils.getGlobalVars('indexHeroButtonCaption');
-      document.getElementById('hero-button').href = manUtils.getGlobalVars('indexHeroButtonLink');
+      //document.getElementById('hero-img').src = manUtils.getGlobalVars('indexHeroImage');
+      //document.getElementById('hero-title').innerHTML = manUtils.getGlobalVars('indexHeroTitle');
+      //document.getElementById('hero-subtitle').innerHTML = manUtils.getGlobalVars('indexHeroSubTitle');
+      //document.getElementById('hero-button-caption').innerHTML = manUtils.getGlobalVars('indexHeroButtonCaption');
+      //document.getElementById('hero-button').href = manUtils.getGlobalVars('indexHeroButtonLink');
 
       // Footer Link
       document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
@@ -301,13 +303,13 @@
               html += '<img src="' + data.ImageFront + '" alt="">';
               html += '<img src="' + data.ImageBack + '" alt="" class="back-img">';
             html += '</a>';
-            html += '<a href="' + data.URLSingleProduct + '" class="product-quickview">เกี่ยวกับหนังสือ</a>';
+            html += '<a href="' + data.URLSingleProduct + '" class="product-quickview"><big>รายละเอียดหนังสือ</big></a>';
           html += '</div>';
           html += '<div class="product-details">';
             html += '<h3><a class="product-title" href="' + data.URLSingleProduct + '">' + data.Title + '</a></h3>';
             html += '<span class="price">';
               html += '<ins><span class="ammount"><a href="' + data.URLShop + '">' + data.Author + '</a></span></ins>';
-              html += '<h2 class="ammount">' + data.Price + ' บ.</h2>';
+              html += '<h5 class="ammount">ราคา ' + data.Price + ' บ.</h5>';
             html += '</span>';
           html += '</div>';
         html += '</div>';
