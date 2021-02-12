@@ -497,7 +497,6 @@
       var currentDate = d.toISOString().slice(0, 10);
       var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,19);
       const data = {
-        Enable: "1",
         ContactId: author.ContactId,
         OrderId: orderId,
         OrderStatus: 'ป้อนข้อมูลจัดส่ง',
@@ -505,8 +504,9 @@
         SubTotal: String(shoppingCart.totalCart()),
         ShippingCost: String(getShippingCost(true)),
         GrandTotal: String(Number(shoppingCart.totalCart()) + Number(getShippingCost(true))),
-        PaymentVerified: "0",
-        VerifyRejected: "0",
+        PaymentVerified: 'False',
+        VerifyRejected: 'False',
+        Transporter: "Flash",
         CreatedDate: currentDate,
         CreatedTime: currentTime,
       };
@@ -537,7 +537,6 @@
             var p = arrProducts[j];
             if (p.ProductId == cartArray[i].name) {
               var sub = cartArray[i].count * cartArray[i].price;
-              var share = Math.floor(cartArray[i].count * p.SharePerUnit);
               const sales = {
                 OrderId: orderId,
                 ProductId: p.ProductId,
@@ -549,7 +548,10 @@
                 SubTotal: String(sub),
                 PaymentStatus: "รอการชำระเงิน",
                 SharePerUnit: p.SharePerUnit,
-                CopyrightShare: String(share),
+                PublisherShare: cartArray[i].count * p.PublisherShare,
+                CopyrightShare: cartArray[i].count * p.SharePerUnit,
+                PlatformShare: cartArray[i].count * p.PlatformShare,
+                ProductionCost: cartArray[i].count * p.Cost,
               };
               arrSales.push(sales);
               break;

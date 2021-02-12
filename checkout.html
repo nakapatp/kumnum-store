@@ -85,7 +85,7 @@
               <div class="input-group">
                 <input type="text" class="form-control" name="datepicker" id="datepicker">
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-success">แจ้งการโอน</button>
+                  <button type="submit" class="btn btn-success"><big>แจ้งการโอน</big></button>
                 </div>
               </div>
             </form>
@@ -97,7 +97,7 @@
                   หากต้องการติดต่อเจ้าหน้าที่ โทร.012-345-6789
                 </div>
                 <div id="notify-wait" style="display:none">
-                  <div class="alert alert-success" role="alert"><i class="fa fa-check-circle fa-lg"></i> แจ้งการโอนแล้ว กรุณารอตรวจสอบและยืนยันภายใน 24 ชม.</div>
+                  <div class="alert alert-success" role="alert"><i class="fa fa-check-circle fa-lg"></i> แจ้งการโอนแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.</div>
                 </div>
               </p>
             </div>
@@ -346,6 +346,18 @@
         });
       });
 
+      function getTrackingLink(Transporter) {
+        var url = "";
+        switch (Transporter) {
+          case 'Flash': url = manUtils.getGlobalVars('trackingFlash'); break;
+          case 'J&T': url = manUtils.getGlobalVars('trackingJ&T'); break;
+          case 'Kerry': url = manUtils.getGlobalVars('trackingKerry'); break;
+          case 'ThaiPost': url = manUtils.getGlobalVars('trackingThaiPost'); break;
+          default: url = "#"
+        }
+        return url;
+      }
+
       function showCartItem(data) {
         var sum = 0;
         var html = "";
@@ -436,14 +448,14 @@
             html += '<li>';
             html += '<div class="text-success" style="margin-top:10px;">รอการชำระเงิน</div>';
             html += '<div class="text-muted"><small>ชำระเงินแล้วกรุณาแจ้งวัน-เวลาโอน</small></div>';
-            html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button">วิธีชำระเงิน</a></div>';
+            html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button"><big>วิธีชำระเงิน</big></a></div>';
           } else if (dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
             html += '<li>';
             html += '<div class="text-success" style="margin-top:10px;">ชำระเงินแล้วรอตรวจสอบ</div>';
             html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.PaymentDate + " " + dataOrder.PaymentTime.slice(0,5) + ' น.</small></div>';
-            if (dataOrder.VerifyRejected == 1) {
+            if (dataOrder.VerifyRejected == 'True') {
               html += '<div class="text-danger"><small>ไม่พบรายการตามวันเวลาที่แจ้ง</small></div>';
-              html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button">วิธีชำระเงิน</a></div>';
+              html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button"><big>วิธีชำระเงิน</big></a></div>';
             }
             else html += '<div class="text-muted"><small>กรุณารอการยืนยันยอดชำระใน 24 ชม.</small></div>';
           }
@@ -465,7 +477,7 @@
             html += '<div class="text-success" style="margin-top:10px;">จัดส่งพัสดุแล้ว</div>';
             html += '<div class="text-muted"><small>';
               html += 'เลขติดตามพัสดุ ' + dataOrder.TrackingCode;
-              html += '<div style="margin-top:5px;"><a href="' + dataOrder.TrackingLink +'" class="btn btn-outline-secondary btn-sm" role="button" target="_blank">ติดตามพัสดุ</a></div>';
+              html += '<div style="margin-top:5px;"><a href="' + getTrackingLink(dataOrder.Transporter) +'" class="btn btn-outline-secondary btn-sm" role="button" target="_blank">ติดตามพัสดุ</a></div>';
             html += '</small></div>';
           }
         } else {
@@ -506,8 +518,8 @@
           var rejected = document.getElementById('notify-rejected');
 
           if (dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
-            wait.style.display = (Number(dataOrder.VerifyRejected) == 0) ? 'block' : 'none';
-            rejected.style.display = (Number(dataOrder.VerifyRejected) == 1) ? 'block' : 'none';
+            wait.style.display = (dataOrder.VerifyRejected == 'False') ? 'block' : 'none';
+            rejected.style.display = (dataOrder.VerifyRejected == 'True') ? 'block' : 'none';
           }
         }
       }
@@ -607,8 +619,8 @@
 
           dataOrder.PaymentDate = picker.value.slice(0,10);
           dataOrder.PaymentTime = picker.value.slice(11,16);
-          dataOrder.PaymentVerified = "0";
-          dataOrder.VerifyRejected = "0";
+          dataOrder.PaymentVerified = 'False';
+          dataOrder.VerifyRejected = 'False';
           dataOrder.OrderStatus = "ชำระเงินแล้วรอตรวจสอบ";
 
           fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
