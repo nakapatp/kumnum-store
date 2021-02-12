@@ -453,7 +453,7 @@
             html += '<li>';
             html += '<div class="text-success" style="margin-top:10px;">ชำระเงินแล้วรอตรวจสอบ</div>';
             html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.PaymentDate + " " + dataOrder.PaymentTime.slice(0,5) + ' น.</small></div>';
-            if (dataOrder.VerifyRejected == 'True') {
+            if (Number(dataOrder.VerifyRejected) == 1) {
               html += '<div class="text-danger"><small>ไม่พบรายการตามวันเวลาที่แจ้ง</small></div>';
               html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button"><big>วิธีชำระเงิน</big></a></div>';
             }
@@ -518,8 +518,8 @@
           var rejected = document.getElementById('notify-rejected');
 
           if (dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
-            wait.style.display = (dataOrder.VerifyRejected == 'False') ? 'block' : 'none';
-            rejected.style.display = (dataOrder.VerifyRejected == 'True') ? 'block' : 'none';
+            wait.style.display = (Number(dataOrder.VerifyRejected) == 0) ? 'block' : 'none';
+            rejected.style.display = (Number(dataOrder.VerifyRejected) == 1) ? 'block' : 'none';
           }
         }
       }
@@ -619,8 +619,8 @@
 
           dataOrder.PaymentDate = picker.value.slice(0,10);
           dataOrder.PaymentTime = picker.value.slice(11,16);
-          dataOrder.PaymentVerified = 'False';
-          dataOrder.VerifyRejected = 'False';
+          dataOrder.PaymentVerified = "0";
+          dataOrder.VerifyRejected = "0";
           dataOrder.OrderStatus = "ชำระเงินแล้วรอตรวจสอบ";
 
           fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
