@@ -406,7 +406,7 @@
         hOrderId.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
 
         var shopLink = document.getElementById('shop-link');
-        shopLink.href = "shop.html?id=" + dataOrder.ContactId;
+        shopLink.href = manUtils.getGlobalVars('shopURL');
 
         // Checkout Process Step
         var progress = document.getElementById('process-step');

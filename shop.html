@@ -497,7 +497,6 @@
       var currentDate = d.toISOString().slice(0, 10);
       var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,19);
       const data = {
-        ContactId: author.ContactId,
         OrderId: orderId,
         OrderStatus: 'ป้อนข้อมูลจัดส่ง',
         Count: String(shoppingCart.countCart()),
