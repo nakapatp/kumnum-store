@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Example 1</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/invoice.css" media="all" />
+  </head>
+  <body>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="img/logo.png">
+      </div>
+      <h1>ใบเสร็จรับเงิน / Receipt</h1>
+      <div id="company" class="clearfix">
+        <div>"คำนำ"</div>
+        <div>187 หมู่ 5<br>ต.ชมพู อ.เมือง จ.ลำปาง<br>52100</div>
+        <div>โทร. 085-997-7220</div>
+        <div>4kumnum@gmail.com</div>
+      </div>
+      <div id="project">
+        <div id="order-id"></div>
+        <div id="order-fullname"></div>
+        <div id="order-address"></div>
+        <div id="order-email"></div>
+        <div id="order-datetime"></div>
+        <div id="payment-datetime"></div>
+      </div>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">รหัสสินค้า</th>
+            <th class="desc">รายการ</th>
+            <th class="text-right">ราคา</th>
+            <th class="text-right">จำนวน</th>
+            <th class="text-right">รวม</th>
+          </tr>
+        </thead>
+        <tbody id="body-items">
+
+        </tbody>
+      </table>
+      <!-- Remark
+      <div id="notices">
+        <div>หมายเหตุ:</div>
+        <div class="notice">-</div>
+      </div> - end remark -->
+    </main>
+    <!-- Footer
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer> - end footer -->
+    <hr style="border-top: 1px dashed">
+    <div class="row">
+      <div id="project" style="margin-left:20px">
+        <div><h5>ผู้ส่ง</h5></div>
+        <div><span>ชื่อผู้ส่ง</span> "คำนำ"</div>
+        <div><span>ที่อยู่</span> 187 หมู่ 5 ต.ชมพู อ.เมือง</div>
+        <div><span>จังหวัด</span> ลำปาง</div>
+        <div><span>รหัสไปรษณีย์</span> 52100</div>
+        <div><span>โทร.</span> 085-997-7220</div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="receiver-info" style="margin-left:30%">
+
+      </div>
+    </div>
+    <div class="row" style="margin-top:20px">
+      <table class="table table-bordered" style="margin-left:20px; width:95%">
+        <thead>
+          <tr>
+            <th scope="col" style="font-size:1.5em;" id="sender-order-id"></th>
+            <th scope="col" style="font-size:1.5em;">หนังสือ/ตำรา</th>
+            <th scope="col" style="font-size:1.5em;" id="sender-order-count"></th>
+            <th scope="col" style="font-size:1.5em;" id="receiver-phone"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">เลขที่คำสั่งซื้อ</td>
+            <td class="text-center">ประเภทพัสดุ</td>
+            <td class="text-center">จำนวน (เล่ม)</td>
+            <td class="text-center">เบอร์ติดต่อผู้รับ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- manUtils JavaScript -->
+    <script src="js/manutils.js"></script>
+
+    <!-- Invoice JavaScript -->
+    <script type="text/javascript">
+      var sheetURL = 'https://sheet.best/api/sheets/5acb1568-5ff2-4717-81dc-23a4093f6cbc';
+      var globalVars = null;
+      var myOrder = null;
+      var arrSales = null;
+      var id = manUtils.getParam('id');
+
+      function init() {
+
+        if (myOrder == null) {
+
+        } else {
+          // Order Info.
+          document.getElementById('order-id').innerHTML = '<span>เลขที่คำสั่งซื้อ</span> ' + myOrder.OrderId;
+          document.getElementById('order-fullname').innerHTML = '<span>ชื่อผู้รับ</span> ' + myOrder.FirstName + ' ' + myOrder.LastName + ' โทร. ' + manUtils.formatPhoneNumber(myOrder.Phone);
+          document.getElementById('order-address').innerHTML = '<span>ที่อยู่จัดส่ง</span> ' + myOrder.Address;
+          document.getElementById('order-email').innerHTML = '<span>อีเมล</span> ' + myOrder.Email;
+          document.getElementById('order-datetime').innerHTML = '<span>วันที่สั่งซื้อ</span> ' + manUtils.formatDateThai(myOrder.CreatedDate) + ' ' + myOrder.CreatedTime;
+          document.getElementById('payment-datetime').innerHTML = '<span>วันที่ชำระเงิน</span> ' + manUtils.formatDateThai(myOrder.PaymentDate) + ' ' + myOrder.PaymentTime;
+
+          // Sale Item
+          var tBody = document.getElementById('body-items');
+          for (var i in arrSales) {
+            var row = document.createElement('tr');
+            var html = ""
+            html += '<td class="service">' + arrSales[i].ProductId + '</td>';
+            html += '<td class="desc">' + arrSales[i].Title + '<br><span class="text-muted">' + arrSales[i].Author + '</span></td>';
+            html += '<td class="unit">' + arrSales[i].Price + '</td>';
+            html += '<td class="qty">' + arrSales[i].Amount + '</td>';
+            html += '<td class="total">' + arrSales[i].SubTotal + '</td>';
+            row.innerHTML = html;
+            tBody.appendChild(row);
+          }
+          row = document.createElement('tr');
+          row.innerHTML = '<tr><td colspan="4">รวม</td><td class="total">' + manUtils.formatNumber(myOrder.SubTotal, 2) + '</td></tr>';
+          tBody.appendChild(row);
+          row = document.createElement('tr');
+          row.innerHTML = '<tr><td colspan="4">ค่าจัดส่ง</td><td class="total">' + manUtils.formatNumber(myOrder.ShippingCost, 2) + '</td></tr>';
+          tBody.appendChild(row);
+          row = document.createElement('tr');
+          row.innerHTML = '<tr><td colspan="4" class="grand total"><h4>ยอดโอน</h4></td><td class="grand total"><h4>' + manUtils.formatNumber(myOrder.GrandTotal, 2) + '</h4></td></tr>';
+          tBody.appendChild(row);
+
+          document.getElementById('sender-order-id').innerHTML = myOrder.OrderId;
+          document.getElementById('sender-order-count').innerHTML = myOrder.Count;
+          document.getElementById('receiver-phone').innerHTML = manUtils.formatPhoneNumber(myOrder.Phone);
+
+          var receiver = document.getElementById('receiver-info');
+          html = '<div><h3>ผู้รับ</h3></div>';
+          html += '<big><big>';
+          html += '<div>' + myOrder.FirstName + ' ' + myOrder.LastName + '</div>';
+          html += '<div>' + myOrder.Address + '</div>';
+          html += '<div>' + myOrder.Province + '</div>';
+          html += '<div><big><big>' + myOrder.Zip + '</big></big></div>';
+          html += '</big></big>';
+          receiver.innerHTML = html;
+        }
+      }
+      function showPage404() {
+        var html = "";
+        html += '<div class="container">';
+          html += '<div class="row">';
+            html += '<div class="col-md-12">';
+              html += '<div class="error-template">';
+                html += '<h1>Oops!</h1>';
+                html += '<h2>404 Not Found</h2>';
+                html += '<div class="error-details">'
+                    html += 'Sorry, an error has occured, Requested page not found!';
+                html += '</div>';
+                html += '<div class="error-actions">';
+                    html += '<a href="http://www.jquery2dotnet.com" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>';
+                    html += 'Take Me Home </a><a href="http://www.jquery2dotnet.com" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>';
+                html += '</div>';
+              html += '</div>';
+            html += '</div>';
+          html += '</div>';
+        html += '</div>';
+      }
+
+      window.addEventListener('load', (event) => {
+        // GET GlobalVars
+        // -- GET Order Info
+        // ---- Get Sales Info
+        fetch(sheetURL + '/tabs/GlobalVars')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          globalVars = myJson;
+
+          if (id == null || id == "" || id == 0) {
+            init();
+          } else {
+            fetch(sheetURL + '/tabs/Orders/OrderId/*' + id + '*')
+            .then((response) => { return response.json(); })
+            .then((myJson) => {
+              myOrder = myJson[0];
+
+              fetch(sheetURL + '/tabs/Sales/OrderId/*' + id + '*')
+              .then((response) => { return response.json(); })
+              .then((myJson) => {
+                arrSales = myJson;
+
+                init();
+              })
+              .catch((error) => { console.log(error); });
+            })
+            .catch((error) => { console.log(error); });
+          }
+        })
+        .catch((error) => { console.log(error); });
+      });
+    </script>
+
+  </body>
+</html>

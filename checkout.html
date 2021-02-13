@@ -463,7 +463,7 @@
           html += '<li class="active">';
           html += '<div class="text-success" style="margin-top:10px;">ชำระเงินเสร็จสมบูรณ์</div>';
           html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.PaymentDate + " " + dataOrder.PaymentTime.slice(0,5) + ' น.</small></div>';
-          html += '<div style="margin-top:5px;"><a href="https://i.imgur.com/5hGMMJz.jpg" class="btn btn-outline-secondary btn-sm" role="button" target="_blank">พิมพ์ใบเสร็จ</a></div>';
+          html += '<div style="margin-top:5px;"><a href="' + manUtils.getGlobalVars('invoiceURL') + '?id=' + dataOrder.OrderId + '" class="btn btn-secondary btn-sm" role="button" target="_blank">พิมพ์ใบเสร็จ</a></div>';
         }
         html += '</li>';
         // STEP 4 -- Packaging & Delivery
@@ -477,7 +477,7 @@
             html += '<div class="text-success" style="margin-top:10px;">จัดส่งพัสดุแล้ว</div>';
             html += '<div class="text-muted"><small>';
               html += 'เลขติดตามพัสดุ ' + dataOrder.TrackingCode;
-              html += '<div style="margin-top:5px;"><a href="' + getTrackingLink(dataOrder.Transporter) +'" class="btn btn-outline-secondary btn-sm" role="button" target="_blank">ติดตามพัสดุ</a></div>';
+              html += '<div style="margin-top:5px;"><a href="' + getTrackingLink(dataOrder.Transporter) +'" class="btn btn-secondary btn-sm" role="button" target="_blank">ติดตามพัสดุ</a></div>';
             html += '</small></div>';
           }
         } else {
