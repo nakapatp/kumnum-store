@@ -50,7 +50,7 @@ var manUtils = (function() {
   obj.formatPhoneNumber = function(num) {
     var str = num.replace('-', '');
     return str.slice(0,3) + '-' + str.slice(3, 6) + '-' + str.slice(6, 10);
-  }
+  };
   obj.generateRandomLetter = function () {
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
