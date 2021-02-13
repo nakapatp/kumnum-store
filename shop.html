@@ -495,7 +495,7 @@
       var orderId = generateOrderId(shopId);
       var d = new Date();
       var currentDate = d.toISOString().slice(0, 10);
-      var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,19);
+      var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,16);
       const data = {
         OrderId: orderId,
         OrderStatus: 'ป้อนข้อมูลจัดส่ง',
