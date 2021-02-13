@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>ร้านหนังสือ "คำนำ" - ภาพคิวอาร์โค้ด</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/pricing.css" rel="stylesheet">
+
+    <style>
+      #qrcode {
+        width:160px;
+        height:160px;
+        margin-top:15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">QR Code</h1>
+      <p class="lead" id="qr-header"></p>
+      <div class="media">
+        <div id="qrcode"></div>
+        <div class="media-body text-left" style="margin-left: 120px; margin-top:20px;">
+          <h5 class="mt-0 text-primary" id="qr-title"></h5>
+          <span id="qr-text"></span>
+          <div id="sale-type"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">&copy; 2021 "คำนำ"</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="index.html"><i class="fa fa-home"></i> หน้าแรก</a></li>
+        <li class="list-inline-item"><a href="shop.html"><i class="fa fa-book"></i> หน้าร้าน</a></li>
+      </ul>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <script src="js/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/holder.min.js"></script>
+    <script>
+      Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+      });
+    </script>
+
+    <!-- manUtils JavaScript -->
+    <script src="js/manutils.js"></script>
+    <!-- QR Code JavaScript -->
+    <script src="js/qrcode.min.js"></script>
+
+    <!-- Dashboard JavaScript -->
+    <script type="text/javascript">
+      var sheetURL = 'https://sheet.best/api/sheets/5acb1568-5ff2-4717-81dc-23a4093f6cbc';
+      var globalVars = null;
+      var author = null;
+      var product = null;
+
+      function init() {
+        var url = manUtils.getGlobalVars('websiteURL');
+
+        if (author && product) {
+          url = manUtils.getGlobalVars('shopURL') + '?id=' + author.ContactId + '&book=' + product.ProductId;
+          document.getElementById('qr-header').innerHTML = 'สั่งซื้อหนังสือของ <mark>' + manUtils.formatName(author.Title, author.FirstName, author.LastName) + '</mark>';
+          document.getElementById('qr-title').innerHTML = product.Title;
+          document.getElementById('qr-text').innerHTML = product.Brief;
+
+          if (product.Available == 'False')
+            document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-danger">งดจำหน่าย</span></big></p>';
+          else if (product.PrivateSale == 'True')
+            document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-warning">ขายเฉพาะบุคคล</span></big></p>';
+          else document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-success">ขายเป็นสาธารณะ</span></big></p>';
+
+        } else if (author) {
+          url = manUtils.getGlobalVars('shopURL') + '?id=' + author.ContactId;
+          document.getElementById('qr-header').innerHTML = 'สำหรับสั่งซื้อหนังสือจาก...';
+          document.getElementById('qr-title').innerHTML = 'ร้านหนังสือของ <mark>' + manUtils.formatName(author.Title, author.FirstName, author.LastName) + '</mark>';
+          document.getElementById('qr-text').innerHTML = author.Biography;
+        } else {
+          document.getElementById('qr-title').innerHTML = 'ร้านหนังสือ "คำนำ"';
+          document.getElementById('qr-text').innerHTML = manUtils.getGlobalVars('loremLong');
+        }
+        console.log(url);
+        var qrcode = new QRCode("qrcode");
+        qrcode.makeCode(url);
+      }
+
+      window.addEventListener('load', (event) => {
+        // GET GlobalVars
+        // -- GET Author Info.
+        // ---- GET Product Info.
+        fetch(sheetURL + '/tabs/GlobalVars')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          globalVars = myJson;
+
+          fetch(sheetURL + '/tabs/Contacts/ContactId/*' + manUtils.getParam('id') + '*')
+          .then((response) => { return response.json(); })
+          .then((myJson) => {
+            author = myJson[0];
+
+            fetch(sheetURL + '/tabs/Products/ProductId/*' + manUtils.getParam('book') + '*')
+            .then((response) => { return response.json(); })
+            .then((myJson) => {
+              product = myJson[0];
+
+              init();
+            })
+            .catch((error) => { console.log(error); });
+          })
+          .catch((error) => { console.log(error); });
+        })
+        .catch((error) => { console.log(error); });
+      });
+
+    </script>
+  </body>
+</html>
