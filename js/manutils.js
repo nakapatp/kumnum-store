@@ -47,6 +47,10 @@ var manUtils = (function() {
     var str = Number(number).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     return (fixed == 0) ? str.slice(0,-3) : str;
   };
+  obj.formatPhoneNumber = function(num) {
+    var str = num.replace('-', '');
+    return str.slice(0,3) + '-' + str.slice(3, 6) + '-' + str.slice(6, 10);
+  }
   obj.generateRandomLetter = function () {
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
