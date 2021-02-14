@@ -417,14 +417,14 @@
               Available: arrProducts[i].Available,
               PrivateSale: arrProducts[i].PrivateSale,
             }
-            if (n % 4 == 0) {
+            if (n % 3 == 0) {
               var div = document.createElement('div');
               div.className = "row";
-              div.id = "row-book-" + Math.floor(n/4);
+              div.id = "row-book-" + Math.floor(n/3);
               panelBook.appendChild(div);
               spawnBook(div, data);
             } else {
-              var div = document.getElementById('row-book-' + Math.floor(n/4));
+              var div = document.getElementById('row-book-' + Math.floor(n/3));
               spawnBook(div, data);
             }
             n++;
@@ -804,7 +804,7 @@
 
     function spawnBook(parent, data) {
       var div = document.createElement('div');
-      div.className = 'col-md-3';
+      div.className = 'col-md-4';
       var html = '';
 
       //html += '<div class="col-md-4 col-xs-6">';

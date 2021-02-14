@@ -32,8 +32,8 @@
   </head>
 
   <body>
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-4">QR Code</h1>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" id="container-main">
+      <h1 class="display-4">คิวอาร์โค้ด</h1>
       <p class="lead" id="qr-header"></p>
       <div class="media">
         <div id="qrcode"></div>
@@ -44,8 +44,10 @@
         </div>
       </div>
     </div>
+    <div class="container" id="container-404">
+    </div>
 
-    <footer class="my-5 pt-5 text-muted text-center text-small">
+    <footer class="my-5 pt-5 text-muted text-center text-small" id="footer-main">
       <p class="mb-1">&copy; 2021 "คำนำ"</p>
       <ul class="list-inline">
         <li class="list-inline-item"><a href="index.html"><i class="fa fa-home"></i> หน้าแรก</a></li>
@@ -81,6 +83,16 @@
       var globalVars = null;
       var author = null;
       var product = null;
+
+      function showPage404() {
+        document.getElementById('container-main').style.display = 'none';
+        document.getElementById('footer-main').style.display = 'none';
+        document.getElementById('container-404').innerHTML = manUtils.getHTML404(
+          'ขออภัย!',
+          'เราไม่พบ QR Code ที่คุณกำลังมองหา',
+          'กรุณาติดต่อผู้เขียน/เจ้าของลิขสิทธิ์ของหนังสือที่คุณสนใจ เพื่อทราบลิงก์สั่งซื้อที่ถูกต้อง'
+        );
+      }
 
       function init() {
         var url = manUtils.getGlobalVars('websiteURL');
@@ -125,14 +137,18 @@
           .then((myJson) => {
             author = myJson[0];
 
-            fetch(sheetURL + '/tabs/Products/ProductId/*' + manUtils.getParam('book') + '*')
-            .then((response) => { return response.json(); })
-            .then((myJson) => {
-              product = myJson[0];
+            if (author == null) {
+              showPage404();
+            } else {
+              fetch(sheetURL + '/tabs/Products/ProductId/*' + manUtils.getParam('book') + '*')
+              .then((response) => { return response.json(); })
+              .then((myJson) => {
+                product = myJson[0];
 
-              init();
-            })
-            .catch((error) => { console.log(error); });
+                init();
+              })
+              .catch((error) => { console.log(error); });
+            }
           })
           .catch((error) => { console.log(error); });
         })
