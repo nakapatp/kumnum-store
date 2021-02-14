@@ -94,7 +94,7 @@
             document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-danger">งดจำหน่าย</span></big></p>';
           else if (product.PrivateSale == 'True')
             document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-warning">ขายเฉพาะบุคคล</span></big></p>';
-          else document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-success">ขายเป็นสาธารณะ</span></big></p>';
+          else document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-success">ขายแบบสาธารณะ</span></big></p>';
 
         } else if (author) {
           url = manUtils.getGlobalVars('shopURL') + '?id=' + author.ContactId;
