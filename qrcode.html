@@ -99,7 +99,7 @@
 
         if (author && product) {
           url = manUtils.getGlobalVars('shopURL') + '?id=' + author.ContactId + '&book=' + product.ProductId;
-          document.getElementById('qr-header').innerHTML = 'สั่งซื้อหนังสือของ <mark>' + manUtils.formatName(author.Title, author.FirstName, author.LastName) + '</mark>';
+          document.getElementById('qr-header').innerHTML = 'สำหรับสั่งซื้อหนังสือของ <mark>' + manUtils.formatName(author.Title, author.FirstName, author.LastName) + '</mark>';
           document.getElementById('qr-title').innerHTML = product.Title;
           document.getElementById('qr-text').innerHTML = product.Brief;
 
