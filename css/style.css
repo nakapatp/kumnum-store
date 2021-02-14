@@ -1776,7 +1776,7 @@ ol.numbers {
 }
 
 #flexslider-hero img {
-  min-height: 400px;
+  min-height: 536px;
 }
 
 #flexslider-hero .img-holder {
@@ -1797,7 +1797,6 @@ ol.numbers {
   background-image: url(../img/slider/3.jpg);
 }
 #flexslider-hero .img-holder.img-4 {
-  height: 400px;
   background-image: url(../img/slider/4.jpg);
 }
 
