@@ -36,7 +36,7 @@
             <span class="input-group-text">ID</span>
           </div>
           <input type="text" class="form-control" placeholder="กรอกเลขที่คำสั่งซื้อ" id="input-order-id">
-          <a class="btn btn-primary" role="button" onclick="searchOrderId()">ค้นหา</a>
+          <a class="btn btn-color" role="button" onclick="searchOrderId()">ค้นหา</a>
         </div>
       </div>
       <!-- Progress of Checkout Process Step -->
@@ -675,7 +675,7 @@
 
           var orderId = manUtils.getParam('id');
 
-          if (orderId == null || orderId == "" || orderId == "undefined") {
+          if (orderId == null || orderId == "" || orderId == undefined) {
             document.getElementById('search-order').style.display = 'block';
             document.getElementById('order-header').style.display = 'none';
             document.getElementById('order-content').style.display = 'none';
@@ -687,18 +687,25 @@
           .then((myJson) => {
             dataOrder = myJson[0];
 
-            // Get 'Sales' data
-            fetch(sheetURL + '/tabs/Sales/OrderId/*' + orderId + '*')
-            .then((response) => { return response.json(); })
-            .then((myJson) => {
-              dataSales = myJson;
+            if (dataOrder && dataOrder.OrderId == manUtils.getParam('id')) {
+              // Get 'Sales' data
+              fetch(sheetURL + '/tabs/Sales/OrderId/*' + orderId + '*')
+              .then((response) => { return response.json(); })
+              .then((myJson) => {
+                dataSales = myJson;
 
-              showOrderInfo();
-              showShippingAddress();
-              showCartItem(dataSales);
-              showPaymentNotification();
-            })
-            .catch((error) => { console.log(error); });
+                showOrderInfo();
+                showShippingAddress();
+                showCartItem(dataSales);
+                showPaymentNotification();
+              })
+              .catch((error) => { console.log(error); });
+            } else {
+              //console.log(dataOrder);
+              document.getElementById('search-order').style.display = 'block';
+              document.getElementById('order-header').style.display = 'none';
+              document.getElementById('order-content').style.display = 'none';
+            }
           })
           .catch((error) => { console.log(error); });
         })
