@@ -70,7 +70,7 @@
 
           <!-- Payment -->
           <div id="payment-panel" style="display:none">
-            <hr id="payment-method">
+            <p id="payment-method"></p>
             <h4 class="mb-3"><span class="text-secondary"><i class="fa fa-money"></i> วิธีการชำระเงิน</span></h4>
             <img class="mb-3" src="" alt="Promtpay QR Code" style="width:100%" id="bank-account-qr">
             <h5 class="mb-3">1.โอนเงินพร้อมเพย์ QR Code</h5>
@@ -79,13 +79,32 @@
               เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>
             </p>
             <hr>
-            <h5 class="mb-3">2.แจ้งยืนยันการชำระเงิน</h5>
+            <p><h5 class="mb-3">2.แจ้งยืนยันการชำระเงิน</h5></p>
             <p>เมื่อชำระเงินแล้ว กรุณาแจ้ง<mark>วัน-เวลาที่ทำการโอน</mark>อันปรากฏอยู่บนสลิปโอน</p>
             <form class="card p-2" id="form-payment">
               <div class="input-group">
                 <input type="text" class="form-control" name="datepicker" id="datepicker">
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-success"><big>แจ้งการโอน</big></button>
+                  <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalTransfer"><big>แจ้งการโอน</big></button>
+                </div>
+                <!-- Modal -->
+                <div id="modalTransfer" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-sm">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="modal-title"></h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>แจ้งการโอนแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             </form>
@@ -94,7 +113,7 @@
                 <div id="notify-rejected" style="display:none">
                   <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle fa-lg"></i> ไม่พบรายการโอนเงิน ตามวัน-เวลาที่ท่านแจ้งเอาไว้</div>
                   <mark>กรุณาตรวจสอบการโอนของท่าน</mark> และแจ้งวัน-เวลาที่ถูกต้องอีกครั้ง
-                  หากต้องการติดต่อเจ้าหน้าที่ โทร.012-345-6789
+                  หากต้องการติดต่อเจ้าหน้าที่ โทร.<span id="callcenter-no"></span>
                 </div>
                 <div id="notify-wait" style="display:none">
                   <div class="alert alert-success" role="alert"><i class="fa fa-check-circle fa-lg"></i> แจ้งการโอนแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.</div>
@@ -405,6 +424,7 @@
         // OrderId
         var hOrderId = document.getElementById('order-id');
         hOrderId.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
+        document.getElementById('modal-title').innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
 
         var shopLink = document.getElementById('shop-link');
         shopLink.href = manUtils.getGlobalVars('shopURL');
@@ -495,6 +515,7 @@
         document.getElementById('bank-account-owner').innerHTML = manUtils.getGlobalVars('bankAccountOwner');
         document.getElementById('bank-account-number').innerHTML = manUtils.getGlobalVars('bankAccountNumber');
         document.getElementById('bank-account-name').innerHTML = manUtils.getGlobalVars('bankAccountName');
+        document.getElementById('callcenter-no').innerHTML = manUtils.getGlobalVars('callcenterNumber');
 
         var formSubmit = document.getElementById('form-payment');
         formSubmit.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId)

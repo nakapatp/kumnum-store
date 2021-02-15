@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="css/magnific-popup.css" />
   <link rel="stylesheet" href="css/font-icons.css" />
   <link rel="stylesheet" href="css/sliders.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/info.css" />
   <link rel="stylesheet" href="css/animate.min.css" />
 
   <!-- Favicons -->
@@ -109,13 +109,22 @@
     </header> <!-- end navigation -->
 
     <!-- About us -->
+    <section class="section-wrap nopadding">
+      <div class="container">
+        <div class="entry-slider">
+          <div class="flexslider" id="flexslider-hero">
+            <ul class="slides clearfix">
+              <li>
+                <img src="" alt="" id="hero-img">
+                <div class="img-holder" id="hero-holder"></div>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- end slider -->
+      </div>
+    </section> <!-- end hero slider -->
     <section class="section-wrap about-us pb-60">
       <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <img src="img/about_us.jpg" alt="">
-          </div>
-        </div>
         <div class="row">
           <div class="col-sm-8">
             <h4 class="about-intro uppercase" id="info-header"></h4>
@@ -332,6 +341,7 @@
       // Footer Link
       document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
 
+      var holder = document.getElementById('hero-holder');
       var header = document.getElementById('info-header');
       var detail = document.getElementById('info-detail');
       var stat1Val = document.getElementById('stat-1-value');
@@ -346,6 +356,7 @@
 
       switch (id) {
         case 'sell':
+          holder.className = 'img-holder img-2';
           header.innerHTML = 'ขายหนังสือ';
           detail.innerHTML = manUtils.getGlobalVars('loremLong');
 
@@ -360,6 +371,7 @@
           break;
 
         case 'produce':
+          holder.className = 'img-holder img-3';
           header.innerHTML = 'ผลิตหนังสือ';
           detail.innerHTML = manUtils.getGlobalVars('loremLong');
 
@@ -374,6 +386,7 @@
           break;
 
         case 'contact':
+          holder.className = 'img-holder img-4';
           header.innerHTML = 'ติดต่อเรา';
           detail.innerHTML = manUtils.getGlobalVars('loremLong');
 
