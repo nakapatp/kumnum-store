@@ -1788,16 +1788,16 @@ ol.numbers {
   background-position: center;
 }
 #flexslider-hero .img-holder.img-1 {
-  background-image: url(../img/slider/buy.jpg);
+  background-image: url(../img/slider/buy.png);
 }
 #flexslider-hero .img-holder.img-2 {
-  background-image: url(../img/slider/sell.jpg);
+  background-image: url(../img/slider/sell.png);
 }
 #flexslider-hero .img-holder.img-3 {
-  background-image: url(../img/slider/produce.jpg);
+  background-image: url(../img/slider/produce.png);
 }
 #flexslider-hero .img-holder.img-4 {
-  background-image: url(../img/slider/contact.jpg);
+  background-image: url(../img/slider/contact.png);
 }
 
 /*-------------------------------------------------------*/
