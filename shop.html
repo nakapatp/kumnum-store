@@ -734,12 +734,12 @@
 
         var title1 = document.getElementById('author-name');
         var html = manUtils.formatName(author.Title, author.FirstName, author.LastName);
-        html += '<div><small>';
+        html += '<div><small><small>';
         html += author.Biography;
         html += '<br/><span><i class="fa fa-envelope"></i>&nbsp;&nbsp;' + author.Email + '</span>';
         if (author.LineId)
           html += '<br/><span><i class="fab fa-line"></i>&nbsp;&nbsp;' + author.LineId + '</span>';
-        html += '</small><br><br></div>';
+        html += '</small></small><br><br></div>';
         title1.innerHTML = html;
       }
     }
