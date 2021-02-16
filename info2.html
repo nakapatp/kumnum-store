@@ -145,102 +145,6 @@
     </section>
 
     <!-- Divider -->
-    <div class="container" id="hr-member">
-      <hr>
-    </div>
-
-    <!-- Our Team -->
-    <section class="section-wrap our-team pb-50" id="section-member">
-      <div class="container">
-
-        <div class="row heading-row">
-          <div class="col-md-12 text-center">
-            <h2 class="heading uppercase">ทีมงาน</h2>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-3 col-xs-6 col-xxs-12 team-wrap mb-40 animated-from-left">
-            <div class="team-member">
-              <div class="team-img">
-                <img src="img/team/team_1.jpg" alt="">
-              </div>
-              <h4 class="team-title uppercase">Monica Bing</h4>
-              <span>CEO of Company</span>
-              <div class="team-details">
-                <p>A-ha Shop is a very slick and clean e-commerce template with endless possibilities.</p>
-                <div class="social-icons rounded">
-                  <a href="#"><i class="fa fa-facebook"></i></a>
-                  <a href="#"><i class="fa fa-twitter"></i></a>
-                  <a href="#"><i class="fa fa-google-plus"></i></a>
-                  <a href="#"><i class="fa fa-envelope"></i></a>
-                </div>
-              </div>
-            </div>
-          </div> <!-- end team member -->
-
-          <div class="col-md-3 col-xs-6 col-xxs-12 team-wrap mb-40 animated-from-left">
-            <div class="team-member">
-              <div class="team-img">
-                <img src="img/team/team_2.jpg" alt="">
-              </div>
-              <h4 class="team-title uppercase">David Geller</h4>
-              <span>Art Director</span>
-              <div class="team-details">
-                <p>A-ha Shop is a very slick and clean e-commerce template with endless possibilities.</p>
-                <div class="social-icons rounded">
-                  <a href="#"><i class="fa fa-facebook"></i></a>
-                  <a href="#"><i class="fa fa-twitter"></i></a>
-                  <a href="#"><i class="fa fa-google-plus"></i></a>
-                  <a href="#"><i class="fa fa-envelope"></i></a>
-                </div>
-              </div>
-            </div>
-          </div> <!-- end team member -->
-
-          <div class="col-md-3 col-xs-6 col-xxs-12 team-wrap mb-40 animated-from-left">
-            <div class="team-member">
-              <div class="team-img">
-                <img src="img/team/team_3.jpg" alt="">
-              </div>
-              <h4 class="team-title uppercase">Katerine Winslow</h4>
-              <span>HR Manager</span>
-              <div class="team-details">
-                <p>A-ha Shop is a very slick and clean e-commerce template with endless possibilities.</p>
-                <div class="social-icons rounded">
-                  <a href="#"><i class="fa fa-facebook"></i></a>
-                  <a href="#"><i class="fa fa-twitter"></i></a>
-                  <a href="#"><i class="fa fa-google-plus"></i></a>
-                  <a href="#"><i class="fa fa-envelope"></i></a>
-                </div>
-              </div>
-            </div>
-          </div> <!-- end team member -->
-
-          <div class="col-md-3 col-xs-6 col-xxs-12 team-wrap mb-40 animated-from-left">
-            <div class="team-member">
-              <div class="team-img">
-                <img src="img/team/team_4.jpg" alt="">
-              </div>
-              <h4 class="team-title uppercase">Joey Tribbiani</h4>
-              <span>Lead Designer</span>
-              <div class="team-details">
-                <p>A-ha Shop is a very slick and clean e-commerce template with endless possibilities.</p>
-                <div class="social-icons rounded">
-                  <a href="#"><i class="fa fa-facebook"></i></a>
-                  <a href="#"><i class="fa fa-twitter"></i></a>
-                  <a href="#"><i class="fa fa-google-plus"></i></a>
-                  <a href="#"><i class="fa fa-envelope"></i></a>
-                </div>
-              </div>
-            </div>
-          </div> <!-- end team member -->
-
-        </div>
-      </div>
-    </section> <!-- end our team -->
-
-    <!-- Divider -->
     <div class="container">
       <hr>
     </div>
@@ -370,8 +274,8 @@
       var stat2Val = document.getElementById('stat-2-value');
       var stat2Text = document.getElementById('stat-2-text');
 
-      var secTeam = document.getElementById('section-member');
-      var hrMember = document.getElementById('hr-member');
+      //var secTeam = document.getElementById('section-member');
+      //var hrMember = document.getElementById('hr-member');
 
       var panelTestimonial = document.getElementById('owl-testimonials');
       var hrTestimonial = document.getElementById('hr-testimonial');
@@ -388,31 +292,6 @@
           stat2Val.innerHTML = manUtils.formatNumber(198, 0);
           stat2Text.innerHTML = 'นักเขียน';
 
-          /*
-          var text = 'คำนำ ทำให้เห็นว่าผลงานการผลิตที่ดีในรูปแบบสื่อสิ่งพิมพ์และราคาสมเหตุสมผลเป็นอย่างไร คำนำ พิสูจน์ด้วยผลงานการออกแบบและการจัดพิมพ์ในรูปแบบของหนังสือ ทำให้เกิดคุณค่าในทางวิชาการ และต่อยอดสู่ระบบร้านหนังสือที่กำลังพัฒนาด้วยความตั้งใจ';
-          spawnTestimonial(panelTestimonial, text, 'ผศ.สุรศักดิ์ บุญอาจ');
-
-          var text = 'ร้านหนังสือคำนำ ศูนย์รวมหนังสือวิชาการคุณภาพ';
-          spawnTestimonial(panelTestimonial, text, 'ว่าที่ร้อยตรี ณัฐวุฒิ คล้ายสุวรรณ');
-
-          var text = 'คำนำเป็นสำนักพิมพ์ที่จัดทำหนังสือที่มีคุณภาพเพื่อสังคมและชุมชน กระผมในฐานผู้เขียนขอแนะนำให้ช่วยสนับสนุนหนังสือที่มีคุณภาพครับ';
-          spawnTestimonial(panelTestimonial, text, 'ดร.ทิวากร  เหล่าลือชา');
-
-          var text = 'ในเรื่องของการทำหนังสือ หรือตีพิมพ์หนังสือทางด้านวิชาการ หรือเอกสารการสอน เป็นเรื่องสำคัญของอาจารย์ที่สอนในระดับมหาลัย หรือแม้แต่ระดับประถมศึกษาและมัธยมศึกษา เป็นสิ่งสำคัญอย่างยิ่งที่ต้องเขียนตำราการสอน สำนักพิมพ์คำนำ เป็นสำนักพิมพ์ที่ข้าพเจ้าได้ใช้บริการในการออกแบบเล่ม พร้อมกับทำหลายสิ่งที่เป็นเรื่องของการจัดทำหนังสือ จึงเห็นได้ว่าเป็นสำนักพิมพ์หนึ่งที่ตอบโจทย์ของการตีพิมพ์หนังสือ และเรื่องการบริการในการออกแบบและแนะนำ ดังนั้นแล้วจึงเป็นหนทางของคณาจารย์ที่จะผลิตหนังสือทางด้านวิชาการเป็นอย่างดีี';
-          spawnTestimonial(panelTestimonial, text, 'ดร.พูนศักดิ์ กมล');
-
-          var text = 'ประทับใจสำนักพิมพ์คำนำครับ ให้บริการดีมาก ทำหนังสืออกมาได้สวยงามตรงตามที่ต้องการ ที่สำคัญราคาจับต้องได้ครับ';
-          spawnTestimonial(panelTestimonial, text, 'ศูนย์ภาษาญี่ปุ่นอิคคิว');
-          */
-
-          if (secTeam && hrMember) {
-            manUtils.removeAllChildNodes(secTeam);
-            secTeam.remove();
-            manUtils.removeAllChildNodes(hrMember);
-            hrMember.remove();
-          }
-          //console.log('sell');
-
           break;
 
         case 'produce':
@@ -426,8 +305,6 @@
           stat2Val.innerHTML = manUtils.formatNumber(2, 0);
           stat2Text.innerHTML = 'ระบบการพิมพ์';
 
-          if (secTeam) secTeam.remove();
-
           break;
 
         case 'contact':
@@ -440,9 +317,6 @@
 
           stat2Val.innerHTML = manUtils.formatNumber(8, 0);
           stat2Text.innerHTML = 'ทีมงานหลัก';
-
-          //if (panelTestimonial) panelTestimonial.remove();
-          //if (hrTestimonial) panelTestimonial.remove();
 
           break;
 
