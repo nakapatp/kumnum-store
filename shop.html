@@ -158,7 +158,8 @@
           <nav class="woocommerce-MyAccount-navigation">
             <div id="author-profile">
               <img src="" alt="" width="150" id="author-img">
-              <h5 style="color:#F58220; margin-top:5px;" id="author-name"></h5></p>
+              <h5 style="color:#F58220; margin-top:10px; margin-bottom:5px;" id="author-name"></h5>
+              <p style="color:#444444; line-height:1.2" id="author-bio"></p>
             </div>
             <h5>ค้นหาหนังสือ <span class="text-muted"><small>(coming soon)</small></span></h5>
             <form method="get" id="form-filter">
@@ -733,14 +734,18 @@
         img.src = author.ImageProfile;
 
         var title1 = document.getElementById('author-name');
-        var html = manUtils.formatName(author.Title, author.FirstName, author.LastName);
-        html += '<div><small><small>';
+        title1.innerHTML = manUtils.formatName(author.Title, author.FirstName, author.LastName);
+
+        var bio = document.getElementById('author-bio');
+        //var html = manUtils.formatName(author.Title, author.FirstName, author.LastName);
+        //html += '<div><small><small>';
+        var html = "";
         html += author.Biography;
-        html += '<br/><span><i class="fa fa-envelope"></i>&nbsp;&nbsp;' + author.Email + '</span>';
+        html += '<br/><br/><span><i class="fa fa-envelope"></i>&nbsp;&nbsp;' + author.Email + '</span>';
         if (author.LineId)
           html += '<br/><span><i class="fab fa-line"></i>&nbsp;&nbsp;' + author.LineId + '</span>';
-        html += '</small></small><br><br></div>';
-        title1.innerHTML = html;
+        html += '<br><br>';
+        bio.innerHTML = html;
       }
     }
 
