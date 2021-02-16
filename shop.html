@@ -110,7 +110,7 @@
                     <li><a href="index.html">หน้าแรก</a></li>
                     <li class="dropdown"><a href="shop.html">ซื้อหนังสือ</a></li>
                     <li class="dropdown"><a href="info.html?id=sell">ขายหนังสือ</a></li>
-                    <li class="dropdown"><a href="info.html?id=produce">ผลิตหนังสือ</a></li>
+                    <li class="dropdown"><a href="info2.html?id=produce">ผลิตหนังสือ</a></li>
                     <li class="dropdown"><a href="info.html?id=contact">ติดต่อเรา</a></li>
                     <li class="dropdown"><a href="checkout.html">ติดตามคำสั่งซื้อ</a></li>
                   </ul> <!-- end menu -->
@@ -156,7 +156,7 @@
       <div class="container">
         <div class="woocommerce">
           <nav class="woocommerce-MyAccount-navigation">
-            <div>
+            <div id="author-profile">
               <img src="" alt="" width="150" id="author-img">
               <h5 style="color:#F58220; margin-top:5px;" id="author-name"></h5></p>
             </div>
@@ -706,6 +706,10 @@
         var hShopTitle = document.getElementById('section-shop-title');
         manUtils.removeAllChildNodes(hShopTitle);
         hShopTitle.remove();
+
+        var authorProfile = document.getElementById('author-profile');
+        manUtils.removeAllChildNodes(authorProfile);
+        authorProfile.remove();
 
         var filterHead = document.getElementById('filter-header');
         filterHead.innerHTML = 'หมวดหมู่หนังสือ <span class="text-muted"><small>(coming soon)</small></span>';
