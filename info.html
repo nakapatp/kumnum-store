@@ -259,8 +259,8 @@
           <div class="item">
             <div class="testimonial">
               <p class="testimonial-text">
-                คำนำ ทำให้เห็นว่าผลงานการผลิตที่ดีในรูปแบบสื่อสิ่งพิมพ์และราคาสมเหตุสมผลเป็นอย่างไร<br>
-                คำนำ พิสูจน์ด้วยผลงานการออกแบบและการจัดพิมพ์ในรูปแบบของหนังสือ ทำให้เกิดคุณค่าในทางวิชาการ<br>
+                "คำนำ" ทำให้เห็นว่าผลงานการผลิตที่ดีในรูปแบบสื่อสิ่งพิมพ์และราคาสมเหตุสมผลเป็นอย่างไร<br>
+                "คำนำ" พิสูจน์ด้วยผลงานการออกแบบและการจัดพิมพ์ในรูปแบบของหนังสือ ทำให้เกิดคุณค่าในทางวิชาการ<br>
                 และต่อยอดสู่ระบบร้านหนังสือที่กำลังพัฒนาด้วยความตั้งใจ
               </p>
               <span class="uppercase">ผศ.สุรศักดิ์ บุญอาจ</span>
@@ -277,7 +277,7 @@
           <div class="item">
             <div class="testimonial">
               <p class="testimonial-text">
-                คำนำเป็นสำนักพิมพ์ที่จัดทำหนังสือที่มีคุณภาพเพื่อสังคมและชุมชน<br>
+                "คำนำ" เป็นสำนักพิมพ์ที่จัดทำหนังสือที่มีคุณภาพเพื่อสังคมและชุมชน<br>
                 กระผมในฐานผู้เขียนขอแนะนำให้ช่วยสนับสนุนหนังสือที่มีคุณภาพครับ
               </p>
               <span class="uppercase">ดร.ทิวากร  เหล่าลือชา</span>
@@ -362,6 +362,9 @@
            ? manUtils.getParam('id')
            : 'contact';
 
+    var numSales = 20000;
+    var numContacts = 200;
+
     function init() {
       // Footer Link
       document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
@@ -386,10 +389,10 @@
           header.innerHTML = 'ขายหนังสือ';
           detail.innerHTML = manUtils.getGlobalVars('loremLong');
 
-          stat1Val.innerHTML = manUtils.formatNumber(20443, 0);
+          stat1Val.innerHTML = manUtils.formatNumber(numSales, 0);
           stat1Text.innerHTML = 'จำหน่ายแล้ว (เล่ม)';
 
-          stat2Val.innerHTML = manUtils.formatNumber(198, 0);
+          stat2Val.innerHTML = manUtils.formatNumber(numContacts, 0);
           stat2Text.innerHTML = 'นักเขียน';
 
           break;
@@ -442,13 +445,23 @@
 
     window.addEventListener('load', (event) => {
       // GET GlobalVars
-      // -- init()
+      // ---- GET Number of Contacts
       fetch(sheetURL + '/tabs/GlobalVars')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         globalVars = myJson;
 
-        init();
+        fetch(sheetURL + '/tabs/Contacts')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          for (var i in myJson) {
+            numSales += Number(myJson[i].SaleCount);
+            numContacts++;
+          }
+
+          init();
+        })
+        .catch((error) => { console.log(error); });
       })
       .catch((error) => { console.log(error); });
     });
