@@ -103,7 +103,7 @@
           </tbody>
         </table>
       </div>
-      <!-- <hr style="border-top: 1px dashed"> -->
+      <!-- <hr style="border-top: 1px dashed">
       <div class="row" style="margin-top:20px">
         <p><h2 id="spec-header"></h2>
         <p style="margin-left:20px" id="spec-brief"></p>
@@ -121,7 +121,7 @@
 
           </tbody>
         </table>
-      </div>
+      </div> - end spec -->
     </div>
     <div class="container" id="container-404">
 
@@ -196,7 +196,8 @@
           html += '</big></big>';
           receiver.innerHTML = html;
 
-          // Item Spec.
+
+          /* Item Spec.
           var tBodySpec = document.getElementById('body-spec');
           for (var i in arrSales) {
             var row = document.createElement('tr');
@@ -230,8 +231,22 @@
           h.style = "margin-left:20px; margin-top:250px";
           h.innerHTML = 'เลขที่คำสั่งซื้อ ' + myOrder.OrderId;
           document.getElementById('spec-brief').innerHTML = 'ผู้สั่งซื้อ: ' + myOrder.FirstName + ' ' + myOrder.LastName + ' โทร. ' + manUtils.formatPhoneNumber(myOrder.Phone);
+          */
         }
       }
+
+      function formatSpec(obj) {
+        var str = "";
+        str += 'ขนาด: ' + obj.Size + '<br>';
+        str += 'หนา: ' + obj.Pages + ' หน้า<br>';
+        str += 'พิมพ์: ' + obj.Printing + '<br>';
+        str += 'กระดาษ: ' + obj.Paper + '<br>';
+        str += 'เข้าเล่ม: ' + obj.Binding + '<br>';
+        str += 'พิเศษ: ' + obj.Special + '<br>';
+        str += 'ระบบการพิมพ์: ' + obj.Production;
+        return str;
+      }
+
       function showPage404() {
         document.getElementById('invoice-header').innerHTML = 'ขออภัย!';
         document.getElementById('container-main').style.display = 'none';
@@ -245,7 +260,7 @@
         .then((myJson) => {
           var product = myJson[0];
 
-          document.getElementById(elementId).innerHTML = product.Spec;
+          document.getElementById(elementId).innerHTML = formatSpec(product);
         })
         .catch((error) => { console.log(error); });
       }

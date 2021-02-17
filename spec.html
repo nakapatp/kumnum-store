@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ร้านหนังสือ "คำนำ" - ใบสเปค</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/invoice.css" media="all" />
+
+  </head>
+  <body>
+    <div id="container-main">
+      <div class="row">
+        <p><h2 id="spec-header"></h2>
+        <p style="margin-left:20px" id="spec-brief"></p>
+        <table style="margin-left:20px; margin-top:20px; width:95%;">
+          <thead>
+            <tr>
+              <th class="desc">รายการ</th>
+              <th class="service">สเปคสินค้า</th>
+              <th class="text-right">ราคา</th>
+              <th class="text-right">จำนวน</th>
+              <th class="text-right">รวม</th>
+            </tr>
+          </thead>
+          <tbody id="body-spec">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="container" id="container-404">
+
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- manUtils JavaScript -->
+    <script src="js/manutils.js"></script>
+
+    <!-- Invoice JavaScript -->
+    <script type="text/javascript">
+      const sheetURL = 'https://sheet.best/api/sheets/5acb1568-5ff2-4717-81dc-23a4093f6cbc'; // Production
+      //const sheetURL = 'https://sheet.best/api/sheets/86299b5c-1850-4f51-b969-a44721bfe390'; // Dev
+      var globalVars = null;
+      var myOrder = null;
+      var arrSales = null;
+      var arrProducts = null;
+      var id = manUtils.getParam('id');
+
+
+      function formatSpec(obj) {
+        var str = "";
+        str += 'ขนาด: ' + obj.Size + '<br>';
+        str += 'หนา: ' + obj.Pages + ' หน้า<br>';
+        str += 'พิมพ์: ' + obj.Printing + '<br>';
+        str += 'กระดาษ: ' + obj.Paper + '<br>';
+        str += 'เข้าเล่ม: ' + obj.Binding + '<br>';
+        str += 'พิเศษ: ' + obj.Special + '<br>';
+        str += 'ระบบการพิมพ์: ' + obj.Production;
+        return str;
+      }
+
+      function init() {
+
+        if (myOrder == null) {
+
+        } else {
+          // Item Spec.
+          var tBodySpec = document.getElementById('body-spec');
+          for (var i in arrSales) {
+            var row = document.createElement('tr');
+            var html = ""
+            //html += '<td class="service">' + arrSales[i].ProductId + '</td>';
+            html += '<td class="service">' + arrSales[i].Title + '<br><span class="text-muted">' + arrSales[i].Author + '</span></td>';
+            html += '<td class="desc" id="spec-' + arrSales[i].ProductId + '"></td>';
+            html += '<td class="unit">' + arrSales[i].Price + '</td>';
+            html += '<td class="qty">' + arrSales[i].Amount + '</td>';
+            html += '<td class="total">' + arrSales[i].SubTotal + '</td>';
+            row.innerHTML = html;
+            tBodySpec.appendChild(row);
+          }
+          row = document.createElement('tr');
+          row.innerHTML = '<tr><td colspan="4">รวม</td><td class="total">' + manUtils.formatNumber(myOrder.SubTotal, 2) + '</td></tr>';
+          tBodySpec.appendChild(row);
+          row = document.createElement('tr');
+          row.innerHTML = '<tr><td colspan="4">ค่าจัดส่ง</td><td class="total">' + manUtils.formatNumber(myOrder.ShippingCost, 2) + '</td></tr>';
+          tBodySpec.appendChild(row);
+          row = document.createElement('tr');
+          row.innerHTML = '<tr><td colspan="4" class="grand total"><h4>ยอดโอน</h4></td><td class="grand total"><h4>' + manUtils.formatNumber(myOrder.GrandTotal, 2) + '</h4></td></tr>';
+          tBodySpec.appendChild(row);
+
+          // Update Product Spec.
+          for (var i in arrSales) {
+            setProductSpec(arrSales[i].ProductId, 'spec-' + arrSales[i].ProductId);
+          }
+
+          // Spec. header
+          var h = document.getElementById('spec-header');
+          h.style = "margin-left:20px;";
+          h.innerHTML = 'เลขที่คำสั่งซื้อ ' + myOrder.OrderId;
+          document.getElementById('spec-brief').innerHTML = 'ผู้สั่งซื้อ: ' + myOrder.FirstName + ' ' + myOrder.LastName + ' โทร. ' + manUtils.formatPhoneNumber(myOrder.Phone);
+        }
+      }
+
+      function setProductSpec(id, elementId) {
+        fetch(sheetURL + '/tabs/Products/ProductId/*' + id + '*')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          var product = myJson[0];
+
+          document.getElementById(elementId).innerHTML = formatSpec(product);
+        })
+        .catch((error) => { console.log(error); });
+      }
+
+      window.addEventListener('load', (event) => {
+        // GET GlobalVars
+        // -- GET Order Info
+        // ---- Get Sales Info
+        // ------ Get Products Info.
+        fetch(sheetURL + '/tabs/GlobalVars')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          globalVars = myJson;
+
+          if (id == null || id == "" || id == 0) {
+            init();
+          } else {
+            // Orders
+            fetch(sheetURL + '/tabs/Orders/OrderId/*' + id + '*')
+            .then((response) => { return response.json(); })
+            .then((myJson) => {
+              myOrder = myJson[0];
+
+              // Sales
+              fetch(sheetURL + '/tabs/Sales/OrderId/*' + id + '*')
+              .then((response) => { return response.json(); })
+              .then((myJson) => {
+                arrSales = myJson;
+
+                init();
+              })
+              .catch((error) => { console.log(error); });
+            })
+            .catch((error) => { console.log(error); });
+          }
+        })
+        .catch((error) => { console.log(error); });
+      });
+    </script>
+
+  </body>
+</html>

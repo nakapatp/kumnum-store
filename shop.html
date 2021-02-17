@@ -374,6 +374,19 @@
 
       return html;
     }
+
+    function formatSpec(obj) {
+      var str = "";
+      str += 'ขนาด: ' + obj.Size + '<br>';
+      str += 'หนา: ' + obj.Pages + ' หน้า<br>';
+      str += 'พิมพ์: ' + obj.Printing + '<br>';
+      str += 'กระดาษ: ' + obj.Paper + '<br>';
+      str += 'เข้าเล่ม: ' + obj.Binding + '<br>';
+      str += 'พิเศษ: ' + obj.Special + '<br>';
+      str += 'ระบบการพิมพ์: ' + obj.Production;
+      return str;
+    }
+
     function hasData(productId) {
       for (var i in arrProducts) {
         if (arrProducts[i].ProductId == productId) {
@@ -799,7 +812,7 @@
 
       var text1 = document.getElementById('single-1-text');
       var html = data.Brief;
-      html += ('<br><br>' + data.Spec);
+      html += ('<br><br>' + formatSpec(data));
       html += '<br><h2>' + manUtils.formatNumber(data.Price, 0) + ' บ.' + ((data.Available == 'False') ? ' <span class="badge badge-danger">งดจำหน่าย</span>' : "") + '</h2>';
       html += '<div id="single-current" data-name="' + data.ProductId + '">ในตะกร้ามี ' + getCountOfItem(data.ProductId) + ' เล่ม' + '</div>';
       if (data.Available == 'True') {
