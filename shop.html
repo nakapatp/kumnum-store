@@ -166,7 +166,11 @@
               <input type="search" placeholder="ระบุชื่อหนังสือ/ชื่อผู้เขียน" readonly>
               <button type="submit" class="btn btn-lg" disabled><big>ค้นหา</big></button>
             </form>
-            <p><br><hr></p>
+            <p>
+              <br>
+              <h5 id="teacher-header"></h5>
+              <hr>
+            </p>
             <p>
               <h5 id="filter-header"></h5>
               <ul id="filter-list"></ul>
@@ -712,6 +716,9 @@
         var authorProfile = document.getElementById('author-profile');
         manUtils.removeAllChildNodes(authorProfile);
         authorProfile.remove();
+
+        var teacherHead = document.getElementById('teacher-header');
+        teacherHead.innerHTML = '<a style="color:#F58220" href="teacher.html">ผู้เขียน/ผู้เรียบเรียง</a> <span class="badge badge-secondary">' + manUtils.getGlobalVars('numOfContacts') + '</span>';
 
         var filterHead = document.getElementById('filter-header');
         filterHead.innerHTML = 'หมวดหมู่หนังสือ <span class="text-muted"><small>(coming soon)</small></span>';
