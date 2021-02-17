@@ -81,24 +81,24 @@
             </p>
             <hr>
             <p><h5 class="mb-3">2.แจ้งยืนยันการชำระเงิน</h5></p>
-            <p>เมื่อชำระเงินแล้ว กรุณากดปุ่ม "แจ้งการโอน"
+            <p>เมื่อชำระเงินแล้ว กรุณากดปุ่ม "แจ้งการชำระเงิน"
+            <!--
             <form class="card p-2" id="form-payment">
               <div class="input-group">
                 <input type="text" class="form-control" name="datepicker" id="datepicker">
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalTransfer"><big>แจ้งการโอน</big></button>
+                  <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalTransfer"><big>แจ้งการชำระเงิน</big></button>
                 </div>
-                <!-- Modal -->
+
                 <div id="modalTransfer" class="modal fade" role="dialog">
                   <div class="modal-dialog modal-sm">
 
-                    <!-- Modal content-->
                     <div class="modal-content">
                       <div class="modal-header">
                         <h4 class="modal-title" id="modal-title"></h4>
                       </div>
                       <div class="modal-body">
-                        <p>แจ้งการโอนแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.</p>
+                        <p>แจ้งการชำระเงินแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.</p>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
@@ -108,7 +108,30 @@
                   </div>
                 </div>
               </div>
-            </form>
+            </form> - end -->
+            <p><a class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalTransfer">แจ้งการชำระเงิน</a></p>
+
+            <div id="modalTransfer" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-sm">
+
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-title"></h4>
+                  </div>
+                  <div class="modal-body">
+                    โปรดระบุวันเวลาที่ปรากฏบนสลิปโอน <br><span class="text-primary">(แตะที่ช่องเพื่อเปลี่ยนวันที่และเวลา)</span>
+                    <input type="text" class="form-control" name="datepicker" id="datepicker">
+                    แจ้งการชำระเงินแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="onSubmitPayment()" >ยืนยันการโอน</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             <div id="payment-notification">
               <p class="text-muted" style="margin-top:5px;">
                 <div id="notify-rejected" style="display:none">
@@ -424,8 +447,9 @@
       function showOrderInfo() {
         // OrderId
         var hOrderId = document.getElementById('order-id');
-        hOrderId.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
-        document.getElementById('modal-title').innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
+        if (hOrderId) hOrderId.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
+        var modalTitle = document.getElementById('modal-title');
+        if (modalTitle) modalTitle.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
 
         var shopLink = document.getElementById('shop-link');
         shopLink.href = manUtils.getGlobalVars('shopURL');
@@ -519,7 +543,7 @@
         document.getElementById('callcenter-no').innerHTML = manUtils.getGlobalVars('callcenterNumber');
 
         var formSubmit = document.getElementById('form-payment');
-        formSubmit.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId)
+        if (formSubmit) formSubmit.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId)
 
         var form = document.getElementById('payment-panel');
 
@@ -583,6 +607,38 @@
         }
       }
 
+      function onSubmitPayment() {
+        var picker = document.getElementById('datepicker');
+
+        if (picker.value) {
+          //e.preventDefault();
+
+          dataOrder.PaymentDate = picker.value.slice(0,10);
+          dataOrder.PaymentTime = picker.value.slice(11,16);
+          dataOrder.PaymentVerified = "0";
+          dataOrder.VerifyRejected = "0";
+          dataOrder.OrderStatus = "ชำระเงินแล้วรอตรวจสอบ";
+
+          fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
+            {
+              method: "PATCH",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(dataOrder),
+            }
+          )
+          .then((response) => { return response.json(); })
+          .then((data) => {
+            showOrderInfo();
+            showPaymentNotification();
+            //window.location.href = manUtils.getGlobalVars('checkoutURL') + '?id=' + dataOrder.OrderId;
+          })
+          .catch((error) => { console.log(error); });
+        }
+      }
+
       $('#form-address').on('submit',function(e) {
 
         var form = document.getElementById('form-address');
@@ -635,34 +691,7 @@
       })
 
       $('#form-payment').on('submit',function(e) {
-        var picker = document.getElementById('datepicker');
 
-        if (picker.value) {
-          e.preventDefault();
-
-          dataOrder.PaymentDate = picker.value.slice(0,10);
-          dataOrder.PaymentTime = picker.value.slice(11,16);
-          dataOrder.PaymentVerified = "0";
-          dataOrder.VerifyRejected = "0";
-          dataOrder.OrderStatus = "ชำระเงินแล้วรอตรวจสอบ";
-
-          fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
-            {
-              method: "PATCH",
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(dataOrder),
-            }
-          )
-          .then((response) => { return response.json(); })
-          .then((data) => {
-            showOrderInfo();
-            showPaymentNotification();
-          })
-          .catch((error) => { console.log(error); });
-        }
       })
 
       window.addEventListener('load', (event) => {
