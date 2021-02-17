@@ -45,8 +45,8 @@ var manUtils = (function() {
   };
   obj.formatName = function(title, firstname, lastname, seperateTitle = false) {
     return (firstname.includes("พระ"))
-            ? firstname + " " + lastname + ", " + title
-            : title + (seperateTitle && title ? '<br>' : '') + firstname + " " + lastname;
+            ? firstname + (seperateTitle && title ? '<br>' : ' ') + lastname + ", " + title
+            : title + ' ' + firstname + " " + lastname;
   };
   obj.formatNumber = function(number, fixed) {
     var str = Number(number).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
