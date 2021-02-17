@@ -180,7 +180,7 @@
         for (var i in arrContacts) {
           var data = {
             Biography: arrContacts[i].Biography,
-            Author: manUtils.formatName(arrContacts[i].Title, arrContacts[i].FirstName, arrContacts[i].LastName),
+            Author: manUtils.formatName(arrContacts[i].Title, arrContacts[i].FirstName, arrContacts[i].LastName, true),
             ImageFront: arrContacts[i].ImageProfile,
             ImageBack: arrContacts[i].ImageProfile,
             URLShop: manUtils.getGlobalVars('shopURL') + '?id=' + arrContacts[i].ContactId,
@@ -225,7 +225,7 @@
             html += '</a>';
             html += '<a href="' + data.URLShop + '" class="product-quickview"><big>ร้านหนังสือส่วนตัว</big></a>';
           html += '</div>';
-          html += '<div class="product-details" style="margin-top:-15px;">';
+          html += '<div class="product-details" style="margin-top:-15px; line-height:1.2">';
             html += '<span class="price">';
               html += '<ins><span class="ammount"><small><a href="' + data.URLShop + '">' + data.Author + '</a></small></span></ins>';
               //html += '<h6 class="ammount">ราคา ' + data.Price + ' บาท</h6>';
