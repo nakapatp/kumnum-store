@@ -392,6 +392,8 @@
       var panelTestimonial = document.getElementById('owl-testimonials');
       var hrTestimonial = document.getElementById('hr-testimonial');
 
+      numContacts += Number(manUtils.getGlobalVars('numOfContacts'));
+
       switch (id) {
         case 'sell':
           holder.className = 'img-holder img-2';
@@ -465,7 +467,6 @@
         .then((myJson) => {
           for (var i in myJson) {
             numSales += Number(myJson[i].SaleCount);
-            numContacts++;
           }
 
           init();
