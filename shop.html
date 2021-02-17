@@ -161,20 +161,19 @@
               <h5 style="color:#F58220; margin-top:10px; margin-bottom:5px;" id="author-name"></h5>
               <p style="color:#444444; line-height:1.2" id="author-bio"></p>
             </div>
+            <h5 id="teacher-header"></h5>
+            <hr>
+            <br>
             <h5>ค้นหาหนังสือ <span class="text-muted"><small>(coming soon)</small></span></h5>
             <form method="get" id="form-filter">
               <input type="search" placeholder="ระบุชื่อหนังสือ/ชื่อผู้เขียน" readonly>
               <button type="submit" class="btn btn-lg" disabled><big>ค้นหา</big></button>
             </form>
-            <p>
-              <br>
-              <h5 id="teacher-header"></h5>
-              <hr>
-            </p>
-            <p>
-              <h5 id="filter-header"></h5>
-              <ul id="filter-list"></ul>
-            </p>
+            <br>
+            <hr>
+            <br>
+            <h5 id="filter-header"></h5>
+            <ul id="filter-list"></ul>
           </nav>
           <div class="woocommerce-MyAccount-content">
             <div id="panel-book">
@@ -718,7 +717,7 @@
         authorProfile.remove();
 
         var teacherHead = document.getElementById('teacher-header');
-        teacherHead.innerHTML = '<a style="color:#F58220" href="teacher.html">ผู้เขียน/ผู้เรียบเรียง</a> <span class="badge badge-secondary">' + manUtils.getGlobalVars('numOfContacts') + '</span>';
+        teacherHead.innerHTML = '<a style="color:#F58220" href="teacher.html">ผู้เขียน | ผู้เรียบเรียง</a> <span class="badge badge-secondary">' + manUtils.getGlobalVars('numOfContacts') + '</span>';
 
         var filterHead = document.getElementById('filter-header');
         filterHead.innerHTML = 'หมวดหมู่หนังสือ <span class="text-muted"><small>(coming soon)</small></span>';

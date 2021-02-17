@@ -111,7 +111,7 @@
 
         <div class="row heading-row">
           <div class="col-md-12 text-center">
-            <h2 class="heading uppercase">ผู้เขียน / ผู้เรียบเรียง</h2>
+            <h2 class="heading uppercase">ผู้เขียน | ผู้เรียบเรียง</h2>
           </div>
         </div>
         <div id="panel-highlight">
@@ -185,14 +185,14 @@
             ImageBack: arrContacts[i].ImageProfile,
             URLShop: manUtils.getGlobalVars('shopURL') + '?id=' + arrContacts[i].ContactId,
           }
-          if (n % 4 == 0) {
+          if (n % 6 == 0) {
             var div = document.createElement('div');
             div.className = "row";
-            div.id = "row-highlight-" + Math.floor(n/4);
+            div.id = "row-highlight-" + Math.floor(n/6);
             panelBook.appendChild(div);
             spawnContact(div, data);
           } else {
-            var div = document.getElementById('row-highlight-' + Math.floor(n/4));
+            var div = document.getElementById('row-highlight-' + Math.floor(n/6));
             spawnContact(div, data);
           }
           n++;
@@ -213,7 +213,7 @@
 
     function spawnContact(panel, data, animate) {
       var div = document.createElement('div');
-      div.className = 'col-md-3';
+      div.className = 'col-md-2';
       var html = "";
 
       //html += '<div class="col-md-3 col-xs-6' + (animate ? ' animated-from-left' : '') + '">';
@@ -227,10 +227,10 @@
           html += '</div>';
           html += '<div class="product-details" style="margin-top:-15px;">';
             html += '<span class="price">';
-              html += '<ins><span class="ammount"><a href="' + data.URLShop + '">' + data.Author + '</a></span></ins>';
+              html += '<ins><span class="ammount"><small><a href="' + data.URLShop + '">' + data.Author + '</a></small></span></ins>';
               //html += '<h6 class="ammount">ราคา ' + data.Price + ' บาท</h6>';
             html += '</span>';
-            html += '<h3>' + data.Biography + '</h3>';
+            html += '<h3 style="margin-top:5px;">' + data.Biography + '</h3>';
           html += '</div>';
         html += '</div>';
       //html += '</div>';
