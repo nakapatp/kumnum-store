@@ -128,7 +128,8 @@
         <div class="row">
           <div class="col-sm-8">
             <h4 class="about-intro uppercase" id="info-header"></h4>
-            <p id="info-detail"></p>
+            <hr>
+            <div id="info-detail" style="margin-top:40px;"></div>
           </div>
           <div class="col-sm-3 col-sm-offset-1">
             <div class="statistic">
@@ -139,11 +140,44 @@
               <span id="stat-2-value"></span>
               <h4 class="uppercase" id="stat-2-text"></h4>
             </div>
+            <div class="widget footer-get-in-touch invisible" style="margin-top:150px;" id="side-contact-info">
+              <h5 class="widget-title uppercase">สอบถามรายละเอียดเพิ่มเติม</h5>
+              <p>โทรศัพท์: <span style="color:#bbb">085-997-7220</span></p>
+              <p>อีเมล: <span style="color:#bbb">4kumnum@gmail.com</span></p>
+              <p>เฟชบุ๊ค: <a href="https://www.facebook.com/KumnumPublishing">/KumnumPublishing</a></p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Related Items -->
+    <section class="section-wrap related-products pt-0">
+      <div class="container">
+        <div class="row heading-row">
+          <div class="col-md-12 text-center">
+            <h2 class="heading uppercase"><small>ภาพตัวอย่างผลงาน</small></h2>
+          </div>
+        </div>
+
+        <div class="row row-10">
+
+          <div id="owl-related-products" class="owl-carousel owl-theme nopadding">
+
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/Rq39h6B.jpg" alt=""></div></div>
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/O5kTEFQ.jpg" alt=""></div></div>
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/5k2CJ0G.jpg" alt=""></div></div>
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/IlOCVQm.jpg" alt=""></div></div>
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/LDn95DW.jpg" alt=""></div></div>
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/gxkQ6U6.jpg" alt=""></div></div>
+            <div class="product-item"><div class="product-img"><img src="https://i.imgur.com/6tvtsyX.jpg" alt=""></div></div>
+
+          </div> <!-- end owl -->
+
+        </div> <!-- end row -->
+      </div> <!-- end container -->
+    </section> <!-- end related products -->
+    
     <!-- Divider -->
     <div class="container">
       <hr>
@@ -210,6 +244,19 @@
               ออกแบบปกได้สวยงามและถูกใจด้วยค่ะ สำหรับราคาในการจัดทำโดยส่วนตัวคิดว่ามีความเหมาะสมกับผลงานค่ะ
             </p>
             <span class="uppercase">อ.ดวงจันทร์ แก้วพงพาน</span>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-text">
+              นอกเหนือจากผลงานการพิมพ์ที่มีคุณภาพ ประณีตสวยงาม สมกับเป็น “มืออาชีพ” ด้านนี้อย่างแท้จริงแล้ว
+              ผมยังได้รับคำแนะนำเรื่องต่าง ๆ ที่เกี่ยวข้องกับกระบวนการจัดทำหนังสืออย่างละเอียด
+              ทำให้ “มือใหม่” อย่างผม มีที่ปรึกษาชั้นครู จนสามารถมีผลงานการพิมพ์หนังสือออกมาได้เป็นผลสำเร็จ สวยงาม มีคุณค่า สมความตั้งใจ
+              <br>
+              ที่สำคัญไปกว่านั้น...<br>
+              ผมยังรู้สึกว่าได้พบ “กัลยาณมิตร” เพิ่มขึ้นอีกคนหนึ่ง ซึ่งแตกต่างอย่างสิ้นเชิงกับ “นักธุรกิจ” ที่เคยพบมา
+              <br>
+              ขอขอบคุณด้วยความจริงใจครับ
+            </p>
+            <span class="uppercase">อรรณพ สุภานันท์</span>
           </div>
         </div>
       </div>
@@ -288,11 +335,11 @@
       var panelTestimonial = document.getElementById('owl-testimonials');
       var hrTestimonial = document.getElementById('hr-testimonial');
 
+      var html = manUtils.getGlobalVars('loremLong');
       switch (id) {
         case 'sell':
           holder.className = 'img-holder img-2';
           header.innerHTML = 'ขายหนังสือ';
-          detail.innerHTML = manUtils.getGlobalVars('loremLong');
 
           stat1Val.innerHTML = manUtils.formatNumber(20443, 0);
           stat1Text.innerHTML = 'จำหน่ายแล้ว (เล่ม)';
@@ -305,7 +352,31 @@
         case 'produce':
           holder.className = 'img-holder img-3';
           header.innerHTML = 'ผลิตหนังสือ';
-          detail.innerHTML = manUtils.getGlobalVars('loremLong');
+
+          var divProduce = document.createElement('div');
+          divProduce.innerHTML = '<span class="dropcap style-1">คำนำ</span> ขอเรียนเชิญครู อาจารย์ทั่วประเทศ มาร่วมกันเปลี่ยน​ "เอกสารที่ใช้ในการเรียนการสอน ตำรา หรืองานเขียนวิชาการต่าง ๆ" จากงานถ่ายเอกสาร​ธรรมดา ๆ​ เป็นหนังสือสวย ๆ​ ในพริบตา เพื่อยกระดับผลงานทางวิชาการ​ของตนเอง​ โดยมีทีมงานจัดทำหนังสือที่มากประสบการณ์คอยช่วยเหลือ สนับสนุน ตั้งแต่การเตรียมต้นฉบับ การออกแบบ และการผลิต รวมถึงการให้คำปรึกษาต่าง ๆ';
+          detail.appendChild(divProduce);
+
+          var div1 = document.createElement('div');
+          div1.className = 'row';
+          div1.style = 'margin-top:50px;';
+          spawnFeature(div1, {Icon: 'fa-search', Title: 'ตรวจสอบแก้ไขต้นฉบับ​เบื้องต้น', Subtitle: 'เช่น​ คำผิด​ วรรคตอน​ และอื่น ๆ <span class="badge">ฟรี!</span>',});
+          spawnFeature(div1, {Icon: 'fa-barcode', Title: 'ประสานขอ ISBN และ CIP', Subtitle: '<del>ค่าดำเนินการ 2,500 บ.</del> <span class="badge">ฟรี!</span>',});
+          detail.appendChild(div1);
+
+          var div2 = document.createElement('div');
+          div2.className = 'row';
+          //div2.style = 'margin-top:-20px;';
+          spawnFeature(div2, {Icon: 'fa-edit', Title: 'ออกแบบปกและปรับรูปเล่ม', Subtitle: '<del>ค่าออกแบบ 25,000 บ.</del> <span class="badge">ฟรี!</span>',});
+          spawnFeature(div2, {Icon: 'fa-truck', Title: 'จัดส่งทั่วประเทศ', Subtitle: 'ค่าใช้จ่ายตามจริง',});
+          detail.appendChild(div2);
+
+          var div3 = document.createElement('div');
+          div3.className = 'row';
+          //div3.style = 'margin-top:-20px;';
+          spawnFeature(div3, {Icon: 'fa-desktop', Title: 'จัดพิมพ์ด้วยระบบ Digital print', Subtitle: 'ผลิตแบบเล่มต่อเล่ม ไม่มีขั้นต่ำ!',});
+          spawnFeature(div3, {Icon: 'fa-print', Title: 'จัดพิมพ์ด้วยระบบ Offset', Subtitle: 'กรณีผลิตจำนวนมาก',});
+          detail.appendChild(div3);
 
           stat1Val.innerHTML = manUtils.formatNumber(25, 0);
           stat1Text.innerHTML = 'ปีประสบการณ์';
@@ -313,12 +384,14 @@
           stat2Val.innerHTML = manUtils.formatNumber(2, 0);
           stat2Text.innerHTML = 'ระบบการพิมพ์';
 
+          document.getElementById('side-contact-info').className = 'widget footer-get-in-touch';
+
           break;
 
         case 'contact':
           holder.className = 'img-holder img-4';
           header.innerHTML = 'ติดต่อเรา';
-          detail.innerHTML = manUtils.getGlobalVars('loremLong');
+          detail.innerHTML = html;
 
           stat1Val.innerHTML = 2018;
           stat1Text.innerHTML = 'ปีเริ่มดำเนินกิจการ';
@@ -330,6 +403,23 @@
 
         default:
       }
+    }
+
+    function spawnFeature(panel, data) {
+      var div = document.createElement('div');
+      div.className = 'col-md-6 mb-50';
+      var html = "";
+      //html += '<div class="col-md-6 mb-50">';
+        html += '<div class="service-item-box">';
+          html += '<div class="icon-holder"><i class="fa ' + data.Icon + '"></i></div>';
+          html += '<div class="service-text">';
+            html += '<h3>' + data.Title + '</h3>';
+            html += '<p>' + data.Subtitle + '</p>';
+          html += '</div>';
+        html += '</div>';
+      //html += '</div>'
+      div.innerHTML = html;
+      panel.appendChild(div);
     }
 
     function spawnTestimonial(panel, text, name) {
