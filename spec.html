@@ -21,6 +21,42 @@
   <body>
     <div id="container-main">
       <div class="row">
+        <div id="project" style="margin-left:20px">
+          <div><h5>ผู้ส่ง</h5></div>
+          <div><span>ชื่อผู้ส่ง</span> "คำนำ"</div>
+          <div><span>ที่อยู่</span> 187 หมู่ 5 ต.ชมพู อ.เมือง</div>
+          <div><span>จังหวัด</span> ลำปาง</div>
+          <div><span>รหัสไปรษณีย์</span> 52100</div>
+          <div><span>โทร.</span> 085-997-7220</div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="receiver-info" style="margin-left:30%">
+
+        </div>
+      </div>
+      <div class="row" style="margin-top:20px">
+        <table class="table table-bordered" style="margin-left:20px; width:95%">
+          <thead>
+            <tr>
+              <th scope="col">เลขที่คำสั่งซื้อ</td>
+              <th scope="col" class="text-center">ประเภทพัสดุ</td>
+              <th scope="col" class="text-center">จำนวน (เล่ม)</td>
+              <th scope="col" class="text-center">เบอร์ติดต่อผู้รับ</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center" style="font-size:1.5em;" id="sender-order-id"></th>
+              <td class="text-center" style="font-size:1.5em;">หนังสือ</th>
+              <td class="text-center" style="font-size:1.5em;" id="sender-order-count"></th>
+              <td class="text-center" style="font-size:1.5em;" id="receiver-phone"></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr style="border-top: 1px dashed">
+      <div class="row">
         <p><h2 id="spec-header"></h2>
         <p style="margin-left:20px" id="spec-brief"></p>
         <table style="margin-left:20px; margin-top:20px; width:95%;">
@@ -60,7 +96,6 @@
       var arrProducts = null;
       var id = manUtils.getParam('id');
 
-
       function formatSpec(obj) {
         var str = "";
         str += 'ขนาด: ' + obj.Size + '<br>';
@@ -78,6 +113,21 @@
         if (myOrder == null) {
 
         } else {
+          // Printing Label
+          var receiver = document.getElementById('receiver-info');
+          html = '<div><h3>ผู้รับ</h3></div>';
+          html += '<big><big>';
+          html += '<div>' + myOrder.FirstName + ' ' + myOrder.LastName + '</div>';
+          html += '<div>' + myOrder.Address + '</div>';
+          html += '<div>' + myOrder.Province + '</div>';
+          html += '<div><big><big>' + myOrder.Zip + '</big></big></div>';
+          html += '</big></big>';
+          receiver.innerHTML = html;
+
+          document.getElementById('sender-order-id').innerHTML = myOrder.OrderId;
+          document.getElementById('sender-order-count').innerHTML = myOrder.Count;
+          document.getElementById('receiver-phone').innerHTML = manUtils.formatPhoneNumber(myOrder.Phone);
+
           // Item Spec.
           var tBodySpec = document.getElementById('body-spec');
           for (var i in arrSales) {
@@ -112,6 +162,7 @@
           h.style = "margin-left:20px;";
           h.innerHTML = 'เลขที่คำสั่งซื้อ ' + myOrder.OrderId;
           document.getElementById('spec-brief').innerHTML = 'ผู้สั่งซื้อ: ' + myOrder.FirstName + ' ' + myOrder.LastName + ' โทร. ' + manUtils.formatPhoneNumber(myOrder.Phone);
+
         }
       }
 
