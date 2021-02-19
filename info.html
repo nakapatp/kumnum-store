@@ -132,7 +132,7 @@
             <div id="info-detail" style="margin-top:40px;"></div>
 
             <div class="widget footer-get-in-touch invisible" id="contact-info">
-              <h5 class="widget-title uppercase">ติดต่อ "คำนำ"</h5>
+              <h5 class="widget-title uppercase">"คำนำ"</h5>
               <address class="footer-address"><span>ที่อยู่:</span> เลขที่ 187 ม.5 ต.ชมพู อ.เมือง จ.ลำปาง 52100</address>
               <p>โทรศัพท์: 085-997-7220</p>
               <p>อีเมล: <a href="mailto:4kumnum@gmail.com">4kumnum@gmail.com</a></p>
@@ -420,6 +420,11 @@
           stat2Text.innerHTML = 'ทีมงานหลัก';
 
           document.getElementById('contact-info').className = 'widget footer-get-in-touch';
+          var sideContact = document.getElementById('side-contact-info');
+          if (sideContact) {
+            manUtils.removeAllChildNodes(sideContact);
+            sideContact.remove();
+          }
 
           break;
 
