@@ -114,25 +114,7 @@
               <li>
                 <img src="" alt="" id="hero-img">
                 <div class="img-holder img-1"></div>
-                <!-- Hero Banner
-                <div class="hero-holder text-center right-align">
-                  <div class="hero-lines">
-                    <h1 class="hero-heading white" id="hero-title">"คำนำ"</h1>
-                    <h4 class="hero-subheading white uppercase" id="hero-subtitle">มิติใหม่ของสื่อตำรา และเอกสารประกอบการเรียนการสอน</h4>--
-                  </div>
-                  a href="shop.html" class="btn btn-lg btn-white" id="hero-button"><span id="hero-button-caption">ซื้อหนังสือ</span></a>
-
-                </div> - end hero banner -->
               </li>
-              <!-- 2nd+ Hero Slider
-              <li>
-                <img src="" alt="">
-                <div class="img-holder img-2"></div>
-              </li>
-              <li>
-                <img src="" alt="">
-                <div class="img-holder img-3"></div>
-              </li> - end 2nd+ hero slider -->
             </ul>
           </div>
         </div> <!-- end slider -->
@@ -217,13 +199,6 @@
     var arrBestSeller = null;
 
     function init() {
-      // Hero Slider
-      //document.getElementById('hero-img').src = manUtils.getGlobalVars('indexHeroImage');
-      //document.getElementById('hero-title').innerHTML = manUtils.getGlobalVars('indexHeroTitle');
-      //document.getElementById('hero-subtitle').innerHTML = manUtils.getGlobalVars('indexHeroSubTitle');
-      //document.getElementById('hero-button-caption').innerHTML = manUtils.getGlobalVars('indexHeroButtonCaption');
-      //document.getElementById('hero-button').href = manUtils.getGlobalVars('indexHeroButtonLink');
-
       // Footer Link
       document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
 
@@ -281,6 +256,7 @@
         }
       }
     }
+
     function loadBestSeller() {
       fetch(sheetURL + '/tabs/Products/BestSeller/*True*')
       .then((response) => { return response.json(); })
@@ -291,6 +267,7 @@
       })
       .catch((error) => { console.log(error); });
     }
+
     function loadHighlight() {
       fetch(sheetURL + '/tabs/Products/Highlight/*True*')
       .then((response) => { return response.json(); })
@@ -301,6 +278,7 @@
       })
       .catch((error) => { console.log(error); });
     }
+    
     function spawnBook(panel, data, animate) {
       var div = document.createElement('div');
       div.className = 'col-md-3';

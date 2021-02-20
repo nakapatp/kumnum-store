@@ -346,6 +346,7 @@
       var orderId = Math.floor(100000 + Math.random() * 900000);
       return contactId + manUtils.generateRandomLetter() + orderId;
     }
+
     function getCountOfItem(name) {
       var cartArray = shoppingCart.listCart();
       for (var i in cartArray) {
@@ -354,6 +355,7 @@
       }
       return 0;
     }
+    
     function getShippingCost(asNumber) {
       var html = "";
       var cost = 0;
