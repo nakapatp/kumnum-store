@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>ร้านหนังสือ "คำนำ" - หน้าแรก</title>
+  <title>ร้านหนังสือ "คำนำ" - หน้าข้อมูล</title>
 
   <meta charset="utf-8">
   <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="css/magnific-popup.css" />
   <link rel="stylesheet" href="css/font-icons.css" />
   <link rel="stylesheet" href="css/sliders.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/info.css" />
   <link rel="stylesheet" href="css/animate.min.css" />
 
   <!-- Favicons -->
@@ -59,10 +59,12 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
+
               </div>
 
               <div class="header-wrap">
                 <div class="header-wrap-holder">
+
                   <!-- Search -->
                   <div class="nav-search hidden-sm hidden-xs">
 
@@ -96,6 +98,7 @@
                     <li class="dropdown"><a href="contact.html">ติดต่อเรา</a></li>
                     <li class="dropdown"><a href="checkout.html">ติดตามคำสั่งซื้อ</a></li>
                   </ul> <!-- end menu -->
+
                 </div> <!-- end collapse -->
               </div> <!-- end col -->
 
@@ -105,7 +108,7 @@
       </nav> <!-- end navbar -->
     </header> <!-- end navigation -->
 
-    <!-- Hero Slider -->
+    <!-- About us -->
     <section class="section-wrap nopadding">
       <div class="container">
         <div class="entry-slider">
@@ -113,43 +116,53 @@
             <ul class="slides clearfix">
               <li>
                 <img src="" alt="" id="hero-img">
-                <div class="img-holder img-1"></div>
+                <div class="img-holder img-4" id="hero-holder"></div>
               </li>
             </ul>
           </div>
         </div> <!-- end slider -->
       </div>
     </section> <!-- end hero slider -->
+    <section class="section-wrap about-us pb-60">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+            <h4 class="about-intro uppercase" id="info-header">
+              สำหรับผู้ต้องการติดต่อสอบถาม
+            </h4>
+            <hr>
+            <div id="info-detail" style="margin-top:40px;"></div>
 
-    <!-- New Arrivals -->
-    <section class="section-wrap new-arrivals pb-40">
-      <div class="container" style="width:75%;">
+            <div class="widget footer-get-in-touch" id="contact-info">
+              <h5 class="widget-title uppercase">"คำนำ"</h5>
+              <address class="footer-address"><span>ที่อยู่:</span> เลขที่ 187 ม.5 ต.ชมพู อ.เมือง จ.ลำปาง 52100</address>
+              <p>โทรศัพท์: 085-997-7220</p>
+              <p>อีเมล: <a href="mailto:4kumnum@gmail.com">4kumnum@gmail.com</a></p>
+              <p>เวบไซต์: <a href="https://www.kumnum.com">https://www.kumnum.com</a></p>
+              <div class="social-icons rounded mt-20">
+                <a href="https://www.facebook.com/KumnumPublishing"><i class="fa fa-facebook"></i></a>
+              </div>
+              <p>เวลาทำการ: วันจันทร์-วันศุกร์  (9.00-17.00 น.)</p>
+            </div>
 
-        <div class="row heading-row">
-          <div class="col-md-12 text-center">
-            <h2 class="heading uppercase">หนังสือออกใหม่</h2>
           </div>
-        </div>
-        <div id="panel-highlight">
-          <!-- Dynamic Content -->
+          <div class="col-sm-3 col-sm-offset-1">
+            <div class="statistic">
+              <span id="stat-1-value"></span>
+              <h4 class="uppercase" id="stat-1-text"></h4>
+            </div>
+            <div class="statistic">
+              <span id="stat-2-value"></span>
+              <h4 class="uppercase" id="stat-2-text"></h4>
+            </div>
         </div>
       </div>
-    </section> <!-- end new arrivals -->
+    </section>
 
-    <!-- Best Sellers -->
-    <section class="section-wrap pb-0" style="margin-top:-50px;">
-      <div class="container" style="width:75%;">
-
-        <div class="row heading-row">
-          <div class="col-md-12 text-center">
-            <h2 class="heading uppercase">หนังสือขายดี</h2>
-          </div>
-        </div>
-        <div id="panel-bestseller">
-          <!-- Dynamic Content -->
-        </div>
-      </div>
-    </section> <!-- end best sellers -->
+    <!-- Divider -->
+    <div class="container" id="hr-testimonial">
+      <hr>
+    </div>
 
     <!-- Footer Type-1 -->
     <footer class="footer footer-type-1 bg-white">
@@ -195,127 +208,32 @@
     const sheetURL = 'https://sheet.best/api/sheets/5acb1568-5ff2-4717-81dc-23a4093f6cbc'; // Production
     //const sheetURL = 'https://sheet.best/api/sheets/86299b5c-1850-4f51-b969-a44721bfe390'; // Dev
     var globalVars = null;
-    var arrHighlight = null;
-    var arrBestSeller = null;
+    var id = 'contact';
 
     function init() {
       // Footer Link
       document.getElementById('social-facebook').href = manUtils.getGlobalVars('facebookURL');
 
-      if (arrHighlight) {
-        var panelBook = document.getElementById('panel-highlight');
-        var n = 0;
-        for (var i in arrHighlight) {
-          var data = {
-            Title: arrHighlight[i].Title,
-            Author: arrHighlight[i].Author,
-            ImageFront: arrHighlight[i].ImageFull,
-            ImageBack: arrHighlight[i].ImageFull,
-            URLSingleProduct: manUtils.getGlobalVars('shopURL') + '?id=' + arrHighlight[i].ContactId + '&book=' + arrHighlight[i].ProductId,
-            URLShop: manUtils.getGlobalVars('shopURL') + '?id=' + arrHighlight[i].ContactId,
-            Price: arrHighlight[i].Price,
-          }
-          if (n % 4 == 0) {
-            var div = document.createElement('div');
-            div.className = "row";
-            div.id = "row-highlight-" + Math.floor(n/4);
-            panelBook.appendChild(div);
-            spawnBook(div, data);
-          } else {
-            var div = document.getElementById('row-highlight-' + Math.floor(n/4));
-            spawnBook(div, data);
-          }
-          n++;
-        }
-      }
+      var stat1Val = document.getElementById('stat-1-value');
+      var stat1Text = document.getElementById('stat-1-text');
+      var stat2Val = document.getElementById('stat-2-value');
+      var stat2Text = document.getElementById('stat-2-text');
 
-      if (arrBestSeller) {
-        var panelBook = document.getElementById('panel-bestseller');
-        var n = 0;
-        for (var i in arrBestSeller) {
-          var data = {
-            Title: arrBestSeller[i].Title,
-            Author: arrBestSeller[i].Author,
-            ImageFront: arrBestSeller[i].ImageFull,
-            ImageBack: arrBestSeller[i].ImageFull,
-            URLSingleProduct: manUtils.getGlobalVars('shopURL') + '?id=' + arrBestSeller[i].ContactId + '&book=' + arrBestSeller[i].ProductId,
-            URLShop: manUtils.getGlobalVars('shopURL') + '?id=' + arrBestSeller[i].ContactId,
-            Price: arrBestSeller[i].Price,
-          }
-          if (n % 4 == 0) {
-            var div = document.createElement('div');
-            div.className = "row";
-            div.id = "row-bestseller-" + Math.floor(n/4);
-            panelBook.appendChild(div);
-            spawnBook(div, data);
-          } else {
-            var div = document.getElementById('row-bestseller-' + Math.floor(n/4));
-            spawnBook(div, data);
-          }
-          n++;
-        }
-      }
+      stat1Val.innerHTML = 2018;
+      stat1Text.innerHTML = 'ปีเริ่มดำเนินกิจการ';
+
+      stat2Val.innerHTML = manUtils.formatNumber(8, 0);
+      stat2Text.innerHTML = 'ทีมงานหลัก';
     }
 
-    function loadBestSeller() {
-      fetch(sheetURL + '/tabs/Products/BestSeller/*True*')
-      .then((response) => { return response.json(); })
-      .then((myJson) => {
-        arrBestSeller = myJson;
-
-        init();
-      })
-      .catch((error) => { console.log(error); });
-    }
-
-    function loadHighlight() {
-      fetch(sheetURL + '/tabs/Products/Highlight/*True*')
-      .then((response) => { return response.json(); })
-      .then((myJson) => {
-        arrHighlight = myJson;
-
-        loadBestSeller();
-      })
-      .catch((error) => { console.log(error); });
-    }
-
-    function spawnBook(panel, data, animate) {
-      var div = document.createElement('div');
-      div.className = 'col-md-3';
-      var html = "";
-
-      //html += '<div class="col-md-3 col-xs-6' + (animate ? ' animated-from-left' : '') + '">';
-        html += '<div class="product-item">';
-          html += '<div class="product-img">';
-            html += '<a href="' + data.URLSingleProduct + '">';
-              html += '<img src="' + data.ImageFront + '" alt="">';
-              html += '<img src="' + data.ImageBack + '" alt="" class="back-img">';
-            html += '</a>';
-            html += '<a href="' + data.URLSingleProduct + '" class="product-quickview"><big>รายละเอียดหนังสือ</big></a>';
-          html += '</div>';
-          html += '<div class="product-details">';
-            html += '<h3><a class="product-title" href="' + data.URLSingleProduct + '">' + data.Title + '</a></h3>';
-            html += '<span class="price">';
-              html += '<ins><span class="ammount"><a href="' + data.URLShop + '">' + data.Author + '</a></span></ins>';
-              html += '<h6 class="ammount">ราคา ' + data.Price + ' บาท</h6>';
-            html += '</span>';
-          html += '</div>';
-        html += '</div>';
-      //html += '</div>';
-
-      div.innerHTML = html;
-      panel.appendChild(div);
-    }
     window.addEventListener('load', (event) => {
       // GET GlobalVars
-      // -- GET Highlight
-      // ---- GET Bestseller
       fetch(sheetURL + '/tabs/GlobalVars')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         globalVars = myJson;
 
-        loadHighlight();
+        init();
       })
       .catch((error) => { console.log(error); });
     });
