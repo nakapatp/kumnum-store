@@ -73,15 +73,15 @@
             <p id="payment-method"></p>
             <h4 class="mb-3"><span class="text-secondary"><i class="fa fa-money"></i> วิธีการชำระเงิน</span></h4>
             <img class="mb-3" src="" alt="Promtpay QR Code" style="width:100%" id="bank-account-qr">
-            <h5 class="mb-3">1.โอนเงินพร้อมเพย์ผ่าน QR Code</h5>
-            <p>สแกนคิวอาร์โค้ดเพื่อโอนเงิน หรือ
-              โอนเงินเข้าบัญชี ชื่อ <span class="badge badge-primary" id="bank-account-owner"></span>
-              เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>
+            <h5 class="mb-3">1. โอนเงิน</h5>
+            <p class="text-dark">สแกนคิวอาร์โค้ดเพื่อโอนเงิน หรือ
+              โอนเงินเข้าบัญชี <!--ชื่อ <span class="badge badge-primary" id="bank-account-owner"></span>
+              เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>-->
               <br><img src="https://i.imgur.com/xJRHUko.jpg">
             </p>
             <hr>
             <p><h5 class="mb-3">2.แจ้งยืนยันการชำระเงิน</h5></p>
-            <p>เมื่อชำระเงินแล้ว กรุณากดปุ่ม "แจ้งการชำระเงิน"
+            <p class="text-dark">เมื่อชำระเงินแล้ว กรุณากดปุ่ม "แจ้งการชำระเงิน"
             <!--
             <form class="card p-2" id="form-payment">
               <div class="input-group">
@@ -517,8 +517,8 @@
           html += '<li class="active">';
           if (dataOrder.TrackingCode == null
               || dataOrder.TrackingCode == "") {
-            html += '<div class="text-primary" style="margin-top:10px;">บรรจุและจัดส่งพัสดุ</div>';
-            html += '<div class="text-muted"><small>พัสดุจะออกเดินทางภายใน 3-7 วัน</small></div>';
+            html += '<div class="text-primary" style="margin-top:10px;">ผลิตและจัดส่งพัสดุ</div>';
+            html += '<div class="text-muted"><small>พัสดุจะเริ่มออกเดินทางภายใน 3-7 วัน</small></div>';
           } else {
             html += '<div class="text-success" style="margin-top:10px;">จัดส่งพัสดุแล้ว</div>';
             html += '<div class="text-muted"><small>';
@@ -528,7 +528,7 @@
           }
         } else {
           html += '<li>';
-          html += '<div style="margin-top:10px; color:#cccccc">บรรจุและจัดส่งพัสดุ</div>';
+          html += '<div style="margin-top:10px; color:#cccccc">ผลิตและจัดส่งพัสดุ</div>';
         }
         html += '</li>';
 
@@ -537,9 +537,11 @@
 
       function showPaymentNotification() {
         document.getElementById('bank-account-qr').src = manUtils.getGlobalVars('bankAccountQR');
+        /*
         document.getElementById('bank-account-owner').innerHTML = manUtils.getGlobalVars('bankAccountOwner');
         document.getElementById('bank-account-number').innerHTML = manUtils.getGlobalVars('bankAccountNumber');
         document.getElementById('bank-account-name').innerHTML = manUtils.getGlobalVars('bankAccountName');
+        */
         document.getElementById('callcenter-no').innerHTML = manUtils.getGlobalVars('callcenterNumber');
 
         var formSubmit = document.getElementById('form-payment');
