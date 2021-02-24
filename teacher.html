@@ -201,7 +201,7 @@
     }
 
     function loadContacts() {
-      fetch(sheetURL + '/tabs/Contacts')
+      fetch(sheetURL + '/tabs/Contacts/Enable/*True*')
       .then((response) => { return response.json(); })
       .then((myJson) => {
         arrContacts = myJson;
