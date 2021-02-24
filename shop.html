@@ -359,22 +359,16 @@
     function getShippingCost(asNumber) {
       var html = "";
       var cost = 0;
+      var expected = Number(manUtils.getGlobalVars('costFlat')) + (shoppingCart.countCart() * Number(manUtils.getGlobalVars('costStep')));
+      cost = (shoppingCart.countCart() >= Number(manUtils.getGlobalVars('costFreeBar')))
+           ? 0
+           : expected;
 
-      if (shoppingCart.countCart() > 0) {
-        cost = Number(manUtils.getGlobalVars('costFlat')) + (shoppingCart.countCart() * Number(manUtils.getGlobalVars('costStep')));
-        if (asNumber)
-          return cost;
-
-        html = manUtils.formatNumber(cost, 2);
+      if (cost == 0) {
+        return (asNumber) ? 0 : '<del class="text-muted">' + manUtils.formatNumber(expected, 2) + '</del>';
+      } else {
+        return (asNumber) ? cost : manUtils.formatNumber(cost, 2);
       }
-      if (shoppingCart.countCart() >= Number(manUtils.getGlobalVars('costFreeBar'))) {
-        if (asNumber)
-          return "0";
-
-        html = '<del class="text-muted">' + manUtils.formatNumber(cost, 2) + '</del>';
-      }
-
-      return html;
     }
 
     function formatSpec(obj) {
@@ -518,13 +512,16 @@
       var d = new Date();
       var currentDate = d.toISOString().slice(0, 10);
       var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,16);
+      var grand = (shoppingCart.countCart() >= manUtils.getGlobalVars('costFreeBar'))
+                ? String(shoppingCart.totalCart())
+                : String(Number(shoppingCart.totalCart()) + getShippingCost(true));
       const data = {
         OrderId: orderId,
         OrderStatus: 'ป้อนข้อมูลจัดส่ง',
         Count: String(shoppingCart.countCart()),
         SubTotal: String(shoppingCart.totalCart()),
         ShippingCost: String(getShippingCost(true)),
-        GrandTotal: String(Number(shoppingCart.totalCart()) + Number(getShippingCost(true))),
+        GrandTotal: grand,
         PaymentVerified: "0",
         VerifyRejected: "0",
         Transporter: "Flash",
