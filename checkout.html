@@ -402,6 +402,22 @@
         return url;
       }
 
+      function mailTo(obj, tab) {
+        var mailSheet = 'https://sheet.best/api/sheets/75d801e4-e156-4fd3-995f-7fd2865799a0';
+
+        fetch(mailSheet + '/tabs/' + tab, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        })
+        .then((response) => { return response.json(); })
+        .then((data) => {})
+        .catch((error) => { console.log(error); });
+      }
+
       function showCartItem(data) {
         var sum = 0;
         var html = "";
@@ -636,6 +652,23 @@
             showOrderInfo();
             showPaymentNotification();
             //window.location.href = manUtils.getGlobalVars('checkoutURL') + '?id=' + dataOrder.OrderId;
+            var row = dataOrder;
+            var mail = {
+              Code: 'SubmitPayment',
+              OrderId: row.OrderId,
+              Name: row.FirstName + ' ' + row.LastName,
+              Phone: manUtils.formatPhoneNumber(row.Phone),
+              Email: row.Email,
+              Address: row.Address,
+              Province: row.Province,
+              Zip: row.Zip,
+              PaidAmount: row.GrandTotal,
+              PaidDate: row.PaymentDate,
+              PaidTime: row.PaymentTime,
+              CreatedDate: manUtils.getCurrentDate(),
+              CreatedTime: manUtils.getCurrentTime(),
+            };
+            mailTo(mail, 'Orders');
           })
           .catch((error) => { console.log(error); });
         }
