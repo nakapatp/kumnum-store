@@ -146,7 +146,8 @@
           row.innerHTML = '<tr><td colspan="4">รวม</td><td class="total">' + manUtils.formatNumber(myOrder.SubTotal, 2) + '</td></tr>';
           tBodySpec.appendChild(row);
           row = document.createElement('tr');
-          row.innerHTML = '<tr><td colspan="4">ค่าจัดส่ง</td><td class="total">' + manUtils.formatNumber(myOrder.ShippingCost, 2) + '</td></tr>';
+          row.innerHTML = '<tr><td class="text-left">น้ำหนักพัสดุรวม</td><td class="text-left">' + manUtils.formatNumber(myOrder.TotalWeight, 2) + ' กก.</td>';
+          row.innerHTML += '<td colspan="2">ค่าจัดส่ง</td><td class="total">' + manUtils.formatNumber(myOrder.ShippingCost, 2) + '</td></tr>';
           tBodySpec.appendChild(row);
           row = document.createElement('tr');
           row.innerHTML = '<tr><td colspan="4" class="grand total"><h4>ยอดโอน</h4></td><td class="grand total"><h4>' + manUtils.formatNumber(myOrder.GrandTotal, 2) + '</h4></td></tr>';
