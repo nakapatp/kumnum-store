@@ -379,7 +379,7 @@
                    ? Number(manUtils.getGlobalVars('costFlat')) + (Math.ceil(weight) * Number(manUtils.getGlobalVars('costStep')))
                    : 0;
 
-      cost = (weight >= Number(manUtils.getGlobalVars('costFreeBar')))
+      cost = (shoppingCart.countCart() >= Number(manUtils.getGlobalVars('costFreeBar')))
            ? 0
            : expected;
 
@@ -549,7 +549,7 @@
       var d = new Date();
       var currentDate = d.toISOString().slice(0, 10);
       var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,16);
-      var grand = (getCartWeight() >= manUtils.getGlobalVars('costFreeBar'))
+      var grand = (shoppingCart.countCart() >= manUtils.getGlobalVars('costFreeBar'))
                 ? String(shoppingCart.totalCart())
                 : String(Number(shoppingCart.totalCart()) + getShippingCostByWeight(true, getCartWeight()));
       const data = {
@@ -1034,7 +1034,7 @@
       totalCart.innerHTML = manUtils.formatNumber(shoppingCart.totalCart(), 2);
 
       // Update grand-total
-      var grand = (getCartWeight() >= manUtils.getGlobalVars('costFreeBar'))
+      var grand = (shoppingCart.countCart() >= manUtils.getGlobalVars('costFreeBar'))
                 ? shoppingCart.totalCart()
                 : Number(shoppingCart.totalCart()) + getShippingCostByWeight(true, getCartWeight());
       var grandTotal = document.getElementById('grand-total');
