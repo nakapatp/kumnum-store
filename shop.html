@@ -262,7 +262,7 @@
                     </td>
                   </tr>
                   <tr class="shipping">
-                    <th>ค่าจัดส่ง</th>
+                    <th id="shipping-tag">ค่าจัดส่ง</span></th>
                     <td>
                       <span id="shipping-cost"></span>
                     </td>
@@ -356,10 +356,47 @@
       return 0;
     }
 
+    function getCartWeight() {
+      var weight = 0;
+      var cartArray = shoppingCart.listCart();
+      for (var i in cartArray) {
+        if (cartArray[i].count > 0) {
+          for (var j in arrProducts) {
+            if (arrProducts[j].ProductId == cartArray[i].name) {
+              weight += Number(cartArray[i].count * arrProducts[j].Weight);
+              break;
+            }
+          }
+        }
+      }
+      return (weight < 1) ? 1 : weight;
+    }
+
+    function getShippingCostByWeight(asNumber, weight) {
+      var html = "";
+      var cost = 0;
+      var expected = (shoppingCart.countCart() > 0)
+                   ? Number(manUtils.getGlobalVars('costFlat')) + (Math.ceil(weight) * Number(manUtils.getGlobalVars('costStep')))
+                   : 0;
+
+      cost = (weight >= Number(manUtils.getGlobalVars('costFreeBar')))
+           ? 0
+           : expected;
+
+      if (cost == 0) {
+        return (asNumber) ? 0 : (expected > 0) ? '<del class="text-muted">' + manUtils.formatNumber(expected, 2) + '</del>' : manUtils.formatNumber(expected, 2);
+      } else {
+        return (asNumber) ? cost : manUtils.formatNumber(cost, 2);
+      }
+    }
+
     function getShippingCost(asNumber) {
       var html = "";
       var cost = 0;
-      var expected = Number(manUtils.getGlobalVars('costFlat')) + (shoppingCart.countCart() * Number(manUtils.getGlobalVars('costStep')));
+      var expected = (shoppingCart.countCart() > 0)
+                   ? Number(manUtils.getGlobalVars('costFlat')) + (shoppingCart.countCart() * Number(manUtils.getGlobalVars('costStep')))
+                   : 0;
+
       cost = (shoppingCart.countCart() >= Number(manUtils.getGlobalVars('costFreeBar')))
            ? 0
            : expected;
@@ -512,15 +549,15 @@
       var d = new Date();
       var currentDate = d.toISOString().slice(0, 10);
       var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,16);
-      var grand = (shoppingCart.countCart() >= manUtils.getGlobalVars('costFreeBar'))
+      var grand = (getCartWeight() >= manUtils.getGlobalVars('costFreeBar'))
                 ? String(shoppingCart.totalCart())
-                : String(Number(shoppingCart.totalCart()) + getShippingCost(true));
+                : String(Number(shoppingCart.totalCart()) + getShippingCostByWeight(true, getCartWeight()));
       const data = {
         OrderId: orderId,
         OrderStatus: 'ป้อนข้อมูลจัดส่ง',
         Count: String(shoppingCart.countCart()),
         SubTotal: String(shoppingCart.totalCart()),
-        ShippingCost: String(getShippingCost(true)),
+        ShippingCost: String(getShippingCostByWeight(true, getCartWeight())),
         GrandTotal: grand,
         PaymentVerified: "0",
         VerifyRejected: "0",
@@ -983,8 +1020,12 @@
       countCartTitle.innerHTML = shoppingCart.countCart();
 
       // Update shipping-cost
+      var weight = getCartWeight();
+      var cost = getShippingCostByWeight(true, weight);
+      var shippingTag = document.getElementById('shipping-tag');
+      shippingTag.innerHTML = (shoppingCart.countCart() > 0) ? 'ค่าขนส่ง&nbsp;&nbsp;<span class="text-muted">(นน.พัสดุ ~ ' + manUtils.formatNumber(weight, 1) + ' กก.)</span>' : 'ค่าขนส่ง';
       var shippingCost = document.getElementById('shipping-cost');
-      shippingCost.innerHTML = getShippingCost(false);
+      shippingCost.innerHTML = getShippingCostByWeight(false, weight);
 
       // Update total-cart
       var totalCartBadge = document.getElementById('total-cart-badge');
@@ -993,9 +1034,9 @@
       totalCart.innerHTML = manUtils.formatNumber(shoppingCart.totalCart(), 2);
 
       // Update grand-total
-      var grand = (shoppingCart.countCart() >= manUtils.getGlobalVars('costFreeBar'))
+      var grand = (getCartWeight() >= manUtils.getGlobalVars('costFreeBar'))
                 ? shoppingCart.totalCart()
-                : Number(shoppingCart.totalCart()) + getShippingCost(true);
+                : Number(shoppingCart.totalCart()) + getShippingCostByWeight(true, getCartWeight());
       var grandTotal = document.getElementById('grand-total');
       grandTotal.innerHTML = manUtils.formatNumber(grand, 2);
 
