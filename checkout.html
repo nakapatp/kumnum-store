@@ -121,11 +121,28 @@
                   <div class="modal-body">
                     โปรดระบุวันเวลาที่ปรากฏบนสลิปโอน <br><span class="text-primary">(แตะที่ช่องเพื่อเปลี่ยนวันที่และเวลา)</span>
                     <input type="text" class="form-control" name="datepicker" id="datepicker">
-                    แจ้งการชำระเงินแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">ยกเลิก</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="onSubmitPayment()" >ยืนยันการโอน</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div id="modalRequestSent" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-sm">
+
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-request"></h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>ร้านหนังสือคำนำได้รับ "คำสั่งซื้อ" และ "การแจ้งชำระเงิน" ของท่านแล้ว กรุณารอผลการตรวจสอบยอดเงิน และยืนยันกลับภายใน 24 ชม. ทางอีเมลของท่าน</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ตกลง</button>
                   </div>
                 </div>
 
@@ -140,7 +157,7 @@
                   หากต้องการติดต่อเจ้าหน้าที่ โทร.<span id="callcenter-no"></span>
                 </div>
                 <div id="notify-wait" style="display:none">
-                  <div class="alert alert-success" role="alert"><i class="fa fa-check-circle fa-lg"></i> แจ้งการโอนแล้ว กรุณารอผลการตรวจสอบ และยืนยันภายใน 24 ชม.</div>
+                  <div class="alert alert-success" role="alert"><i class="fa fa-check-circle fa-lg"></i> ร้านหนังสือคำนำได้รับ "คำสั่งซื้อ" และ "การแจ้งชำระเงิน" ของท่านแล้ว กรุณารอผลการตรวจสอบยอดเงิน และยืนยันกลับภายใน 24 ชม. ทางอีเมลของท่าน</div>
                 </div>
               </p>
             </div>
@@ -466,6 +483,8 @@
         if (hOrderId) hOrderId.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
         var modalTitle = document.getElementById('modal-title');
         if (modalTitle) modalTitle.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
+        var modalRequest = document.getElementById('modal-request');
+        if (modalRequest) modalRequest.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
 
         var shopLink = document.getElementById('shop-link');
         shopLink.href = manUtils.getGlobalVars('shopURL');
@@ -669,6 +688,8 @@
               CreatedTime: manUtils.getCurrentTime(),
             };
             mailTo(mail, 'Orders');
+
+            $("#modalRequestSent").modal();
           })
           .catch((error) => { console.log(error); });
         }
@@ -687,8 +708,9 @@
         var inState = document.getElementById('state');
         var inZip = document.getElementById('zip');
 
-        if (manUtils.hasClass(form, 'was-validated')
-            || (inFirstName.value && inLastName.value && inUsername.value && inAddress.value && inCountry.value && inState.value && inZip.value)) {
+        if ((manUtils.hasClass(form, 'was-validated')
+            && inFirstName.value && inLastName.value && inUsername.value && inEmail.value && inAddress.value && inCountry.value && inState.value && inZip.value)
+            || (inFirstName.value && inLastName.value && inUsername.value && inEmail.value && inAddress.value && inCountry.value && inState.value && inZip.value)) {
 
           e.preventDefault();
 
