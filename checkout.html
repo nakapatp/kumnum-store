@@ -77,7 +77,7 @@
             <p class="text-dark">สแกนคิวอาร์โค้ดเพื่อโอนเงิน หรือ
               โอนเงินเข้าบัญชี <!--ชื่อ <span class="badge badge-primary" id="bank-account-owner"></span>
               เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>-->
-              <br><img src="https://i.imgur.com/xJRHUko.jpg">
+              <br><img src="" id="bank-account-banner">
             </p>
             <hr>
             <p><h5 class="mb-3">2. แจ้งยืนยันการชำระเงิน</h5></p>
@@ -574,6 +574,7 @@
 
       function showPaymentNotification() {
         document.getElementById('bank-account-qr').src = manUtils.getGlobalVars('bankAccountQR');
+        document.getElementById('bank-account-banner').src = manUtils.getGlobalVars('bankAccountBanner');
         /*
         document.getElementById('bank-account-owner').innerHTML = manUtils.getGlobalVars('bankAccountOwner');
         document.getElementById('bank-account-number').innerHTML = manUtils.getGlobalVars('bankAccountNumber');
