@@ -799,7 +799,7 @@
         //var html = manUtils.formatName(author.Title, author.FirstName, author.LastName);
         //html += '<div><small><small>';
         var html = "";
-        html += author.Biography;
+        html += author.Biography.replaceAll(' ', '<br>');
         html += '<br/><br/><span><i class="fa fa-envelope"></i>&nbsp;&nbsp;' + author.Email + '</span>';
         if (author.LineId)
           html += '<br/><span><i class="fab fa-line"></i>&nbsp;&nbsp;' + author.LineId + '</span>';
