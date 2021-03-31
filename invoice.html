@@ -96,7 +96,7 @@
           // Order Info.
           document.getElementById('order-id').innerHTML = '<span>เลขที่คำสั่งซื้อ</span> ' + myOrder.OrderId;
           document.getElementById('order-fullname').innerHTML = '<span>ชื่อผู้รับ</span> ' + myOrder.FirstName + ' ' + myOrder.LastName + ' โทร. ' + manUtils.formatPhoneNumber(myOrder.Phone);
-          document.getElementById('order-address').innerHTML = '<span>ที่อยู่จัดส่ง</span> ' + myOrder.Address;
+          document.getElementById('order-address').innerHTML = '<span>ที่อยู่จัดส่ง</span> ' + myOrder.Address + ' จ.' + myOrder.Province + ' ' + myOrder.Zip;
           document.getElementById('order-email').innerHTML = '<span>อีเมล</span> ' + myOrder.Email;
           document.getElementById('order-datetime').innerHTML = '<span>วันที่สั่งซื้อ</span> ' + manUtils.formatDateThai(myOrder.CreatedDate) + ' ' + myOrder.CreatedTime;
           document.getElementById('payment-datetime').innerHTML = '<span>วันที่ชำระเงิน</span> ' + manUtils.formatDateThai(myOrder.PaymentDate) + ' ' + myOrder.PaymentTime;
