@@ -72,13 +72,15 @@
           <div id="payment-panel" style="display:none">
             <p id="payment-method"></p>
             <h4 class="mb-3"><span class="text-secondary"><i class="fa fa-money"></i> วิธีการชำระเงิน</span></h4>
+            <h5 class="mb-3">1. โอนเงินด้วยวิธี <u>สแกนคิวอาร์โค้ด</u> </h5>
             <img class="mb-3" src="" alt="Promtpay QR Code" style="width:100%" id="bank-account-qr">
-            <h5 class="mb-3">1. โอนเงิน</h5>
+            <!--
             <p class="text-dark">สแกนคิวอาร์โค้ดเพื่อโอนเงิน หรือ
-              โอนเงินเข้าบัญชี <!--ชื่อ <span class="badge badge-primary" id="bank-account-owner"></span>
-              เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>-->
+              โอนเงินเข้าบัญชี ชื่อ <span class="badge badge-primary" id="bank-account-owner"></span>
+              เลขที่บัญชี <span class="badge badge-primary" id="bank-account-number"></span> <span class="badge badge-secondary" id="bank-account-name"></span>
               <br><img src="" id="bank-account-banner">
             </p>
+            -->
             <hr>
             <p><h5 class="mb-3">2. แจ้งยืนยันการชำระเงิน</h5></p>
             <p class="text-dark">เมื่อชำระเงินแล้ว กรุณากดปุ่ม "แจ้งการชำระเงิน"
@@ -119,7 +121,7 @@
                     <h4 class="modal-title" id="modal-title"></h4>
                   </div>
                   <div class="modal-body">
-                    โปรดระบุวันเวลาที่ปรากฏบนสลิปโอน <br><span class="text-primary">(แตะที่ช่องเพื่อเปลี่ยนวันที่และเวลา)</span>
+                    <h5>โปรดระบุวันเวลาที่ <u>ปรากฏบนสลิปการโอน</u></h5><span class="text-primary">(แตะที่ช่องเพื่อเปลี่ยนวันที่และเวลา)</span>
                     <input type="text" class="form-control" name="datepicker" id="datepicker">
                   </div>
                   <div class="modal-footer">
@@ -575,7 +577,7 @@
 
       function showPaymentNotification() {
         document.getElementById('bank-account-qr').src = manUtils.getGlobalVars('bankAccountQR');
-        document.getElementById('bank-account-banner').src = manUtils.getGlobalVars('bankAccountBanner');
+        //document.getElementById('bank-account-banner').src = manUtils.getGlobalVars('bankAccountBanner');
         /*
         document.getElementById('bank-account-owner').innerHTML = manUtils.getGlobalVars('bankAccountOwner');
         document.getElementById('bank-account-number').innerHTML = manUtils.getGlobalVars('bankAccountNumber');
