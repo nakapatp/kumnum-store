@@ -693,7 +693,7 @@
               CreatedDate: manUtils.getCurrentDate(),
               CreatedTime: manUtils.getCurrentTime(),
             };
-            mailTo(mail, 'Orders');
+            mailTo(mail, 'SubmitPayment'); // Previous: 'Orders'
 
             $("#modalRequestSent").modal();
           })
