@@ -41,6 +41,8 @@
           <h5 class="mt-0 text-primary" id="qr-title"></h5>
           <span id="qr-text"></span>
           <div id="sale-type"></div>
+          <div id="book-img"></div>
+          <h5 class="mt-0" id="book-price"></h5>
         </div>
       </div>
     </div>
@@ -105,11 +107,13 @@
           document.getElementById('qr-text').innerHTML = product.Brief;
 
           if (product.Available == 'False')
-            document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-danger">งดจำหน่าย</span></big></p>';
+            document.getElementById('sale-type').innerHTML = '<p><bßig><span class="badge badge-danger">งดจำหน่าย</span></big></p>';
           else if (product.PrivateSale == 'True')
             document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-warning">ขายเฉพาะบุคคล</span></big></p>';
           else document.getElementById('sale-type').innerHTML = '<p><big><span class="badge badge-success">ขายแบบสาธารณะ</span></big></p>';
 
+          document.getElementById('book-img').innerHTML = '<img src="' + product.ImageFull + '" height="100"/>';
+          document.getElementById('book-price').innerHTML = product.Price + ' บ.';
         } else if (author) {
           url = manUtils.getGlobalVars('shopURL') + '?id=' + author.ContactId;
           document.getElementById('qr-header').innerHTML = 'สำหรับสั่งซื้อหนังสือจาก...';
