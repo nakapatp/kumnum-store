@@ -24,6 +24,7 @@
     <link href="css/form-validation.css" rel="stylesheet">
     <link href="css/step-progress-bar.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/overlay.css" rel="stylesheet" />
   </head>
 
   <body class="bg-light">
@@ -67,7 +68,27 @@
           <ul class="list-group mb-3" id="list-cart">
             <!-- Cart items will be here -->
           </ul>
+          <!-- Self Picking -->
+          <div id="modalSelfPick" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-sm">
 
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-self-pick">รับด้วยตนเอง</h4>
+                </div>
+                <div class="modal-body">
+                  <p>กรุณาระบุข้อมูลต่อไปนี้ให้ครบถ้วน</p>
+                  <p>ชื่อผู้รับ <input type="text" class="form-control" name="self-pick-name" id="self-pick-name"></p>
+                  <p>เบอร์โทรผู้รับ <input type="text" class="form-control" name="self-pick-phone" id="self-pick-phone"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" data-dismiss="modal" id="cancel-self-pick" onclick="onSubmitSelfPick('0')">ยกเลิก</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm-self-pick" onclick="onSubmitSelfPick('1')">ยืนยันรับเอง</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
           <!-- Payment -->
           <div id="payment-panel" style="display:none">
             <p id="payment-method"></p>
@@ -167,7 +188,9 @@
         </div>
         <!-- Shipping Address -->
         <div class="col-md-8 order-md-1">
-          <p><h4 class="mb-3">ข้อมูลจัดส่งทางไปรษณีย์</h4></p>
+          <p>
+            <h4 class="d-flex justify-content-left align-items-center mb-3" id="header-shipping-address"></h4>
+          </p>
           <form class="needs-validation" novalidate id="form-address">
             <fieldset id="entire-form" disabled>
               <div class="row">
@@ -466,12 +489,12 @@
           html += '<div class="text-success">';
             html += '<h6 class="my-0">ค่าจัดส่ง</h6>';
           html += '</div>';
-          html += '<span class="text-success">' + manUtils.formatNumber(dataOrder.ShippingCost, 2) + '</span>';
+          html += '<span class="text-success">' + manUtils.formatNumber(dataOrder.SelfPick == "1" ? 0 : dataOrder.ShippingCost, 2) + '</span>';
         html += '</li>';
         // Total
         html += '<li class="list-group-item list-group-item-secondary d-flex justify-content-between">';
         html += '<h3><strong>ยอดโอน</strong></h3>';
-        html += '<h3><strong>' + manUtils.formatNumber(dataOrder.GrandTotal, 2) + ' </strong></h3>';
+        html += '<h3><strong>' + manUtils.formatNumber(dataOrder.GrandTotal - (dataOrder.SelfPick == "1" ? dataOrder.ShippingCost : 0), 2) + ' </strong></h3>';
         html += '</li>';
 
         //console.log(html);
@@ -508,9 +531,13 @@
           html += '<li>';
           html += '<div class="text-primary" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
           //html += '<div style="margin-top:10px;"><a href="#shipping-address" class="btn btn-outline-primary active" role="button">ป้อนข้อมูลจัดส่ง</a></div>';
+          html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>รับด้วยตนเอง</big></a></div>';
+          html += '<div class="text-muted"><small>กรณีมารับเอง ไม่เสียค่าจัดส่ง</small></div>';
         } else {
           html += '<li class="active">'
-          html += '<div class="text-success" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
+          if (dataOrder.SelfPick == "1")
+            html += '<big><span class="badge badge-warning badge-pill" id="badge-self-pick">รับด้วยตนเอง</span></big>';
+          else html += '<div class="text-success" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
           if (dataOrder.OrderStatus == 'รอการชำระเงิน'
               || dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
 
@@ -518,6 +545,8 @@
               html += 'สามารถเปลี่ยนแปลงข้อมูลได้ จนถึงก่อนการชำระเงินเสร็จสมบูรณ์';
               //html += '<a href="tracking.html?id=' + dataOrder.OrderId + '&act=edit" class="btn btn-outline-secondary btn-sm" role="button">แก้ไข</a>';
             html += '</small></div>';
+            html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn ' + (dataOrder.SelfPick == "1" ? 'btn-dark' : 'btn-primary') + ' btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>' + (dataOrder.SelfPick == "1" ? 'เปลี่ยนแปลง' : 'รับด้วยตนเอง') + '</big></a></div>';
+            //html += '<div class="text-muted"><small>กรณีรับเอง ไม่เสียค่าจัดส่ง</small></div>';
           } else {
             html += '<div class="text-muted"><small>เรียบร้อยแล้ว</small></div>';
           }
@@ -527,6 +556,7 @@
         if (dataOrder.OrderStatus == 'ป้อนข้อมูลจัดส่ง') {
           html += '<li>';
           html += '<div style="margin-top:10px; color:#cccccc">รอการชำระเงิน</div>';
+
         } else if (dataOrder.OrderStatus == 'รอการชำระเงิน'
             || dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
 
@@ -558,7 +588,7 @@
           if (dataOrder.TrackingCode == null
               || dataOrder.TrackingCode == "") {
             html += '<div class="text-primary" style="margin-top:10px;">ผลิตและจัดส่งพัสดุ</div>';
-            html += '<div class="text-muted"><small>พัสดุจะเริ่มออกเดินทางภายใน 3-7 วัน</small></div>';
+            html += '<div class="text-muted"><small>' + (dataOrder.SelfPick == "1" ? 'สามารถรับหนังสือได้ภายใน 3-7 วัน' : 'พัสดุจะเริ่มออกเดินทางภายใน 3-7 วัน') + '</small></div>';
           } else {
             html += '<div class="text-success" style="margin-top:10px;">จัดส่งพัสดุแล้ว</div>';
             html += '<div class="text-muted"><small>';
@@ -619,8 +649,16 @@
       }
 
       function showShippingAddress() {
+        var header = document.getElementById('header-shipping-address');
+        header.innerHTML = "ข้อมูลจัดส่งทางไปรษณีย์";
+        if (dataOrder.SelfPick == "1") {
+          header.innerHTML += '&nbsp;&nbsp;<span class="badge badge-warning badge-pill" id="badge-self-pick">รับด้วยตนเอง</span>';
+        }
+        document.getElementById('self-pick-name').value = dataOrder.FirstName;
+        document.getElementById('self-pick-phone').value = dataOrder.Phone;
+
         var form = document.getElementById('form-address');
-        form.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId)
+        form.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId);
 
         var inFirstName = document.getElementById('firstName');
         var inLastName = document.getElementById('lastName');
@@ -699,6 +737,55 @@
           })
           .catch((error) => { console.log(error); });
         }
+      }
+
+      function onSubmitSelfPick(strVal) {
+        // Promtly RETURN if there is nothing change.
+        if (strVal == dataOrder.SelfPick)
+          return;
+
+        var inSelfPickName = document.getElementById('self-pick-name');
+        var inSelfPickPhone = document.getElementById('self-pick-phone');
+
+        //if (strVal == "1"
+        //    && (inSelfPickName.Value == "" || inSelfPickPhone.Value))
+        //  return;
+
+        // Go on if changing is requested.
+        var div= document.createElement("div");
+        div.className += "overlay";
+        document.body.appendChild(div);
+
+        if (strVal == "1") {
+          dataOrder.OrderStatus = "รอการชำระเงิน";
+        } else {
+          dataOrder.OrderStatus = "ป้อนข้อมูลจัดส่ง";
+        }
+        dataOrder.PaymentDate = "";
+        dataOrder.PaymentTime = "";
+
+        dataOrder.SelfPick = strVal;
+        if (inSelfPickName.value)
+          dataOrder.FirstName = document.getElementById('self-pick-name').value;
+        if (inSelfPickPhone.value)
+          dataOrder.Phone = document.getElementById('self-pick-phone').value;
+
+        fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
+          {
+            method: "PATCH",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataOrder),
+          }
+        )
+        .then((response) => { return response.json(); })
+        .then((data) => {
+          //console.log("Success PATCH");
+          window.location.href = 'checkout.html?id=' + dataOrder.OrderId;
+        })
+        .catch((error) => { console.log(error); });
       }
 
       $('#form-address').on('submit',function(e) {
