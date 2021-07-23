@@ -118,10 +118,12 @@
           row.innerHTML = '<tr><td colspan="4">รวม</td><td class="total">' + manUtils.formatNumber(myOrder.SubTotal, 2) + '</td></tr>';
           tBody.appendChild(row);
           row = document.createElement('tr');
-          row.innerHTML = '<tr><td colspan="4">ค่าจัดส่ง</td><td class="total">' + manUtils.formatNumber(myOrder.ShippingCost, 2) + '</td></tr>';
+          var shippingCost = (myOrder.SelfPick == "1" ? 0 : myOrder.ShippingCost);
+          var grandTotal = (myOrder.SelfPick == "1" ? myOrder.GrandTotal - myOrder.ShippingCost : myOrder.GrandTotal);
+          row.innerHTML = '<tr><td colspan="4">ค่าจัดส่ง</td><td class="total">' + manUtils.formatNumber(shippingCost, 2) + '</td></tr>';
           tBody.appendChild(row);
           row = document.createElement('tr');
-          row.innerHTML = '<tr><td colspan="4" class="grand total"><h4>ยอดโอน</h4></td><td class="grand total"><h4>' + manUtils.formatNumber(myOrder.GrandTotal, 2) + '</h4></td></tr>';
+          row.innerHTML = '<tr><td colspan="4" class="grand total"><h4>ยอดโอน</h4></td><td class="grand total"><h4>' + manUtils.formatNumber(grandTotal, 2) + '</h4></td></tr>';
           tBody.appendChild(row);
 
         }

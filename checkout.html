@@ -74,12 +74,13 @@
 
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title" id="modal-self-pick">รับด้วยตนเอง</h4>
+                  <h4 class="modal-title" id="modal-self-pick">รับเองที่ "คำนำ"</h4>
                 </div>
                 <div class="modal-body">
                   <p>กรุณาระบุข้อมูลต่อไปนี้ให้ครบถ้วน</p>
                   <p>ชื่อผู้รับ <input type="text" class="form-control" name="self-pick-name" id="self-pick-name"></p>
-                  <p>เบอร์โทรผู้รับ <input type="text" class="form-control" name="self-pick-phone" id="self-pick-phone"></p>
+                  <p>เบอร์โทร <input type="text" class="form-control" name="self-pick-phone" id="self-pick-phone"></p>
+                  <p>อีเมล <input type="text" class="form-control" name="self-pick-email" id="self-pick-email"></p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-light" data-dismiss="modal" id="cancel-self-pick" onclick="onSubmitSelfPick('0')">ยกเลิก</button>
@@ -231,138 +232,142 @@
                 </div>
               </div>
 
-              <div class="mb-3">
-                <label for="address">ที่อยู่จัดส่ง</label>
-                <input type="text" class="form-control" id="address" placeholder="ที่อยู่ไปรษณีย์ (ไม่รวมจังหวัด)" required>
-                <div class="invalid-feedback">
-                  โปรดระบุที่อยู่
-                </div>
-              </div>
-              <!-- Address2
-              <div class="mb-3">
-                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-              </div>
-              -->
-              <div class="row">
-                <div class="col-md-5 mb-3">
-                  <label for="country">ประเทศ</label>
-                  <select class="custom-select d-block w-100" id="country" required>
-                    <option value="">เลือก...</option>
-                    <option>ไทย</option>
-                  </select>
+              <div id="group-address">
+
+                <div class="mb-3">
+                  <label for="address">ที่อยู่จัดส่ง</label>
+                  <input type="text" class="form-control" id="address" placeholder="ที่อยู่ไปรษณีย์ (ไม่รวมจังหวัด)" required>
                   <div class="invalid-feedback">
-                    โปรดระบุประเทศ
+                    โปรดระบุที่อยู่
                   </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                  <label for="state">จังหวัด</label>
-                  <select class="custom-select d-block w-100" id="state" required>
-                    <option value="">เลือก...</option>
-                    <optgroup label="--- กทม.และปริมณฑล ---">
-                      <option>กรุงเทพมหานคร </option>
-                      <option>นนทบุรี </option>
-                      <option>ปทุมธานี </option>
-                      <option>สมุทรปราการ </option>
-                      <option>สมุทรสาคร </option>
-                    </optgroup>
-                    <optgroup label="--- ภาคเหนือ ---">
-                      <option>เชียงราย </option>
-                      <option>เชียงใหม่ </option>
-                      <option>น่าน </option>
-                      <option>พะเยา </option>
-                      <option>แพร่ </option>
-                      <option>แม่ฮ่องสอน </option>
-                      <option>ลำปาง </option>
-                      <option>ลำพูน </option>
-                      <option>อุตรดิตถ์</option>
-                    </optgroup>
-                    <optgroup label="--- ภาคอิสาน ---">
-                      <option>กาฬสินธุ์ </option>
-                      <option>ขอนแก่น </option>
-                      <option>ชัยภูมิ </option>
-                      <option>นครพนม </option>
-                      <option>นครราชสีมา </option>
-                      <option>บึงกาฬ </option>
-                      <option>บุรีรัมย์ </option>
-                      <option>มหาสารคาม </option>
-                      <option>มุกดาหาร </option>
-                      <option>ยโสธร </option>
-                      <option>ร้อยเอ็ด </option>
-                      <option>เลย </option>
-                      <option>สกลนคร </option>
-                      <option>สุรินทร์ </option>
-                      <option>ศรีสะเกษ </option>
-                      <option>หนองคาย </option>
-                      <option>หนองบัวลำภู </option>
-                      <option>อุดรธานี </option>
-                      <option>อุบลราชธานี </option>
-                      <option>อำนาจเจริญ  </option>
-                    </optgroup>
-                    <optgroup label="--- ภาคกลาง ---">
-                      <option>กำแพงเพชร </option>
-                      <option>ชัยนาท </option>
-                      <option>นครนายก </option>
-                      <option>นครปฐม </option>
-                      <option>นครสวรรค์ </option>
-                      <option>พระนครศรีอยุธยา </option>
-                      <option>พิจิตร </option>
-                      <option>พิษณุโลก </option>
-                      <option>เพชรบูรณ์ </option>
-                      <option>ลพบุรี </option>
-                      <option>สมุทรสงคราม </option>
-                      <option>สิงห์บุรี </option>
-                      <option>สุโขทัย </option>
-                      <option>สุพรรณบุรี </option>
-                      <option>สระบุรี </option>
-                      <option>อ่างทอง </option>
-                      <option>อุทัยธานี </option>
-                    </optgroup>
-                    <optgroup label="--- ภาคตะวันออก ---">
-                      <option>จันทบุรี </option>
-                      <option>ฉะเชิงเทรา </option>
-                      <option>ชลบุรี </option>
-                      <option>ตราด </option>
-                      <option>ปราจีนบุรี </option>
-                      <option>ระยอง </option>
-                      <option>สระแก้ว</option>
-                    </optgroup>
-                    <optgroup label="--- ภาคตะวันตก ---">
-                      <option>กาญจนบุรี </option>
-                      <option>ตาก </option>
-                      <option>ประจวบคีรีขันธ์ </option>
-                      <option>เพชรบุรี </option>
-                      <option>ราชบุรี </option>
-                    </optgroup>
-                    <optgroup label="--- ภาคใต้ ---">
-                      <option>กระบี่ </option>
-                      <option>ชุมพร </option>
-                      <option>ตรัง </option>
-                      <option>นครศรีธรรมราช </option>
-                      <option>นราธิวาส </option>
-                      <option>ปัตตานี </option>
-                      <option>พังงา </option>
-                      <option>พัทลุง </option>
-                      <option>ภูเก็ต </option>
-                      <option>ระนอง </option>
-                      <option>สตูล </option>
-                      <option>สงขลา </option>
-                      <option>สุราษฎร์ธานี </option>
-                      <option>ยะลา</option>
-                    </optgroup>
-                  </select>
-                  <div class="invalid-feedback">
-                    โปรดระบุจังหวัด
+                <!-- Address2
+                <div class="mb-3">
+                  <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                </div>
+                -->
+                <div class="row">
+                  <div class="col-md-5 mb-3">
+                    <label for="country">ประเทศ</label>
+                    <select class="custom-select d-block w-100" id="country" required>
+                      <option value="">เลือก...</option>
+                      <option>ไทย</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      โปรดระบุประเทศ
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="state">จังหวัด</label>
+                    <select class="custom-select d-block w-100" id="state" required>
+                      <option value="">เลือก...</option>
+                      <optgroup label="--- กทม.และปริมณฑล ---">
+                        <option>กรุงเทพมหานคร </option>
+                        <option>นนทบุรี </option>
+                        <option>ปทุมธานี </option>
+                        <option>สมุทรปราการ </option>
+                        <option>สมุทรสาคร </option>
+                      </optgroup>
+                      <optgroup label="--- ภาคเหนือ ---">
+                        <option>เชียงราย </option>
+                        <option>เชียงใหม่ </option>
+                        <option>น่าน </option>
+                        <option>พะเยา </option>
+                        <option>แพร่ </option>
+                        <option>แม่ฮ่องสอน </option>
+                        <option>ลำปาง </option>
+                        <option>ลำพูน </option>
+                        <option>อุตรดิตถ์</option>
+                      </optgroup>
+                      <optgroup label="--- ภาคอิสาน ---">
+                        <option>กาฬสินธุ์ </option>
+                        <option>ขอนแก่น </option>
+                        <option>ชัยภูมิ </option>
+                        <option>นครพนม </option>
+                        <option>นครราชสีมา </option>
+                        <option>บึงกาฬ </option>
+                        <option>บุรีรัมย์ </option>
+                        <option>มหาสารคาม </option>
+                        <option>มุกดาหาร </option>
+                        <option>ยโสธร </option>
+                        <option>ร้อยเอ็ด </option>
+                        <option>เลย </option>
+                        <option>สกลนคร </option>
+                        <option>สุรินทร์ </option>
+                        <option>ศรีสะเกษ </option>
+                        <option>หนองคาย </option>
+                        <option>หนองบัวลำภู </option>
+                        <option>อุดรธานี </option>
+                        <option>อุบลราชธานี </option>
+                        <option>อำนาจเจริญ  </option>
+                      </optgroup>
+                      <optgroup label="--- ภาคกลาง ---">
+                        <option>กำแพงเพชร </option>
+                        <option>ชัยนาท </option>
+                        <option>นครนายก </option>
+                        <option>นครปฐม </option>
+                        <option>นครสวรรค์ </option>
+                        <option>พระนครศรีอยุธยา </option>
+                        <option>พิจิตร </option>
+                        <option>พิษณุโลก </option>
+                        <option>เพชรบูรณ์ </option>
+                        <option>ลพบุรี </option>
+                        <option>สมุทรสงคราม </option>
+                        <option>สิงห์บุรี </option>
+                        <option>สุโขทัย </option>
+                        <option>สุพรรณบุรี </option>
+                        <option>สระบุรี </option>
+                        <option>อ่างทอง </option>
+                        <option>อุทัยธานี </option>
+                      </optgroup>
+                      <optgroup label="--- ภาคตะวันออก ---">
+                        <option>จันทบุรี </option>
+                        <option>ฉะเชิงเทรา </option>
+                        <option>ชลบุรี </option>
+                        <option>ตราด </option>
+                        <option>ปราจีนบุรี </option>
+                        <option>ระยอง </option>
+                        <option>สระแก้ว</option>
+                      </optgroup>
+                      <optgroup label="--- ภาคตะวันตก ---">
+                        <option>กาญจนบุรี </option>
+                        <option>ตาก </option>
+                        <option>ประจวบคีรีขันธ์ </option>
+                        <option>เพชรบุรี </option>
+                        <option>ราชบุรี </option>
+                      </optgroup>
+                      <optgroup label="--- ภาคใต้ ---">
+                        <option>กระบี่ </option>
+                        <option>ชุมพร </option>
+                        <option>ตรัง </option>
+                        <option>นครศรีธรรมราช </option>
+                        <option>นราธิวาส </option>
+                        <option>ปัตตานี </option>
+                        <option>พังงา </option>
+                        <option>พัทลุง </option>
+                        <option>ภูเก็ต </option>
+                        <option>ระนอง </option>
+                        <option>สตูล </option>
+                        <option>สงขลา </option>
+                        <option>สุราษฎร์ธานี </option>
+                        <option>ยะลา</option>
+                      </optgroup>
+                    </select>
+                    <div class="invalid-feedback">
+                      โปรดระบุจังหวัด
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="zip">รหัสไปรษณีย์</label>
+                    <input type="text" class="form-control" id="zip" placeholder="" required>
+                    <div class="invalid-feedback">
+                      โปรดระบุรหัสไปรษณีย์
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label for="zip">รหัสไปรษณีย์</label>
-                  <input type="text" class="form-control" id="zip" placeholder="" required>
-                  <div class="invalid-feedback">
-                    โปรดระบุรหัสไปรษณีย์
-                  </div>
-                </div>
-              </div>
+              </div> <!-- End of 'group-address' -->
+
               <hr class="mb-4">
               <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit-address"><big><big>บันทึกข้อมูลผู้รับ</big></big></button>
           </fieldset>
@@ -531,12 +536,12 @@
           html += '<li>';
           html += '<div class="text-primary" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
           //html += '<div style="margin-top:10px;"><a href="#shipping-address" class="btn btn-outline-primary active" role="button">ป้อนข้อมูลจัดส่ง</a></div>';
-          html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>รับด้วยตนเอง</big></a></div>';
+          html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>รับเองที่ "คำนำ"</big></a></div>';
           html += '<div class="text-muted"><small>กรณีมารับเอง ไม่เสียค่าจัดส่ง</small></div>';
         } else {
           html += '<li class="active">'
           if (dataOrder.SelfPick == "1")
-            html += '<big><span class="badge badge-warning badge-pill" id="badge-self-pick">รับด้วยตนเอง</span></big>';
+            html += '<big><span class="badge badge-warning badge-pill" id="badge-self-pick">รับเองที่ "คำนำ"</span></big>';
           else html += '<div class="text-success" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
           if (dataOrder.OrderStatus == 'รอการชำระเงิน'
               || dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
@@ -545,7 +550,7 @@
               html += 'สามารถเปลี่ยนแปลงข้อมูลได้ จนถึงก่อนการชำระเงินเสร็จสมบูรณ์';
               //html += '<a href="tracking.html?id=' + dataOrder.OrderId + '&act=edit" class="btn btn-outline-secondary btn-sm" role="button">แก้ไข</a>';
             html += '</small></div>';
-            html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn ' + (dataOrder.SelfPick == "1" ? 'btn-dark' : 'btn-primary') + ' btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>' + (dataOrder.SelfPick == "1" ? 'เปลี่ยนแปลง' : 'รับด้วยตนเอง') + '</big></a></div>';
+            html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn ' + (dataOrder.SelfPick == "1" ? 'btn-dark' : 'btn-primary') + ' btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>' + (dataOrder.SelfPick == "1" ? 'เปลี่ยนแปลง' : 'รับเองที่ "คำนำ"') + '</big></a></div>';
             //html += '<div class="text-muted"><small>กรณีรับเอง ไม่เสียค่าจัดส่ง</small></div>';
           } else {
             html += '<div class="text-muted"><small>เรียบร้อยแล้ว</small></div>';
@@ -652,10 +657,11 @@
         var header = document.getElementById('header-shipping-address');
         header.innerHTML = "ข้อมูลสำหรับจัดส่งหนังสือ";
         if (dataOrder.SelfPick == "1") {
-          header.innerHTML += '&nbsp;&nbsp;<span class="badge badge-warning badge-pill" id="badge-self-pick">รับด้วยตนเอง</span>';
+          header.innerHTML += '&nbsp;&nbsp;<span class="badge badge-warning badge-pill" id="badge-self-pick">รับเองที่ "คำนำ"</span>';
         }
         document.getElementById('self-pick-name').value = dataOrder.FirstName;
         document.getElementById('self-pick-phone').value = dataOrder.Phone;
+        document.getElementById('self-pick-email').value = dataOrder.Email;
 
         var form = document.getElementById('form-address');
         form.setAttribute('action', "checkout.html?id=" + dataOrder.OrderId);
@@ -686,6 +692,8 @@
         } else {
           fieldset.disabled = false;
         }
+
+        document.getElementById('group-address').style.display = (dataOrder.SelfPick == "1") ? "none" : "block";
       }
 
       function onSubmitPayment() {
@@ -746,6 +754,7 @@
 
         var inSelfPickName = document.getElementById('self-pick-name');
         var inSelfPickPhone = document.getElementById('self-pick-phone');
+        var inSelfPickEmail = document.getElementById('self-pick-email');
 
         //if (strVal == "1"
         //    && (inSelfPickName.Value == "" || inSelfPickPhone.Value))
@@ -769,6 +778,8 @@
           dataOrder.FirstName = document.getElementById('self-pick-name').value;
         if (inSelfPickPhone.value)
           dataOrder.Phone = document.getElementById('self-pick-phone').value;
+        if (inSelfPickEmail.value)
+          dataOrder.Email = document.getElementById('self-pick-email').value;
 
         fetch(sheetURL + '/tabs/Orders/OrderId/*' + dataOrder.OrderId + '*',
           {
