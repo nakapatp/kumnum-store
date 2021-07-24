@@ -541,7 +541,7 @@
         } else {
           html += '<li class="active">'
           if (dataOrder.SelfPick == "1")
-            html += '<big><span class="badge badge-warning badge-pill" id="badge-self-pick">รับเองที่ "คำนำ"</span></big>';
+            html += '<div style="margin-top:6px;"><big><span class="badge badge-warning badge-pill" id="badge-self-pick">รับเองที่ "คำนำ"</span></big></div>';
           else html += '<div class="text-success" style="margin-top:10px;">ป้อนข้อมูลจัดส่ง</div>';
           if (dataOrder.OrderStatus == 'รอการชำระเงิน'
               || dataOrder.OrderStatus == 'ชำระเงินแล้วรอตรวจสอบ') {
@@ -553,7 +553,7 @@
             html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn ' + (dataOrder.SelfPick == "1" ? 'btn-dark' : 'btn-primary') + ' btn-sm" role="button" data-toggle="modal" data-target="#modalSelfPick"><big>' + (dataOrder.SelfPick == "1" ? 'เปลี่ยนแปลง' : 'รับเองที่ "คำนำ"') + '</big></a></div>';
             //html += '<div class="text-muted"><small>กรณีรับเอง ไม่เสียค่าจัดส่ง</small></div>';
           } else {
-            html += '<div class="text-muted"><small>เรียบร้อยแล้ว</small></div>';
+            html += '<div class="text-muted"><small>ยืนยันโดยผู้ซื้อแล้ว</small></div>';
           }
         }
         html += '</li>';
