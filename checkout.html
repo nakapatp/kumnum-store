@@ -42,6 +42,7 @@
       </div>
       <!-- Progress of Checkout Process Step -->
       <div class="py-5 text-center" id="order-header">
+        <p><img src="" width="200" id="img-1book"></p>
         <h2 id="order-id"></h2>
         <p class="lead">กรุณาบันทึกภาพหน้าจอ หรือบันทึกเลขที่คำสั่งซื้อนี้ไว้ เพื่อใช้อ้างอิงและตรวจสอบ</p>
       </div>
@@ -176,7 +177,7 @@
             <div id="payment-notification">
               <p class="text-muted" style="margin-top:5px;">
                 <div id="notify-rejected" style="display:none">
-                  <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle fa-lg"></i> ไม่พบรายการโอนเงิน ตามวัน-เวลาที่ท่านแจ้งเอาไว้</div>
+                  <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation-circle fa-lg"></i> แอดมินตรวจสอบแล้ว ไม่พบรายการโอนเงิน ตามวัน-เวลาที่ท่านแจ้งเอาไว้</div>
                   <mark>กรุณาตรวจสอบการโอนของท่าน</mark> และแจ้งวัน-เวลาที่ถูกต้องอีกครั้ง
                   หากต้องการติดต่อเจ้าหน้าที่ โทร.<span id="callcenter-no"></span>
                 </div>
@@ -379,7 +380,7 @@
         <p class="mb-1">&copy; 2021 "คำนำ"</p>
         <ul class="list-inline">
           <li class="list-inline-item"><a href="index.html"><i class="fa fa-home"></i> หน้าแรก</a></li>
-          <li class="list-inline-item"><a id="shop-link"><i class="fa fa-book"></i> หน้าร้าน</a></li>
+          <li class="list-inline-item"><a id="shop-link" target="_blank"><i class="fa fa-book"></i> หน้าร้าน</a></li>
           <!-- <li class="list-inline-item"><a href="#">Terms</a></li> -->
           <!-- <li class="list-inline-item"><a href="#">Support</a></li> -->
         </ul>
@@ -431,6 +432,8 @@
       var globalVars = null;
       var dataOrder = null;
       var dataSales = null;
+      var dataProduct = null; //1Book Checkout
+      var shopId = null;
 
       $(function(){
         $('*[name=datepicker]').appendDtpicker({
@@ -520,7 +523,13 @@
         if (modalRequest) modalRequest.innerHTML = "คำสั่งซื้อเลขที่ " + dataOrder.OrderId;
 
         var shopLink = document.getElementById('shop-link');
-        shopLink.href = manUtils.getGlobalVars('shopURL');
+        shopLink.href = (shopId)
+                      ? manUtils.getGlobalVars('shopURL') + '?id=' + shopId
+                      : manUtils.getGlobalVars('shopURL');
+
+        if (dataProduct) {
+          document.getElementById('img-1book').src = dataProduct.ImageFull;
+        }
 
         // Checkout Process Step
         var progress = document.getElementById('process-step');
@@ -575,7 +584,7 @@
             html += '<div class="text-success" style="margin-top:10px;">ชำระเงินแล้วรอตรวจสอบ</div>';
             html += '<div class="text-muted"><small>เมื่อวันที่ '+ dataOrder.PaymentDate + " " + dataOrder.PaymentTime.slice(0,5) + ' น.</small></div>';
             if (Number(dataOrder.VerifyRejected) == 1) {
-              html += '<div class="text-danger"><small>ไม่พบรายการตามวันเวลาที่แจ้ง</small></div>';
+              html += '<div class="text-danger"><small>ตรวจสอบแล้วไม่พบรายการตามที่แจ้งไว้</small></div>';
               html += '<div style="margin-top:10px;"><a href="#payment-method" class="btn btn-primary btn-sm" role="button"><big>วิธีชำระเงิน</big></a></div>';
             }
             else html += '<div class="text-muted"><small>กรุณารอการยืนยันยอดชำระใน 24 ชม.</small></div>';
@@ -696,6 +705,147 @@
         document.getElementById('group-address').style.display = (dataOrder.SelfPick == "1") ? "none" : "block";
         document.getElementById('last-name-label').style.display = (dataOrder.SelfPick == "1") ? "none" : "block";
         inLastName.style.display = (dataOrder.SelfPick == "1") ? "none" : "block";
+      }
+      function generateOrderId(contactId) {
+        var orderId = Math.floor(100000 + Math.random() * 900000);
+        return contactId + manUtils.generateRandomLetter() + orderId;
+      }
+      function getCartWeight(amount, weight) {
+        var sumWeight = amount * weight;
+        return (sumWeight < 1) ? 1 : sumWeight;
+      }
+      function getShippingCostByWeight(asNumber, weight, amount) {
+        var html = "";
+        var cost = 0;
+        var expected = (amount > 0)
+                     ? Number(manUtils.getGlobalVars('costFlat')) + (Math.ceil(weight) * Number(manUtils.getGlobalVars('costStep')))
+                     : 0;
+
+        cost = (amount >= Number(manUtils.getGlobalVars('costFreeBar')))
+             ? 0
+             : expected;
+
+        if (cost == 0) {
+          return (asNumber) ? 0 : (expected > 0) ? '<del class="text-muted">' + manUtils.formatNumber(expected, 2) + '</del>' : manUtils.formatNumber(expected, 2);
+        } else {
+          return (asNumber) ? cost : manUtils.formatNumber(cost, 2);
+        }
+      }
+      function onCreateOrder(amount) {
+        // Create new order
+        var subTotal = amount * dataProduct.Price;
+        var orderId = generateOrderId(dataProduct.ContactId);
+        var d = new Date();
+        var currentDate = d.toISOString().slice(0, 10);
+        var currentTime = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(11,16);
+        var sumWeight = getCartWeight(amount, dataProduct.Weight);
+        var grand = (amount >= manUtils.getGlobalVars('costFreeBar'))
+                  ? String(subTotal)
+                  : String(Number(subTotal) + getShippingCostByWeight(true, sumWeight, amount));
+
+        const data = {
+          OrderId: orderId,
+          OrderStatus: 'ป้อนข้อมูลจัดส่ง',
+          Count: String(amount),
+          SubTotal: String(subTotal),
+          ShippingCost: String(getShippingCostByWeight(true, sumWeight, amount)),
+          GrandTotal: grand,
+          PaymentVerified: "0",
+          VerifyRejected: "0",
+          Transporter: "อื่น ๆ",
+          Notified: "0",
+          TotalWeight: sumWeight,
+          Printed: "0",
+          SelfPick: "0",
+          CreatedDate: currentDate,
+          CreatedTime: currentTime,
+        };
+
+        // Create new sale record
+        var arrSales = new Array();
+        const sales = {
+          OrderId: orderId,
+          ProductId: dataProduct.ProductId,
+          Title: dataProduct.Title,
+          ContactId: dataProduct.ContactId,
+          Author: dataProduct.Author,
+          Amount: String(amount),
+          Price: String(dataProduct.Price),
+          SubTotal: String(subTotal),
+          PaymentStatus: "รอการชำระเงิน",
+          SharePerUnit: dataProduct.SharePerUnit,
+          PublisherShare: amount * dataProduct.PublisherShare,
+          CopyrightShare: amount * dataProduct.SharePerUnit,
+          PlatformShare: amount * dataProduct.PlatformShare,
+          ProductionCost: amount * dataProduct.Cost,
+        };
+        arrSales.push(sales);
+
+        fetch(sheetURL + '/tabs/Orders', {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          dataOrder = myJson[0];
+
+          // POST new Sales records.
+          fetch(sheetURL + '/tabs/Sales', {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(arrSales),
+          })
+          .then((response) => response.json())
+          .then((myJson) => {
+            dataSales = myJson;
+            //console.log("New sales are recorded.")
+            //console.log(data);
+            shopId = dataProduct.ContactId;
+
+            showOrderInfo();
+            showShippingAddress();
+            showCartItem(dataSales);
+            showPaymentNotification();
+          })
+          .catch((error) => {
+            console.log(error);
+            // Show 'Search Box'
+            document.getElementById('search-order').style.display = 'block';
+            document.getElementById('order-header').style.display = 'none';
+            document.getElementById('order-content').style.display = 'none';
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          // Show 'Search Box'
+          document.getElementById('search-order').style.display = 'block';
+          document.getElementById('order-header').style.display = 'none';
+          document.getElementById('order-content').style.display = 'none';
+        });
+      }
+
+      function onLoadProduct(productId, amount) {
+        fetch(sheetURL + '/tabs/Products/ProductId/*' + productId + '*')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          //console.log(myJson);
+          dataProduct = myJson[0];
+          onCreateOrder(amount); // Automatically create order
+        })
+        .catch((error) => {
+          console.log(error);
+          // Show 'Search Box'
+          document.getElementById('search-order').style.display = 'block';
+          document.getElementById('order-header').style.display = 'none';
+          document.getElementById('order-content').style.display = 'none';
+        });
       }
 
       function onSubmitPayment() {
@@ -856,6 +1006,22 @@
       $('#form-payment').on('submit',function(e) {
 
       })
+      function fetchSales(orderId) {
+        // Get 'Sales' data
+        fetch(sheetURL + '/tabs/Sales/OrderId/*' + orderId + '*')
+        .then((response) => { return response.json(); })
+        .then((myJson) => {
+          dataSales = myJson;
+
+          shopId = dataSales[0].ContactId;
+
+          showOrderInfo();
+          showShippingAddress();
+          showCartItem(dataSales);
+          showPaymentNotification();
+        })
+        .catch((error) => { console.log(error); });
+      }
 
       window.addEventListener('load', (event) => {
         // GET GlobalVars
@@ -867,12 +1033,15 @@
           globalVars = myJson;
 
           var orderId = manUtils.getParam('id');
+          var productId = manUtils.getParam('product_id');
 
+          /*
           if (orderId == null || orderId == "" || orderId == undefined) {
             document.getElementById('search-order').style.display = 'block';
             document.getElementById('order-header').style.display = 'none';
             document.getElementById('order-content').style.display = 'none';
           }
+          */
 
           // Get 'Order' data
           fetch(sheetURL + '/tabs/Orders/OrderId/*' + orderId + '*')
@@ -881,18 +1050,9 @@
             dataOrder = myJson[0];
 
             if (dataOrder && dataOrder.OrderId == manUtils.getParam('id')) {
-              // Get 'Sales' data
-              fetch(sheetURL + '/tabs/Sales/OrderId/*' + orderId + '*')
-              .then((response) => { return response.json(); })
-              .then((myJson) => {
-                dataSales = myJson;
-
-                showOrderInfo();
-                showShippingAddress();
-                showCartItem(dataSales);
-                showPaymentNotification();
-              })
-              .catch((error) => { console.log(error); });
+              fetchSales(orderId);
+            } else if (productId) {
+              onLoadProduct(productId, 1); // 1 unit of item (Default)
             } else {
               //console.log(dataOrder);
               document.getElementById('search-order').style.display = 'block';
