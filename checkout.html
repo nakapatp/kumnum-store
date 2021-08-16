@@ -876,6 +876,7 @@
             showPaymentNotification();
             //window.location.href = manUtils.getGlobalVars('checkoutURL') + '?id=' + dataOrder.OrderId;
             var row = dataOrder;
+            var grand = (dataOrder.SelfPick == "1" ? row.GrandTotal - row.ShippingCost : row.GrandTotal);
             var mail = {
               Code: 'SubmitPayment',
               OrderId: row.OrderId,
@@ -885,7 +886,7 @@
               Address: row.Address,
               Province: row.Province,
               Zip: row.Zip,
-              PaidAmount: row.GrandTotal,
+              PaidAmount: grand,
               PaidDate: row.PaymentDate,
               PaidTime: row.PaymentTime,
               CreatedDate: manUtils.getCurrentDate(),
