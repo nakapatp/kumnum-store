@@ -813,6 +813,8 @@
             showShippingAddress();
             showCartItem(dataSales);
             showPaymentNotification();
+
+            document.getElementById('overlay').style.display = "none";
           })
           .catch((error) => {
             console.log(error);
@@ -832,6 +834,11 @@
       }
 
       function onLoadProduct(productId, amount) {
+        var div = document.createElement("div");
+        div.className += "overlay";
+        div.id = "overlay";
+        document.body.appendChild(div);
+
         fetch(sheetURL + '/tabs/Products/ProductId/*' + productId + '*')
         .then((response) => { return response.json(); })
         .then((myJson) => {
